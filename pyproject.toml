@@ -8,6 +8,10 @@ authors = ["Sven Stehle <svenstehle@web.de>"]
 python = "^3.8"
 numpy = "^1.22.3"
 pandas = "^1.4.2"
+opencv-python = "^4.5.5"
+textblob = "^0.17.1"
+pytesseract = "^0.3.9"
+Pillow = "^9.1.0"
 
 [tool.poetry.dev-dependencies]
 
