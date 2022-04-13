@@ -14,7 +14,8 @@ def my_function():
 def main():
     # construct the argument parser and parse the arguments
     ap = argparse.ArgumentParser()
-    ap.add_argument("-i", "--image", required=True, help="path to input image to be OCR'd")
+    ap.add_argument("-i", "--image",
+    required=True, help="path to input image to be OCR'd")
     ap.add_argument("-l", "--lang", required=True, help="language that Tesseract will use when OCR'ing")
     ap.add_argument("-t", "--to", type=str, default="en", help="language that we'll be translating to")
     ap.add_argument("-p", "--psm", type=int, default=4, help="Tesseract PSM mode")
