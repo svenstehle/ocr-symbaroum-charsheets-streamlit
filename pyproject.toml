@@ -26,6 +26,7 @@ pytest-randomly = "^3.11.0"
 pytest-deadfixtures = "^2.2.1"
 yapf = "^0.32.0"
 mypy = "^0.942"
+toml = "^0.10.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

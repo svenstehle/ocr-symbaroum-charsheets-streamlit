@@ -4,8 +4,7 @@ tessdata
 .env
 images/*
 
-# testing
+# cache
 .pytest_cache
-
-# python cache
 *__pycache__*
+*.mypy_cache*
