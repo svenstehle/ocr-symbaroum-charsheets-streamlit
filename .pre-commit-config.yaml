@@ -1,0 +1,25 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+exclude: '^$'
+fail_fast: false
+repos:
+-   repo: https://github.com/pre-commit/mirrors-yapf
+    rev: v0.32.0  # Use the sha / tag you want to point at
+    hooks:
+    -   id: yapf
+        args: ['--parallel', '--diff']
+-   repo: local
+    hooks:
+    -   id: pylint
+        args:
+        -   --rcfile=./.pylintrc
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: check-yaml
+    -   id: end-of-file-fixer

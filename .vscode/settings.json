@@ -1,0 +1,34 @@
+{
+    "python.defaultInterpreterPath": "/Users/stehles/Library/Caches/pypoetry/virtualenvs/symbaroum-adventures-rM38ieN--py3.8/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": [
+        "--rcfile=./.pylintrc"
+    ],
+    "python.linting.pycodestyleEnabled": false,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": false,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.eol": "\n",
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [],
+    "python.linting.mypyCategorySeverity.error": "Information",
+    "python.linting.mypyArgs": [
+        "--ignore-missing-imports",
+        "--follow-imports=normal",
+        "--show-column-numbers",
+        "--config-file=mypy.ini",
+        "--module=[src]",
+    ],
+    "mypy.targets": [
+        "src"
+    ],
+    "python.formatting.provider": "yapf",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": [
+        "source.organizeImports",
+    ],
+}
