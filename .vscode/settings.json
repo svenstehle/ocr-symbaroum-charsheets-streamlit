@@ -15,6 +15,7 @@
     "files.eol": "\n",
     "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": [],
+    "mypy.runUsingActiveInterpreter": true,
     "python.linting.mypyCategorySeverity.error": "Information",
     "python.linting.mypyArgs": [
         "--ignore-missing-imports",
