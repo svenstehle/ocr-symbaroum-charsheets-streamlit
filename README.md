@@ -19,13 +19,13 @@ export TESSDATA_PREFIX=/Users/<YourName>/<some_directory>/symbaroum-adventures/t
 After successful setup, you can then process your images, e.g. from a symbaroum rulebook, by applying this command to a cut-out section of a charactersheet:
 
 ```bash
-python -m src.ocr --CFG.image images/draghul.png
+python -m src.ocr --OCRConfig.image images/draghul.png
 ```
 
 or
 
 ```bash
-python -m src --CFG.image images/draghul.png
+python -m src --OCRConfig.image images/draghul.png
 ```
 
 The `--lang` parameter of `pytesseract` specifies the input language. If you do not wish for translation, you can choose to leave `--to` blank.

@@ -4,10 +4,11 @@ from spock import spock
 
 
 @spock
-class CFG:
-    """Basic spock configuration
+class OCRConfig:
+    """Basic OCR configuration
 
     Attributes:
+        save_path: path to save the spock config information
         image: path to an image file to read in and perform ocr on
         lang: text language that is expected to be present in the image
         to: language to translate the ocr'd text to
