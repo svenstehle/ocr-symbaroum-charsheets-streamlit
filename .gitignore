@@ -1,2 +1,13 @@
 *.pdf
 *.jpg
+tessdata
+.env
+images/*
+
+# cache
+.pytest_cache
+*__pycache__*
+*.mypy_cache*
+
+# spock config run info
+runs
