@@ -1,0 +1,28 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+exclude: '^$'
+fail_fast: false
+repos:
+-   repo: local
+    hooks:
+    -   id: yapf
+        args: ['--style=.style.yapf', '--parallel', '--diff']
+        name: yapf
+        entry: yapf
+        language: system
+        types: [python]
+-   repo: local
+    hooks:
+    -   id: pylint
+        args:
+        - --rcfile=./.pylintrc
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: check-yaml
+    -   id: end-of-file-fixer
