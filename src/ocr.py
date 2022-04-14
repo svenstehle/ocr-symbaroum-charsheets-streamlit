@@ -5,11 +5,6 @@ import pytesseract
 from spock import SpockBuilder
 
 from src.spock_config import OCRConfig
-from src.translate import translate_text_to
-
-
-def my_function():
-    return 1
 
 
 def main():
@@ -36,8 +31,6 @@ def main():
     print("========")
     print(text)
     print("")
-
-    translate_text_to(text, ocr_cfg.to)
 
 
 if __name__ == "__main__":
