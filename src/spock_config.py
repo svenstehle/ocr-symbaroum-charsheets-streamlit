@@ -1,3 +1,4 @@
+from os import environ
 from typing import Optional
 
 from spock import spock
@@ -17,6 +18,7 @@ class OCRConfig:
 
     """
 
+    save_path: str = f"{environ.get('PWD')}/runs"
     image: str
     lang: Optional[str] = "deu"
     to: Optional[str] = "en"

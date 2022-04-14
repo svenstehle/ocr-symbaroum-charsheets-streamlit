@@ -31,7 +31,7 @@ export TESSDATA_PREFIX=/Users/<YourName>/<some_directory>/symbaroum-adventures/t
 After successful setup, you can then process your images, e.g. from a symbaroum rulebook, by applying this command to a cut-out section of a charactersheet:
 
 ```bash
-python -m src.ocr --OCRConfig.image images/draghul.png
+python -m src.main --OCRConfig.image images/draghul.png
 ```
 
 or

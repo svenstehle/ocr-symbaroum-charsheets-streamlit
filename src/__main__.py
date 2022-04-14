@@ -1,6 +1,6 @@
 """
 Entry point for when app is run as `python -m src`.
 """
-from src.ocr import main
+from src.main import main
 
 main()

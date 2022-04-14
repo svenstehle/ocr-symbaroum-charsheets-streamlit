@@ -1,13 +1,15 @@
-import sys
+from typing import Dict
 
 import pandas as pd
 import streamlit as st
+
 
 class Characters:
     def __init__(self):
         self.player_chars = {"Dalai": 13, "Tower": 10, "Eagle": 14, "Vatras": 8}
         self.npcs = {"zmob1": 13, "zmob2": 13, "zmob3": 13}
         self.combined_chars = {**self.player_chars, **self.npcs}
+        self.combined_characters_tidy: Dict[str, str] = None
 
     def get_combined_chars(self):
         combined_chars = pd.Series(self.combined_chars)
@@ -26,7 +28,7 @@ class Characters:
 
 
 def get_next_char_name(combined_chars, current):
-    index_current = combined_chars.loc[combined_chars["name"]==current].index.values[0]
+    index_current = combined_chars.loc[combined_chars["name"] == current].index.values[0]
 
     if index_current + 1 >= len(combined_chars):
         index_next = 0
@@ -35,6 +37,7 @@ def get_next_char_name(combined_chars, current):
 
     next_char = combined_chars.iloc[index_next, 0]
     return next_char
+
 
 def display_turn_of_next_char():
     all_chars = Characters()
@@ -56,9 +59,10 @@ def display_turn_of_next_char():
     selected = st.selectbox("Select character for current turn".upper(), names_and_initiatives)
 
     # TODO FIX INITIATIVE falsely showing up for non-present npcs (deselected in multiselect)
-    next_char = get_next_char_name(combined_chars, selected) 
+    next_char = get_next_char_name(combined_chars, selected)
     result = f"Next character's turn is **{next_char.upper()}**"
     st.info(result)
+
 
 def main():
     display_turn_of_next_char()
