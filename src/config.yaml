@@ -4,5 +4,6 @@
 
 image: images/draghul.png
 save_path: runs
+supported_image_types: ["png", "jpg", "jpeg", "webp"]
 psm: 4
 oem: 3

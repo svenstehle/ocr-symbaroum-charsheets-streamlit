@@ -5,6 +5,8 @@ import streamlit as st
 
 from src.image_processing import load_image_from_file, reorder_color_channels
 
+# TODO how to test functionality that includes streamlit stuff, especially user inputs?
+
 
 def file_selector(folder_path=f"{os.getcwd()}") -> str:
     filenames = os.listdir(folder_path)
@@ -35,11 +37,6 @@ def get_image_as_rgb_array_from_file(image_file):
     image = np.asarray(im_pil)
     image = reorder_color_channels(image)
     return image
-
-
-def filename_is_supported_image(filename, supported_image_types):
-    file_extension = filename.split(".")[-1]
-    return file_extension in supported_image_types
 
 
 def get_filename_from_user_input():

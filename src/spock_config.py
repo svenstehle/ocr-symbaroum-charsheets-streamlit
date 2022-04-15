@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from spock import SpockBuilder, spock
 from spock.backend.typed import SavePath
@@ -26,8 +26,25 @@ class OCRConfig:
     oem: Optional[int] = 3
 
 
+@spock
+class StreamlitConfig:
+    """
+    Streamlit configuration
+
+    Attributes:
+        supported_image_types: list of supported image type extensions
+        failure_response: message to display if no supported image is selected
+        success_response: message to display if a supported image is selected
+
+    """
+
+    supported_image_types: List[str] = ["png", "jpg", "jpeg", "webp"]
+    failure_response: str = "No supported Image file selected!"
+    success_response: str = "Compatible Image file selected!"
+
+
 def setup_spock():
-    config = SpockBuilder(OCRConfig, desc="OCR config", configs=["src/config.yaml"]).save(
+    config = SpockBuilder(OCRConfig, StreamlitConfig, desc="OCR config", configs=["src/config.yaml"]).save(
         file_extension=".toml",
         file_name="ocr_config",
         create_save_path=True,

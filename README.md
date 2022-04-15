@@ -4,15 +4,15 @@ this repository allows you to read in symbaroum character sheets with tesseract 
 
 ## Quickstart
 
-To have an easy start you just need to install the dependencies in the project.
-
->TODO: add setup.py so we can install everything from poetry
+To have an easy start you just need to install the dependencies in the project. See the [Setup](#Setup) section for more information.
 
 And then run the streamlit app with
 
 ```bash
-streamlit run ocr.py
+streamlit run streamlit_entrypoint.py
 ```
+
+And switch to the browser.
 
 ## Setup
 

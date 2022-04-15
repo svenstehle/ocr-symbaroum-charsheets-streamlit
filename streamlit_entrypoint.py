@@ -3,48 +3,43 @@ import streamlit as st
 from src.image_processing import load_image
 from src.ocr import text_detection_and_recognition
 from src.spock_config import setup_spock
-from src.streamlit_setup import (
-    filename_is_supported_image, get_filename_from_user_input, get_image_as_rgb_array_from_file, radio_selector
-)
+from src.streamlit_setup import (get_filename_from_user_input, get_image_as_rgb_array_from_file, radio_selector)
+from src.utils import is_filename_supported_image
 
 
 def main():
+    # load configuration
     config = setup_spock()
     ocr_cfg = config.OCRConfig
+    st_cfg = config.StreamlitConfig
 
-    st.header("OCR for Symbaroum Charactersheets with Streamlit")
-
-    failure_response = "No supported Image file selected!"
-    success_response = "Compatible Image file selected!"
+    # initialize
     image = None
-    filename = "dummy"
-    # include in SpockConfig
-    supported_image_types = ["png", "jpg", "jpeg", "webp"]
 
+    # start Streamlit page setup
+    st.header("OCR for Symbaroum Charactersheets with Streamlit")
     selection = radio_selector()
 
     if selection == "Select Image from Explorer/Finder":
-        image_file = st.file_uploader("Upload an Image", type=supported_image_types)
+        image_file = st.file_uploader("Upload an Image", type=st_cfg.supported_image_types)
         if image_file is not None:
             image = get_image_as_rgb_array_from_file(image_file)
-            st.write(success_response)
+            st.write(st_cfg.success_response)
         else:
-            st.write(failure_response)
+            st.write(st_cfg.failure_response)
 
     if selection == "Enter path to Image":
         filename = get_filename_from_user_input()
-        if filename_is_supported_image(filename, supported_image_types):
-            st.write(success_response)
+        if is_filename_supported_image(filename, st_cfg.supported_image_types):
+            image = load_image(filename)
+            st.write(st_cfg.success_response)
         else:
-            st.write(failure_response)
+            st.write(st_cfg.failure_response)
 
-    if image is not None or filename_is_supported_image(filename, supported_image_types):
+    if image is not None:
         st.write("Do you want to perform OCR on the selected image?")
         if st.button("Yes, start OCR"):
             with st.spinner("Performing OCR on image ..."):
-                if image is None:
-                    image = load_image(filename)
-
                 text = text_detection_and_recognition(ocr_cfg, image)
 
             st.write("OCR OUTPUT")
