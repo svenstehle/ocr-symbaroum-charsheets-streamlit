@@ -1,58 +1,54 @@
-import os
-
-import numpy as np
 import streamlit as st
 
-from src.image_processing import (load_image, load_image_from_file, reorder_color_channels)
+from src.image_processing import load_image
 from src.ocr import text_detection_and_recognition
 from src.spock_config import setup_spock
-from src.streamlit_setup import file_selector, start_streamlit
+from src.streamlit_setup import (
+    filename_is_supported_image, get_filename_from_user_input, get_image_as_rgb_array_from_file, radio_selector
+)
 
 
 def main():
     config = setup_spock()
     ocr_cfg = config.OCRConfig
 
-    start_streamlit()
-
     st.header("OCR for Symbaroum Charactersheets with Streamlit")
-    filename = None
+
+    failure_response = "No supported Image file selected!"
+    success_response = "Compatible Image file selected!"
     image = None
+    filename = "dummy"
+    # include in SpockConfig
+    supported_image_types = ["png", "jpg", "jpeg", "webp"]
 
-    if st.checkbox("Upload Image", key="upload_image_from_disk"):
-        image_file = st.file_uploader("Upload an Image", type=["png", "jpg", "jpeg", "webp"])
+    selection = radio_selector()
+
+    if selection == "Select Image from Explorer/Finder":
+        image_file = st.file_uploader("Upload an Image", type=supported_image_types)
         if image_file is not None:
-            im_pil = load_image_from_file(image_file)
-            file_details = {"filename": image_file.name, "filetype": image_file.type, "filesize": image_file.size}
-            st.info("File Details:")
-            st.write(file_details)
+            image = get_image_as_rgb_array_from_file(image_file)
+            st.write(success_response)
+        else:
+            st.write(failure_response)
 
-            st.info("This is the Image you uploaded:")
-            st.image(im_pil, width=450)
+    if selection == "Enter path to Image":
+        filename = get_filename_from_user_input()
+        if filename_is_supported_image(filename, supported_image_types):
+            st.write(success_response)
+        else:
+            st.write(failure_response)
 
-            # To use it in the OCR part
-            image = np.asarray(im_pil)
-            image = reorder_color_channels(image)
+    if image is not None or filename_is_supported_image(filename, supported_image_types):
+        st.write("Do you want to perform OCR on the selected image?")
+        if st.button("Yes, start OCR"):
+            with st.spinner("Performing OCR on image ..."):
+                if image is None:
+                    image = load_image(filename)
 
-    elif st.checkbox("Select Image from filesystem", key="select_image_path"):
-        # Select a file
-        st.write("Select a file in a directory")
-        folder_path = f"{os.getcwd()}"
-        folder_path = st.text_input("Enter folder path", folder_path)
-        filename = file_selector(folder_path=folder_path)
-        st.info(f"You selected {filename}")
+                text = text_detection_and_recognition(ocr_cfg, image)
 
-    st.write("Do you want to perform OCR on the selected image?")
-    if st.button("Yes, start OCR"):
-        with st.spinner("Performing OCR on image ..."):
-            if filename and not image:
-                # with st.spinner(f"Performing OCR on file: '{filename}' ..."):
-                image = load_image(filename)
-
-            text = text_detection_and_recognition(ocr_cfg, image)
-
-        st.write("OCR OUTPUT")
-        st.info(text)
+            st.write("OCR OUTPUT")
+            st.info(text)
 
 
 if __name__ == "__main__":
