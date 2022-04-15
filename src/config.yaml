@@ -1,8 +1,8 @@
 ####
 # OCRConfig
 ####
-# Parameters - non-defaults. Use this or the CLI to overwrite defaults
+
 image: images/draghul.png
-save_path: ${pwd}/runs
+save_path: runs
 psm: 4
 oem: 3

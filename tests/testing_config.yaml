@@ -1,6 +1,7 @@
 ####
 # config for testing purposes
 ####
+
 image: dummy_path_for_compatibility
 save_path: dummy_path_for_compatibility
 lang: eng
