@@ -32,4 +32,5 @@
     "editor.codeActionsOnSave": [
         "source.organizeImports",
     ],
+    "todo-tree.tree.scanMode": "workspace only",
 }

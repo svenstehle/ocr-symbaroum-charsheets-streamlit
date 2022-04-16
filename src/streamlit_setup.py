@@ -16,21 +16,18 @@ def file_selector(folder_path=f"{os.getcwd()}") -> str:
 
 
 def get_radiobutton_selection():
+    options = ("Select Image from Explorer/Finder or Drag'n'Drop", "Manually select a file in a directory")
     selection = st.radio(
         "How do you want to select your Image",
-        ("Select Image from Explorer/Finder", "Enter path to Image"),
+        options,
     )
-    st.info(f"You selected: {selection}")
-    return selection
+    st.subheader(selection)
+    return selection, options
 
 
 def get_image_as_rgb_array_from_file(image_file):
     im_pil = load_image_from_file(image_file)
-    file_details = {"filename": image_file.name, "filetype": image_file.type, "filesize": image_file.size}
-    st.info("File Details:")
-    st.write(file_details)
-
-    st.info("This is the Image you uploaded:")
+    st.subheader("This is the Image you uploaded")
     st.image(im_pil, width=450)
 
     # To use it in the OCR part
@@ -40,9 +37,31 @@ def get_image_as_rgb_array_from_file(image_file):
 
 
 def get_filename_from_user_input():
-    st.write("Select a file in a directory")
     folder_path = f"{os.getcwd()}"
     folder_path = st.text_input("Enter folder path", folder_path)
     filename = file_selector(folder_path=folder_path)
-    st.info(f"You selected {filename}")
+    st.subheader("Your selection")
+    st.code(f"{filename}")
     return filename
+
+
+def display_ocr_output(text):
+    st.subheader("OCR output")
+    st.code(text)
+
+
+def display_setattr_info(charname):
+    setattr_string = f"Created string for character _**{charname}**_. " +\
+                                    "Click on the button on the top right of the below cell to copy. " +\
+                                    "Paste into Roll20 chat."
+    st.write(setattr_string)
+
+
+def display_tactics(tactics):
+    st.subheader("Tactic")
+    st.code(tactics)
+
+
+def display_skills(skills):
+    st.subheader("Skills")
+    st.write(skills)
