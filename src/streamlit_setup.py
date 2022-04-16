@@ -15,7 +15,7 @@ def file_selector(folder_path=f"{os.getcwd()}") -> str:
     return path
 
 
-def radio_selector():
+def get_radiobutton_selection():
     selection = st.radio(
         "How do you want to select your Image",
         ("Select Image from Explorer/Finder", "Enter path to Image"),

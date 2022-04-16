@@ -1,10 +1,10 @@
 from src.image_processing import load_image
 from src.ocr import text_detection_and_recognition
-from src.spock_config import setup_spock
+from src.spock_config import load_configuration
 
 
 def main():
-    config = setup_spock()
+    config = load_configuration()
     ocr_cfg = config.OCRConfig
     image = load_image(ocr_cfg.image)
     text = text_detection_and_recognition(ocr_cfg, image)

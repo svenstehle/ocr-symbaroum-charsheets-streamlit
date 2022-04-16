@@ -43,7 +43,7 @@ def prep_get_attribute_value_from_text(request, create_output_ocr_text):
 
 
 @pytest.fixture()
-def create_input_get_all_attribute_names_values_from_text():
+def create_input_extract_all_attributes_from_text():
     attribute_names = [
         "Stärke",
         "Scharfsinn",
@@ -59,7 +59,7 @@ def create_input_get_all_attribute_names_values_from_text():
 
 
 @pytest.fixture()
-def create_expected_result_get_all_attribute_names_values_from_text():
+def create_expected_result_extract_all_attributes_from_text():
     expected_result = {
         "Stärke": "3",
         "Scharfsinn": "4",
@@ -75,23 +75,23 @@ def create_expected_result_get_all_attribute_names_values_from_text():
 
 
 @pytest.fixture()
-def prep_get_all_attribute_names_values_from_text(
+def prep_extract_all_attributes_from_text(
     create_output_ocr_text,
-    create_input_get_all_attribute_names_values_from_text,
-    create_expected_result_get_all_attribute_names_values_from_text,
+    create_input_extract_all_attributes_from_text,
+    create_expected_result_extract_all_attributes_from_text,
 ):
     text = create_output_ocr_text
-    attribute_names = create_input_get_all_attribute_names_values_from_text
-    expected_result = create_expected_result_get_all_attribute_names_values_from_text
+    attribute_names = create_input_extract_all_attributes_from_text
+    expected_result = create_expected_result_extract_all_attributes_from_text
     yield text, attribute_names, expected_result
     del text, attribute_names, expected_result
 
 
 @pytest.fixture()
-def prep_get_roll20_setattr_str(create_expected_result_get_all_attribute_names_values_from_text):
+def prep_get_roll20_chat_input_str(create_expected_result_extract_all_attributes_from_text):
     charname = "Gandalf"
     # TODO refactor this string formatting on both ends
-    attributes = create_expected_result_get_all_attribute_names_values_from_text
+    attributes = create_expected_result_extract_all_attributes_from_text
     expected_result = "!setattr --name Gandalf --strong|3 --quick|15" +\
                         " --vigilant|10 --resolute|13 --persuasive|5" +\
                         " --cunning|4 --discreet|10 --accurate|9"

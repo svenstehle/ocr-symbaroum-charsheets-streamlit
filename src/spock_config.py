@@ -55,7 +55,7 @@ class ExtractionConfig:
     attribute_names: List[str]
 
 
-def setup_spock():
+def load_configuration():
     config = SpockBuilder(OCRConfig, StreamlitConfig, ExtractionConfig, desc="OCR config",
                           configs=["src/config.yaml"]).save(
                               file_extension=".toml",

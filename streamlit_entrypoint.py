@@ -1,26 +1,29 @@
 import streamlit as st
 
 from src.image_processing import load_image
-from src.ocr import (get_all_attribute_names_values_from_text, get_roll20_setattr_str, text_detection_and_recognition)
-from src.spock_config import setup_spock
-from src.streamlit_setup import (get_filename_from_user_input, get_image_as_rgb_array_from_file, radio_selector)
+from src.ocr import (extract_all_attributes_from_text, get_roll20_chat_input_str, text_detection_and_recognition)
+from src.spock_config import load_configuration
+from src.streamlit_setup import (
+    get_filename_from_user_input, get_image_as_rgb_array_from_file, get_radiobutton_selection
+)
 from src.utils import is_filename_supported_image
 
 
 def main():
-    # load configuration
-    config = setup_spock()
+    config = load_configuration()
+    # TODO make lang a user-input parameter,
+    #  maybe with st.radio and smaller language set in tessdata and gitlfs?
     ocr_cfg = config.OCRConfig
     st_cfg = config.StreamlitConfig
     extraction_cfg = config.ExtractionConfig
 
-    # initialize
+    # initialize necessary variables to None
     image = None
     text = None
 
     # start Streamlit page setup
     st.header("OCR for Symbaroum Charactersheets with Streamlit")
-    selection = radio_selector()
+    selection = get_radiobutton_selection()
 
     if selection == "Select Image from Explorer/Finder":
         image_file = st.file_uploader("Upload an Image", type=st_cfg.supported_image_types)
@@ -57,15 +60,12 @@ def main():
             text = st.session_state["ocr_output"]
 
         if text is not None:
-            # extract attributes from text
-            attributes = get_all_attribute_names_values_from_text(text, extraction_cfg.attribute_names)
-
-            # create roll20 !setattr chat-command string
             charname = st.text_input("Enter the character name you want to set attributes for", "Ironman")
             st.write(f"You entered: {charname}. Please copy&paste the following string into your Roll20 chat:")
 
+            attributes = extract_all_attributes_from_text(text, extraction_cfg.attribute_names)
             # TODO add copy paste button
-            setattr_str = get_roll20_setattr_str(charname, attributes)
+            setattr_str = get_roll20_chat_input_str(charname, attributes)
             st.info(setattr_str)
 
 

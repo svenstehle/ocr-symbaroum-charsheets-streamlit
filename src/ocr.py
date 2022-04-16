@@ -21,11 +21,11 @@ def get_attribute_value_from_text(text: str, attribute_name: str) -> str:
     return att_val
 
 
-def get_all_attribute_names_values_from_text(text: str, attribute_names: str) -> dict:
+def extract_all_attributes_from_text(text: str, attribute_names: str) -> dict:
     return {a: get_attribute_value_from_text(text, a) for a in attribute_names}
 
 
-def get_roll20_setattr_str(charname, attributes: dict) -> str:
+def get_roll20_chat_input_str(charname, attributes: dict) -> str:
     string = f"!setattr --name {charname} --strong|{attributes['Stärke']} --quick|{attributes['Gewandtheit']}" +\
                 f" --vigilant|{attributes['Aufmerksamkeit']} --resolute|{attributes['Willenskraft']}" +\
                 f" --persuasive|{attributes['Ausstrahlung']} --cunning|{attributes['Scharfsinn']}" +\
