@@ -16,6 +16,7 @@ def main():
 
     # initialize
     image = None
+    text = None
 
     # start Streamlit page setup
     st.header("OCR for Symbaroum Charactersheets with Streamlit")
@@ -55,17 +56,17 @@ def main():
         if "ocr_output" in st.session_state:
             text = st.session_state["ocr_output"]
 
-        # TODO refactor these
-        # extract attributes from text
-        attributes = get_all_attribute_names_values_from_text(text, extraction_cfg.attribute_names)
+        if text is not None:
+            # extract attributes from text
+            attributes = get_all_attribute_names_values_from_text(text, extraction_cfg.attribute_names)
 
-        # create roll20 !setattr chat-command string
-        charname = st.text_input("Enter the character name you want to set attributes for", "Ironman")
-        st.write(f"You entered: {charname}. Please copy&paste the following string into your Roll20 chat:")
+            # create roll20 !setattr chat-command string
+            charname = st.text_input("Enter the character name you want to set attributes for", "Ironman")
+            st.write(f"You entered: {charname}. Please copy&paste the following string into your Roll20 chat:")
 
-        # TODO add copy paste button
-        setattr_str = get_roll20_setattr_str(charname, attributes)
-        st.info(setattr_str)
+            # TODO add copy paste button
+            setattr_str = get_roll20_setattr_str(charname, attributes)
+            st.info(setattr_str)
 
 
 if __name__ == "__main__":

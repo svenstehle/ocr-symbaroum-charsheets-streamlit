@@ -92,12 +92,9 @@ def prep_get_roll20_setattr_str(create_expected_result_get_all_attribute_names_v
     charname = "Gandalf"
     # TODO refactor this string formatting on both ends
     attributes = create_expected_result_get_all_attribute_names_values_from_text
-    expected_result = " ".join(
-        (
-            "!setattr --name Gandalf --strong|3 --quick|15",
-            "--vigilant|10 --resolute|13 --persuasive|5",
-            "--cunning|4 --discreet|10 --accurate|9",
-        )
-    )
+    expected_result = "!setattr --name Gandalf --strong|3 --quick|15" +\
+                        " --vigilant|10 --resolute|13 --persuasive|5" +\
+                        " --cunning|4 --discreet|10 --accurate|9"
+
     yield charname, attributes, expected_result
     del charname, attributes, expected_result

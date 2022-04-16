@@ -26,13 +26,9 @@ def get_all_attribute_names_values_from_text(text: str, attribute_names: str) ->
 
 
 def get_roll20_setattr_str(charname, attributes: dict) -> str:
-    # TODO Refactor
-    string = " ".join(
-        (
-            f"!setattr --name {charname} --strong|{attributes['Stärke']} --quick|{attributes['Gewandtheit']}",
-            f"--vigilant|{attributes['Aufmerksamkeit']} --resolute|{attributes['Willenskraft']}",
-            f"--persuasive|{attributes['Ausstrahlung']} --cunning|{attributes['Scharfsinn']}",
-            f"--discreet|{attributes['Heimlichkeit']} --accurate|{attributes['Präzision']}",
-        )
-    )
+    string = f"!setattr --name {charname} --strong|{attributes['Stärke']} --quick|{attributes['Gewandtheit']}" +\
+                f" --vigilant|{attributes['Aufmerksamkeit']} --resolute|{attributes['Willenskraft']}" +\
+                f" --persuasive|{attributes['Ausstrahlung']} --cunning|{attributes['Scharfsinn']}" +\
+                f" --discreet|{attributes['Heimlichkeit']} --accurate|{attributes['Präzision']}"
+
     return string
