@@ -43,10 +43,23 @@ class StreamlitConfig:
     success_response: str = "Compatible Image file selected!"
 
 
+@spock
+class ExtractionConfig:
+    """
+    Config for roll20 attribute extraction
+
+    Attributes:
+        attribute_names: list of attribute names to extract from the text
+    """
+
+    attribute_names: List[str]
+
+
 def setup_spock():
-    config = SpockBuilder(OCRConfig, StreamlitConfig, desc="OCR config", configs=["src/config.yaml"]).save(
-        file_extension=".toml",
-        file_name="ocr_config",
-        create_save_path=True,
-    ).generate()
+    config = SpockBuilder(OCRConfig, StreamlitConfig, ExtractionConfig, desc="OCR config",
+                          configs=["src/config.yaml"]).save(
+                              file_extension=".toml",
+                              file_name="ocr_config",
+                              create_save_path=True,
+                          ).generate()
     return config

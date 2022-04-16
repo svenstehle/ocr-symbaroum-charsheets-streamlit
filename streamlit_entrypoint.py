@@ -1,7 +1,7 @@
 import streamlit as st
 
 from src.image_processing import load_image
-from src.ocr import text_detection_and_recognition
+from src.ocr import (get_all_attribute_names_values_from_text, get_roll20_setattr_str, text_detection_and_recognition)
 from src.spock_config import setup_spock
 from src.streamlit_setup import (get_filename_from_user_input, get_image_as_rgb_array_from_file, radio_selector)
 from src.utils import is_filename_supported_image
@@ -12,6 +12,7 @@ def main():
     config = setup_spock()
     ocr_cfg = config.OCRConfig
     st_cfg = config.StreamlitConfig
+    extraction_cfg = config.ExtractionConfig
 
     # initialize
     image = None
@@ -56,26 +57,15 @@ def main():
 
         # TODO refactor these
         # extract attributes from text
-        # strong
-        strong_val = get_attribute_value_from_text(text, "Stärke")
-        st.write(strong_val)
-
-        # quick
-        quick_val = get_attribute_value_from_text(text, "Gewandtheit")
-        st.write(quick_val)
+        attributes = get_all_attribute_names_values_from_text(text, extraction_cfg.attribute_names)
 
         # create roll20 !setattr chat-command string
         charname = st.text_input("Enter the character name you want to set attributes for", "Ironman")
         st.write(f"You entered: {charname}. Please copy&paste the following string into your Roll20 chat:")
-        st.info(f"!setattr --name {charname} --strong|{strong_val} --quick|{quick_val}")
 
-
-def get_attribute_value_from_text(text: str, attribute_name: str) -> int:
-    attribute_name_len = len(attribute_name)
-    att_start_loc = text.find(attribute_name) + attribute_name_len + 1
-    att_end_loc = att_start_loc + 3
-    att_val = text[att_start_loc:att_end_loc]
-    return att_val
+        # TODO add copy paste button
+        setattr_str = get_roll20_setattr_str(charname, attributes)
+        st.info(setattr_str)
 
 
 if __name__ == "__main__":
