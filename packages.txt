@@ -4,7 +4,7 @@ libgtk2.0-dev
 libgl1
 libgl1-mesa-glx
 libtesseract-dev
-libtesseract5
+#libtesseract5
 tesseract-ocr
 tesseract-ocr-eng
 tesseract-ocr-deu
