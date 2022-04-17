@@ -9,14 +9,16 @@ To have an easy start you just need to install the dependencies in the project. 
 And then run the streamlit app with
 
 ```bash
-python -m streamlit run src/app.py
+streamlit run src/app.py
 ```
 
 And switch to the browser.
 
 ## Setup
 
-First, install dependencies with `poetry install` after you have installed [poetry](https://python-poetry.org/docs/basic-usage/).
+First, install dependencies with `python -m pip install .`. This will make use of the `pyproject.toml` file to install the dependencies.
+
+Then, to make use of poetry to manage environments and dependencies, you need to install the [poetry](https://python-poetry.org/docs/basic-usage/) package with `poetry install`.
 
 To enable language support for German language, follow the guide on [this site](https://pyimagesearch.com/2020/08/03/tesseract-ocr-for-non-english-languages/) and clone the [tessdata](https://github.com/tesseract-ocr/tessdata) repository manually into this repository. It is slightly above 4GB total, so make sure you have ample space ;)
 
@@ -26,18 +28,18 @@ Make sure you have set the environment variable `TESSDATA_PREFIX` to the correct
 export TESSDATA_PREFIX=/Users/<YourName>/<some_directory>/symbaroum-adventures/tessdata
 ```
 
+or more generally, while in the root of the repository:
+
+```bash
+export TESSDATA_PREFIX="$(PWD)/tessdata"
+```
+
 ## Usage of OCR part only
 
 After successful setup, you can then process your images, e.g. from a symbaroum rulebook, by applying this command to a cut-out section of a charactersheet:
 
 ```bash
-python -m src.main --OCRConfig.image images/draghul.png
-```
-
-or
-
-```bash
-python -m src --OCRConfig.image images/draghul.png
+python src/main.py --OCRConfig.image images/draghul.png
 ```
 
 The `--lang` parameter of `pytesseract` specifies the input language. The default is `deu` for German. Future versions of this app will support language selection. I appreciate help in adding support for other languages by on-demand loading from tesseract/tessdata repository. The brute-force way to download >4GB of language data on each install is not very elegant or practical.

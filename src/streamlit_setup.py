@@ -5,7 +5,7 @@ import os
 import numpy as np
 import streamlit as st
 
-from src.image_processing import load_image_from_file, reorder_color_channels
+from image_processing import load_image_from_file, reorder_color_channels
 
 # TODO how to test functionality that includes streamlit stuff, especially user inputs?
 

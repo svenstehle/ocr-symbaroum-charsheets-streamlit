@@ -2,17 +2,17 @@
 
 import streamlit as st
 
-from src.image_processing import load_image
-from src.ocr import (
+from image_processing import load_image
+from ocr import (
     extract_all_attributes_from_text, extract_all_skills_from_text, extract_tactics_from_text,
     get_roll20_chat_input_str, text_detection_and_recognition
 )
-from src.spock_config import load_configuration
-from src.streamlit_setup import (
+from spock_config import load_configuration
+from streamlit_setup import (
     display_charname_info, display_ocr_output, display_skills, display_tactics, get_filename_from_user_input,
     get_image_as_rgb_array_from_file, get_radiobutton_selection, is_ocr_cache_present
 )
-from src.utils import is_filename_supported_image
+from utils import is_filename_supported_image
 
 
 def main():
