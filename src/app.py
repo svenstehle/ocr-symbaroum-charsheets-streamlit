@@ -7,14 +7,10 @@ from src.ocr import (
 )
 from src.spock_config import load_configuration
 from src.streamlit_setup import (
-    display_ocr_output, display_setattr_info, display_skills, display_tactics, get_filename_from_user_input,
-    get_image_as_rgb_array_from_file, get_radiobutton_selection
+    display_charname_info, display_ocr_output, display_skills, display_tactics, get_filename_from_user_input,
+    get_image_as_rgb_array_from_file, get_radiobutton_selection, is_ocr_cache_present
 )
 from src.utils import is_filename_supported_image
-
-
-def write_image_selection_subheader():
-    st.subheader()
 
 
 def main():
@@ -25,6 +21,7 @@ def main():
     # initialize necessary variables to None
     image = None
     text = None
+    ocr_cache_key = "ocr_output"
 
     # start Streamlit page setup
     st.title("OCR for Symbaroum Charactersheets with Streamlit")
@@ -49,39 +46,40 @@ def main():
 
     if image is not None:
         st.subheader("Perform OCR on selected image?")
-        if st.button("Yes, start OCR", key="OCR"):
+        performed_ocr = st.button("Yes, start OCR", key="OCR")
+        if performed_ocr:
             with st.spinner("Performing OCR on image ..."):
-                if "ocr_output" not in st.session_state:
-                    text = text_detection_and_recognition(config.OCRConfig, image)
-                    st.session_state["ocr_output"] = text
-                else:
-                    text = st.session_state["ocr_output"]
-
+                text = text_detection_and_recognition(config.OCRConfig, image)
+                st.session_state[ocr_cache_key] = text
             display_ocr_output(text)
+        elif is_ocr_cache_present(ocr_cache_key) and not performed_ocr:
+            st.info("Using cached OCR output. Rerun OCR to update.")
 
-    if text is not None:
+    if is_ocr_cache_present(ocr_cache_key):
+        text = st.session_state.get(ocr_cache_key)
+
         st.header("Roll 20 info extraction")
+        with st.form("roll20-setattr"):
 
-    with st.form("roll20-setattr"):
-        if "ocr_output" in st.session_state:
-            text = st.session_state["ocr_output"]
+            if text is not None:
+                charname = st.text_input("Enter the character name you want to set attributes for", "Ironman")
+                button_clicked = st.form_submit_button(
+                    "Create Roll20 chat string for selected character; using cached OCR output"
+                )
 
-        if text is not None:
-            charname = st.text_input("Enter the character name you want to set attributes for", "Ironman")
-            button_clicked = st.form_submit_button("Create Roll20 chat string for selected character")
+                if button_clicked:
+                    attributes = extract_all_attributes_from_text(text, config.ExtractionConfig.attribute_names)
+                    skills = extract_all_skills_from_text(text)
+                    tactics = extract_tactics_from_text(text)
+                    setattr_str = get_roll20_chat_input_str(charname, attributes)
 
-            if button_clicked:
-                attributes = extract_all_attributes_from_text(text, config.ExtractionConfig.attribute_names)
-                skills = extract_all_skills_from_text(text)
-                tactics = extract_tactics_from_text(text)
-                setattr_str = get_roll20_chat_input_str(charname, attributes)
-
-                st.subheader("Roll20 !setattr chat string")
-
-                display_setattr_info(charname)
-                st.code(setattr_str)
-                display_tactics(tactics)
-                display_skills(skills)
+                    st.subheader("Roll20 !setattr chat string")
+                    display_charname_info(charname)
+                    st.code(setattr_str)
+                    display_tactics(tactics)
+                    display_skills(skills)
+                else:
+                    st.info("Click the button to create the chat string with provided character name")
 
 
 if __name__ == "__main__":
