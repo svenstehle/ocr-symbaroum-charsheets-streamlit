@@ -1,3 +1,5 @@
+# License: APACHE LICENSE, VERSION 2.0
+
 import pytesseract
 
 
