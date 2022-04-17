@@ -1,4 +1,7 @@
+# License: APACHE LICENSE, VERSION 2.0
+
 from textblob import TextBlob
+
 
 def translate_text_to(text, to):
     # translate the text into a different language

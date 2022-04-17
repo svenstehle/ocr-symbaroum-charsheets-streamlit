@@ -1,10 +1,9 @@
 ####
-# OCRConfig
+# config for testing purposes
 ####
 
-image: images/draghul.png
-save_path: runs
-supported_image_types: ["png", "jpg", "jpeg", "webp"]
+image: dummy_path_for_compatibility
+lang: eng
 attribute_names: ["Aufmerksamkeit", "Ausstrahlung", "Gewandtheit", "Heimlichkeit", "Präzision", "Scharfsinn", "Stärke", "Willenskraft"]
 psm: 4
-oem: 3
+oem: 1

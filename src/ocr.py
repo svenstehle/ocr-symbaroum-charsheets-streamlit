@@ -1,44 +1,63 @@
-from os import environ
+# License: APACHE LICENSE, VERSION 2.0
 
-import cv2
 import pytesseract
-from spock import SpockBuilder
-
-from src.spock_config import OCRConfig
-from src.translate import translate_text_to
 
 
-def my_function():
-    return 1
+def text_detection_and_recognition(ocr_config, image):
+    """
+    OCR the image at the given path with respective pytesseract arguments.
+    """
+
+    options = f'-l {ocr_config.lang} --psm {ocr_config.psm} --oem {ocr_config.oem}'
+    text = pytesseract.image_to_string(image, config=options)
+    return text
 
 
-def main():
-    save_path = f"{environ.get('PWD')}/runs"
-    config = SpockBuilder(OCRConfig, desc="OCR config", config=['src/config.yaml']).save(
-        file_extension=".toml",
-        user_specified_path=save_path,
-        file_name='ocr_config',
-        create_save_path=True,
-    ).generate()
-    ocr_cfg = config.OCRConfig
-
-    # load the input image and convert it from BGR to RGB channel
-    # ordering
-    image = cv2.imread(ocr_cfg.image)
-    rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-    # OCR the image, supplying the country code as the language parameter
-    options = f'-l {ocr_cfg.lang} --psm {ocr_cfg.psm} --oem {ocr_cfg.oem}'
-
-    text = pytesseract.image_to_string(rgb, config=options)
-    # show the original OCR'd text
-    print("ORIGINAL")
-    print("========")
-    print(text)
-    print("")
-
-    translate_text_to(text, ocr_cfg.to)
+def get_attribute_value_from_text(text: str, attribute_name: str) -> str:
+    attribute_name_len = len(attribute_name)
+    att_start_loc = text.find(attribute_name) + attribute_name_len + 1
+    att_end_loc = att_start_loc + 2
+    att_val = text[att_start_loc:att_end_loc].strip(" ")
+    return att_val
 
 
-if __name__ == "__main__":
-    main()
+def extract_all_attributes_from_text(text: str, attribute_names: str) -> dict:
+    return {a: get_attribute_value_from_text(text, a) for a in attribute_names}
+
+
+def extract_all_skills_from_text(text: str) -> dict:
+    skills_str = "Fähigkeiten"
+    length = len(skills_str)
+    skills_start_loc = text.find(skills_str) + length + 1
+    weapon_str = "Waffen"
+    skills_end_loc = text.find(weapon_str) - 2
+    all_skills = text[skills_start_loc:skills_end_loc].strip()
+    all_skills = [s.strip() for s in all_skills.split(",")]
+    all_skills = {s.split(" ")[0]: s.split(" ")[1][1:-1] for s in all_skills}
+    return all_skills
+
+
+def extract_tactics_from_text(text: str) -> str:
+    tactics_str = "Taktik:"
+    length = len(tactics_str)
+    tactics_start_loc = text.find(tactics_str) + length + 1
+    tactics = text[tactics_start_loc:].strip()
+    tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
+    tactics = " ".join(tactics)
+    return tactics
+
+
+def get_toughness(attributes: dict) -> int:
+    strong = int(attributes["Stärke"])
+    return max((strong, 10))
+
+
+def get_roll20_chat_input_str(charname, attributes: dict) -> str:
+    basic_string = f"!setattr --name {charname}"
+    att_string = f" --strong|{attributes['Stärke']} --quick|{attributes['Gewandtheit']}" +\
+                f" --vigilant|{attributes['Aufmerksamkeit']} --resolute|{attributes['Willenskraft']}" +\
+                f" --persuasive|{attributes['Ausstrahlung']} --cunning|{attributes['Scharfsinn']}" +\
+                f" --discreet|{attributes['Heimlichkeit']} --accurate|{attributes['Präzision']}"
+
+    toughness_string = f" --toughness|{get_toughness(attributes)}"
+    return basic_string + att_string + toughness_string
