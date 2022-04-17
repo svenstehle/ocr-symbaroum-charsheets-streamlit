@@ -5,13 +5,16 @@ import os
 import numpy as np
 import streamlit as st
 
-from image_processing import load_image_from_file, reorder_color_channels
+from process_image import load_image, load_image_from_file
 
 # TODO how to test functionality that includes streamlit stuff, especially user inputs?
 
 
 def get_radiobutton_selection():
-    options = ("Select Image from Explorer/Finder or Drag'n'Drop", "Manually select a file in a directory")
+    options = (
+        "Select Image from Explorer/Finder or Drag'n'Drop",
+        "Manually select a file in a directory [only works when app is run locally]"
+    )
     selection = st.radio(
         label="How do you want to select your Image",
         options=options,
@@ -20,14 +23,22 @@ def get_radiobutton_selection():
     return selection, options
 
 
-def get_image_as_rgb_array_from_file(image_file):
-    im_pil = load_image_from_file(image_file)
+def display_selected_image(image: np.ndarray):
     st.subheader("This is the Image you uploaded")
-    st.image(im_pil, width=450)
+    st.image(image, width=450)
 
+
+def get_image_as_rgb_array_from_file(image_file: object) -> np.ndarray:
+    im_pil = load_image_from_file(image_file)
     # To use it in the OCR part
     image = np.asarray(im_pil)
-    image = reorder_color_channels(image)
+    display_selected_image(image)
+    return image
+
+
+def load_and_display_image(filename: str) -> np.ndarray:
+    image = load_image(filename)
+    display_selected_image(image)
     return image
 
 

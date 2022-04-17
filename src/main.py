@@ -1,6 +1,6 @@
 # License: APACHE LICENSE, VERSION 2.0
 
-from image_processing import load_image
+from process_image import load_image
 from ocr import text_detection_and_recognition
 from spock_config import load_configuration
 

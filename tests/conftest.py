@@ -1,6 +1,6 @@
 import pytest
 from spock import SpockBuilder
-from src.image_processing import load_image
+from src.process_image import load_image
 from src.spock_config import ExtractionConfig, OCRConfig
 
 
