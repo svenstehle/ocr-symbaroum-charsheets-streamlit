@@ -1,4 +1,4 @@
-# Symbaroum character sheet generation with OCR
+# OCR for Symbaroum Charactersheets with Streamlit
 
 this repository allows you to read in symbaroum character sheets with tesseract OCR and provides preformatted commands for use in the roll20 API to create any charactersheet (& token?) you read in with the OCR functionality.
 
