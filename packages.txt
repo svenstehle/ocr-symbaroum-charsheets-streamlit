@@ -1,0 +1,5 @@
+# necessary for streamlit deployment to work
+# packages to install with apt-get
+tesseract-ocr
+tesseract-ocr-eng
+tesseract-ocr-deu

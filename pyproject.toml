@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "symbaroum-adventures"
 version = "0.1.0"
-description = ""
+description = "OCR detection app for Symbaroum on Streamlit"
 authors = ["Sven Stehle <svenstehle@web.de>"]
 
 [tool.poetry.dependencies]
