@@ -1,3 +1,5 @@
+# License: APACHE LICENSE, VERSION 2.0
+
 from src.image_processing import load_image
 from src.ocr import text_detection_and_recognition
 from src.spock_config import load_configuration

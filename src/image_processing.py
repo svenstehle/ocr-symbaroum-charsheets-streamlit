@@ -1,3 +1,5 @@
+# License: APACHE LICENSE, VERSION 2.0
+
 import cv2
 from PIL import Image
 

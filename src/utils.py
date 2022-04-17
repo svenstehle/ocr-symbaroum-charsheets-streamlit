@@ -1,3 +1,5 @@
+# License: APACHE LICENSE, VERSION 2.0
+
 from typing import List
 
 

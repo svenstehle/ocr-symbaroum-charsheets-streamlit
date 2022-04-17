@@ -1,3 +1,5 @@
+# License: APACHE LICENSE, VERSION 2.0
+
 import streamlit as st
 
 from src.image_processing import load_image
