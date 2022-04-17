@@ -1,0 +1,6 @@
+# necessary for streamlit deployment to work
+# packages to install with apt-get
+libgl1-mesa-glx
+tesseract-ocr
+tesseract-ocr-eng
+tesseract-ocr-deu

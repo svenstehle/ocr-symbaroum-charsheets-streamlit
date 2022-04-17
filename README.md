@@ -16,11 +16,17 @@ And switch to the browser.
 
 ## Setup
 
+### Python Environment
+
 First, install dependencies with `python -m pip install .`. This will make use of the `pyproject.toml` file to install the dependencies.
 
 Then, to make use of poetry to manage environments and dependencies, you need to install the [poetry](https://python-poetry.org/docs/basic-usage/) package with `poetry install`.
 
-To enable language support for German language, follow the guide on [this site](https://pyimagesearch.com/2020/08/03/tesseract-ocr-for-non-english-languages/) and clone the [tessdata](https://github.com/tesseract-ocr/tessdata) repository manually into this repository. It is slightly above 4GB total, so make sure you have ample space ;)
+### System Packages
+
+If you want to install for example only the English and German language packages for tesseract, you can do so with `sudo apt-get install tesseract-ocr-eng tesseract-ocr-deu`. [Other languages](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html) out of 100+ can be installed in the same manner 1-by-1 or you can just download the whole tessdata repository, see paragraph below.
+
+To enable language support for any language that tesseract supports, follow the guide on [this site](https://pyimagesearch.com/2020/08/03/tesseract-ocr-for-non-english-languages/) and clone the [tessdata](https://github.com/tesseract-ocr/tessdata) repository manually into this repository. It is slightly above 4GB total, so make sure you have ample space ;)
 
 Make sure you have set the environment variable `TESSDATA_PREFIX` to the correct cloned tessdata directory like for example:
 
