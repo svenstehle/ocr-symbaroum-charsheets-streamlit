@@ -3,45 +3,34 @@ import pytest
 
 @pytest.fixture()
 def prep_ocr_text_draghul():
-    text = """Rasse Untoter
-
-        Herausforderung _ Normal
-        Merkmale Untot (I)
-        xysfjkj7\nScharfsinn 4 (-6), blablabla Stärke 3 (-7),
-        trolol\nAufmerksamkeit 10 (0), olo Gewandtheit 15 (+5), --23%\n
-        Ausstrahlung 5 (+5), Heimlichkeit 10 (0), Präzision 9 (+1),
-        Willenskraft 13 (-3)
-
-        Fähigkeiten Eisenfaust (Adept),
-        Schildkampf (Novize)
-
-        Waffen Rostiges Schwert7
-
-        Rüstung Beschlagene Leder-
-        rüstung 2 (Behinderung)
-
-        Verteidigung O(Schild)
-
-        Zähigkeit 11 _ Schmerzgrenze -
-
-        Ausrüstung 1W10 Orteg
-
-        Schatten Gelbgrau wie abgestor-
-
-        bene Haut mit dunklen
-        Flecken, die sich aus-
-        breiten, wenn der Körper
-        des Untoten zusehends
-        verfällt (durch und durch
-        korrupt)
-
-        Taktik: Der Untote verhält sich gemäß dem
-
-        Willen seines Erschaffers oder nach seinem
-
-        eigenen Willen. Er ist mmer auf der Suche nach
-        warmen Fleisch und frischem Blut.
-        """
+    text = (
+        "Rasse Untoter\n\n"
+        "Herausforderung _ Normal\n"
+        "Merkmale Untot (I)\n"
+        "xysfjkj7\nScharfsinn 4 (-6), blablabla Stärke 3 (-7),\n"
+        "trolol\nAufmerksamkeit 10 (0), olo Gewandtheit 15 (+5), --23%\n"
+        "Ausstrahlung 5 (+5), Heimlichkeit 10 (0), Präzision 9 (+1),\n"
+        "Willenskraft 13 (-3)\n\n"
+        "Fähigkeiten Eisenfaust (Adept),\n"
+        "Schildkampf (Novize)\n\n"
+        "Waffen Rostiges Schwert7\n\n"
+        "Rüstung Beschlagene Leder-\n"
+        "rüstung 2 (Behinderung)\n\n"
+        "Verteidigung O(Schild)\n\n"
+        "Zähigkeit 11 _ Schmerzgrenze -\n\n"
+        "Ausrüstung 1W10 Orteg\n\n "
+        "Schatten Gelbgrau wie abgestor-\n\n"
+        "bene Haut mit dunklen\n"
+        "Flecken, die sich aus-\n"
+        "breiten, wenn der Körper\n"
+        "des Untoten zusehends\n"
+        "verfällt (durch und durch\n"
+        "korrupt)\n\n"
+        "Taktik: Der Untote verhält sich gemäß dem\n\n"
+        "Willen seines Erschaffers oder nach seinem\n\n"
+        "eigenen Willen. Er ist mmer auf der Suche nach\n"
+        "warmen Fleisch und frischem Blut."
+    )
 
     yield text
     del text
@@ -49,41 +38,32 @@ def prep_ocr_text_draghul():
 
 @pytest.fixture
 def prep_ocr_text_baiagorn():
-    text = """BAIAGORN
-
-        Rasse Bestie
-
-        Herausforderung Normal
-
-        Merkmale Natürliche Waffen (1),
-        Robust ()
-
-        Aufmerksamkeit 11 (-1), Ausstrahlung 5 (+5),
-        Gewandtheit 7 (+3), Heimlichkeit 9 (+1),
-        Präzision 10 (0), Scharfsinn 10 (0),
-
-        Stärke 15 (-5), Willenskraft 13 (-3)
-
-        Fähigkeiten Berserkerrausch (Adept)
-        Waffen Krallen 8 (Kurz)
-        Rüstung Bärenfell 4
-        Verteidigung +7
-
-        Zähigkeit 15 Schmerzgrenze 8
-        Ausrüstung Keine
-
-        Schatten Grün wie die Piniennadeln
-
-        des letzten Jahres
-        (Korruption: 0)
-
-        Taktik: Normalerweise sind Baiagornen vor-
-        sichtige Kreaturen, doch wenn sie verletzt oder
-        verärgert werden, verwandeln sie sich brüllende
-        Bestien, die wie wild mit ihren Krallen um sich
-        schlagen und den nächsten Feind oder ihre
-        Beute unerbittlich angreifen.
-        """
+    text = (
+        "BAIAGORN\n\n"
+        "Rasse Bestie\n\n"
+        "Herausforderung Normal\n\n"
+        "Merkmale Natürliche Waffen (1),\n"
+        "Robust ()\n\n"
+        "Aufmerksamkeit 11 (-1), Ausstrahlung 5 (+5),\n"
+        "Gewandtheit 7 (+3), Heimlichkeit 9 (+1),\n"
+        "Präzision 10 (0), Scharfsinn 10 (0),\n\n"
+        "Stärke 15 (-5), Willenskraft 13 (-3)\n\n"
+        "Fähigkeiten Berserkerrausch (Adept)\n"
+        "Waffen Krallen 8 (Kurz)\n"
+        "Rüstung Bärenfell 4\n"
+        "Verteidigung +7\n"
+        "Zähigkeit 15 Schmerzgrenze 8\n"
+        "Ausrüstung Keine\n\n"
+        "Schatten Grün wie die Piniennadeln\n\n"
+        "des letzten Jahres\n"
+        "(Korruption: 0)\n\n"
+        "Taktik: Normalerweise sind Baiagornen vor-\n"
+        "sichtige Kreaturen, doch wenn sie verletzt oder\n"
+        "verärgert werden, verwandeln sie sich brüllende\n"
+        "Bestien, die wie wild mit ihren Krallen um sich\n"
+        "schlagen und den nächsten Feind oder ihre\n"
+        "Beute unerbittlich angreifen."
+    )
 
     yield text
     del text

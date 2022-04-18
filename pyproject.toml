@@ -16,6 +16,7 @@ spock-config = "^2.5.0"
 mypy = "^0.942"
 streamlit = "^1.8.1"
 opencv-python-headless = "^4.5.5"
+watchdog = "^2.1.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
