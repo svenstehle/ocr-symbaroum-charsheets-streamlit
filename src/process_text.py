@@ -15,7 +15,7 @@ def extract_all_skills_from_text(text: str) -> dict:
     length = len(skills_str)
     skills_start_loc = text.find(skills_str) + length + 1
     weapon_str = "Waffen"
-    skills_end_loc = text.find(weapon_str) - 2
+    skills_end_loc = text.find(weapon_str, skills_start_loc) - 2
     all_skills = text[skills_start_loc:skills_end_loc].strip()
     all_skills = [s.strip() for s in all_skills.split(",")]
     all_skills = {s.split(" ")[0]: s.split(" ")[1][1:-1] for s in all_skills}

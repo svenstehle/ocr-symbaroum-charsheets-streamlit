@@ -1,22 +1,8 @@
 import pytest
 
 
-def create_input_get_attribute_value_from_text():
-    input_result_pairs = [
-        ("Stärke", "3"),
-        ("Scharfsinn", "4"),
-        ("Gewandtheit", "15"),
-        ("Aufmerksamkeit", "10"),
-        ("Ausstrahlung", "5"),
-        ("Präzision", "9"),
-        ("Willenskraft", "13"),
-        ("Heimlichkeit", "10"),
-    ]
-    return input_result_pairs
-
-
 @pytest.fixture()
-def create_output_ocr_text():
+def prep_ocr_text_draghul():
     text = """Rasse Untoter
 
         Herausforderung _ Normal
@@ -61,17 +47,94 @@ def create_output_ocr_text():
     del text
 
 
-@pytest.fixture(params=create_input_get_attribute_value_from_text())
-def prep_get_attribute_value_from_text(request, create_output_ocr_text):
-    text = create_output_ocr_text
+@pytest.fixture
+def prep_ocr_text_baiagorn():
+    text = """BAIAGORN
+
+        Rasse Bestie
+
+        Herausforderung Normal
+
+        Merkmale Natürliche Waffen (1),
+        Robust ()
+
+        Aufmerksamkeit 11 (-1), Ausstrahlung 5 (+5),
+        Gewandtheit 7 (+3), Heimlichkeit 9 (+1),
+        Präzision 10 (0), Scharfsinn 10 (0),
+
+        Stärke 15 (-5), Willenskraft 13 (-3)
+
+        Fähigkeiten Berserkerrausch (Adept)
+        Waffen Krallen 8 (Kurz)
+        Rüstung Bärenfell 4
+        Verteidigung +7
+
+        Zähigkeit 15 Schmerzgrenze 8
+        Ausrüstung Keine
+
+        Schatten Grün wie die Piniennadeln
+
+        des letzten Jahres
+        (Korruption: 0)
+
+        Taktik: Normalerweise sind Baiagornen vor-
+        sichtige Kreaturen, doch wenn sie verletzt oder
+        verärgert werden, verwandeln sie sich brüllende
+        Bestien, die wie wild mit ihren Krallen um sich
+        schlagen und den nächsten Feind oder ihre
+        Beute unerbittlich angreifen.
+        """
+
+    yield text
+    del text
+
+
+def create_input_result_get_attribute_value_from_text_draghul():
+    input_result_pairs = [
+        ("Stärke", "3"),
+        ("Scharfsinn", "4"),
+        ("Gewandtheit", "15"),
+        ("Aufmerksamkeit", "10"),
+        ("Ausstrahlung", "5"),
+        ("Präzision", "9"),
+        ("Willenskraft", "13"),
+        ("Heimlichkeit", "10"),
+    ]
+    return input_result_pairs
+
+
+@pytest.fixture(params=create_input_result_get_attribute_value_from_text_draghul())
+def prep_input_result_get_attribute_value_from_text_draghul(request):
     target_attribute = request.param[0]
     expected_result = request.param[1]
-    yield text, target_attribute, expected_result
-    del text, target_attribute, expected_result
+    yield target_attribute, expected_result
+    del target_attribute, expected_result
 
 
-@pytest.fixture()
-def create_input_extract_all_attributes_from_text():
+def create_input_result_get_attribute_value_from_text_baiagorn():
+    input_result_pairs = [
+        ("Stärke", "15"),
+        ("Scharfsinn", "10"),
+        ("Gewandtheit", "7"),
+        ("Aufmerksamkeit", "11"),
+        ("Ausstrahlung", "5"),
+        ("Präzision", "10"),
+        ("Willenskraft", "13"),
+        ("Heimlichkeit", "9"),
+    ]
+    return input_result_pairs
+
+
+@pytest.fixture(params=create_input_result_get_attribute_value_from_text_baiagorn())
+def prep_input_result_get_attribute_value_from_text_baiagorn(request):
+    target_attribute = request.param[0]
+    expected_result = request.param[1]
+    yield target_attribute, expected_result
+    del target_attribute, expected_result
+
+
+@pytest.fixture
+def create_input_extract_all_attributes_from_text_general():
     attribute_names = [
         "Stärke",
         "Scharfsinn",
@@ -86,8 +149,8 @@ def create_input_extract_all_attributes_from_text():
     del attribute_names
 
 
-@pytest.fixture()
-def create_expected_result_extract_all_attributes_from_text():
+@pytest.fixture
+def create_expected_result_extract_all_attributes_from_text_draghul():
     expected_result = {
         "Stärke": "3",
         "Scharfsinn": "4",
@@ -102,34 +165,54 @@ def create_expected_result_extract_all_attributes_from_text():
     del expected_result
 
 
-@pytest.fixture()
-def prep_extract_all_attributes_from_text(
-    create_output_ocr_text,
-    create_input_extract_all_attributes_from_text,
-    create_expected_result_extract_all_attributes_from_text,
-):
-    text = create_output_ocr_text
-    attribute_names = create_input_extract_all_attributes_from_text
-    expected_result = create_expected_result_extract_all_attributes_from_text
-    yield text, attribute_names, expected_result
-    del text, attribute_names, expected_result
+@pytest.fixture
+def create_expected_result_extract_all_attributes_from_text_baiagorn():
+    expected_result = {
+        "Stärke": "15",
+        "Scharfsinn": "10",
+        "Gewandtheit": "7",
+        "Aufmerksamkeit": "11",
+        "Ausstrahlung": "5",
+        "Präzision": "10",
+        "Willenskraft": "13",
+        "Heimlichkeit": "9",
+    }
+    yield expected_result
+    del expected_result
 
 
-@pytest.fixture()
-def prep_get_roll20_chat_input_str(create_expected_result_extract_all_attributes_from_text):
-    charname = "Gandalf"
-    attributes = create_expected_result_extract_all_attributes_from_text
+@pytest.fixture
+def create_input_get_roll20_chat_input_str_draghul(create_expected_result_extract_all_attributes_from_text_draghul):
+    yield create_expected_result_extract_all_attributes_from_text_draghul
+
+
+@pytest.fixture
+def create_expected_result_get_roll20_chat_input_str_draghul():
     expected_result = "!setattr --name Gandalf --strong|3 --quick|15" +\
                         " --vigilant|10 --resolute|13 --persuasive|5" +\
                         " --cunning|4 --discreet|10 --accurate|9" +\
                         " --toughness|10"
+    yield expected_result
+    del expected_result
 
-    yield charname, attributes, expected_result
-    del charname, attributes, expected_result
+
+@pytest.fixture
+def create_input_get_roll20_chat_input_str_baiagorn(create_expected_result_extract_all_attributes_from_text_baiagorn):
+    yield create_expected_result_extract_all_attributes_from_text_baiagorn
 
 
-@pytest.fixture()
-def create_expected_result_extract_all_skills_from_text():
+@pytest.fixture
+def create_expected_result_get_roll20_chat_input_str_baiagorn():
+    expected_result = "!setattr --name Legolas --strong|15 --quick|7" +\
+                        " --vigilant|11 --resolute|13 --persuasive|5" +\
+                        " --cunning|10 --discreet|9 --accurate|10" +\
+                        " --toughness|15"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_all_skills_from_text_draghul():
     expected_result = {
         "Eisenfaust": "Adept",
         "Schildkampf": "Novize",
@@ -139,18 +222,14 @@ def create_expected_result_extract_all_skills_from_text():
 
 
 @pytest.fixture
-def prep_extract_all_skills_from_text(
-    create_output_ocr_text,
-    create_expected_result_extract_all_skills_from_text,
-):
-    text = create_output_ocr_text
-    expected_result = create_expected_result_extract_all_skills_from_text
-    yield text, expected_result
-    del text, expected_result
+def create_expected_result_extract_all_skills_from_text_baiagorn():
+    expected_result = {"Berserkerrausch": "Adept"}
+    yield expected_result
+    del expected_result
 
 
-@pytest.fixture()
-def create_expected_result_extract_tactics_from_text():
+@pytest.fixture
+def create_expected_result_extract_tactics_from_text_draghul():
     expected_result = "Der Untote verhält sich gemäß dem Willen seines " +\
                         "Erschaffers oder nach seinem eigenen Willen. " +\
                         "Er ist mmer auf der Suche nach warmen Fleisch und " +\
@@ -160,14 +239,16 @@ def create_expected_result_extract_tactics_from_text():
 
 
 @pytest.fixture
-def prep_extract_tactics_from_text(
-    create_output_ocr_text,
-    create_expected_result_extract_tactics_from_text,
-):
-    text = create_output_ocr_text
-    expected_result = create_expected_result_extract_tactics_from_text
-    yield text, expected_result
-    del text, expected_result
+def create_expected_result_extract_tactics_from_text_baiagorn():
+    expected_result = "Normalerweise sind Baiagornen vor- " +\
+                        "sichtige Kreaturen, doch wenn sie verletzt oder " +\
+                        "verärgert werden, verwandeln sie sich brüllende " +\
+                        "Bestien, die wie wild mit ihren Krallen um sich " +\
+                        "schlagen und den nächsten Feind oder ihre " +\
+                        "Beute unerbittlich angreifen."
+
+    yield expected_result
+    del expected_result
 
 
 def create_input_result_pairs_get_toughness():
