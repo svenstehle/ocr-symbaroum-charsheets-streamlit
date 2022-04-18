@@ -69,6 +69,45 @@ def prep_ocr_text_baiagorn():
     del text
 
 
+@pytest.fixture
+def prep_ocr_text_guard():
+    text = (
+        "Karawanenwächter\n"
+        "„Ich werde dir schon nicht zu sehr weh tun ...“\n\n"
+        "Eine Gruppe von Männern und Frauen (Anzahl\n"
+        "der Spielercharaktere +1), die alle schonmehrere\n"
+        "Reisen über die Titanen überlebt haben. Es sind\n"
+        "Aallesamt abgehärtete Kämpfer, die sich jeder\n"
+        "Auseinandersetzung stellen. Im Gegenzug mangelt\n"
+        "‚s ihnen ein wenig an Umgangsformen.\n\n"
+        "Auftreten Grinst zuversichtlich und\n"
+        "schwingt sein Schwert\n"
+        "herausfordernd\n\n"
+        "Rasse Mensch (Ambrier)\n\n"
+        "Herausforderung _ Gering\n\n"
+        "Merkmale Kontakte\n"
+        "(Karawanerwächter)\n\n"
+        "Aufmerksamkeit 11 (-1). Ausstrahlung 9 (+1).\n"
+        "‚Gewandtheit 10 (0). Heimlichkeit 5 (+5).\n"
+        "Präzision 13 (-3). Scharfsinn7 (+3).\n"
+        "Stärke 15 (-5). Willenskraft 10 (0)\n\n"
+        "Fähigkeiten Keine\n"
+        "Waffen Schwert4\n\n"
+        "Rüstung. Schuppenpanzer 3\n"
+        "(Behinderung)\n"
+        "+2(Schild)\n"
+        "Schmerzgrenze 8\n"
+        "IWIO Schillinge,\n\n"
+        "Schatten Mattes Kupfer\n\n"
+        "Taktik: Der Spielercharakter, der am größten\n"
+        "\"oder stärksten wirkt, wird zuerst vonzwei Wäch-\n"
+        "tern angegriffen. Jeder andere Spielercharakter\n"
+        "\'wird von einem Wachter angegriffen."
+    )
+    yield text
+    del text
+
+
 def create_input_result_get_attribute_value_from_text_draghul():
     input_result_pairs = [
         ("Stärke", "3"),
@@ -107,6 +146,28 @@ def create_input_result_get_attribute_value_from_text_baiagorn():
 
 @pytest.fixture(params=create_input_result_get_attribute_value_from_text_baiagorn())
 def prep_input_result_get_attribute_value_from_text_baiagorn(request):
+    target_attribute = request.param[0]
+    expected_result = request.param[1]
+    yield target_attribute, expected_result
+    del target_attribute, expected_result
+
+
+def create_input_result_get_attribute_value_from_text_guard():
+    input_result_pairs = [
+        ("Stärke", "15"),
+        ("Scharfsinn", "7"),
+        ("Gewandtheit", "10"),
+        ("Aufmerksamkeit", "11"),
+        ("Ausstrahlung", "9"),
+        ("Präzision", "13"),
+        ("Willenskraft", "10"),
+        ("Heimlichkeit", "5"),
+    ]
+    return input_result_pairs
+
+
+@pytest.fixture(params=create_input_result_get_attribute_value_from_text_guard())
+def prep_input_result_get_attribute_value_from_text_guard(request):
     target_attribute = request.param[0]
     expected_result = request.param[1]
     yield target_attribute, expected_result
@@ -162,6 +223,22 @@ def create_expected_result_extract_all_attributes_from_text_baiagorn():
 
 
 @pytest.fixture
+def create_expected_result_extract_all_attributes_from_text_guard():
+    expected_result = {
+        "Stärke": "15",
+        "Scharfsinn": "7",
+        "Gewandtheit": "10",
+        "Aufmerksamkeit": "11",
+        "Ausstrahlung": "9",
+        "Präzision": "13",
+        "Willenskraft": "10",
+        "Heimlichkeit": "5",
+    }
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
 def create_input_get_roll20_chat_input_str_draghul(create_expected_result_extract_all_attributes_from_text_draghul):
     yield create_expected_result_extract_all_attributes_from_text_draghul
 
@@ -209,6 +286,13 @@ def create_expected_result_extract_all_skills_from_text_baiagorn():
 
 
 @pytest.fixture
+def create_expected_result_extract_all_skills_from_text_guard():
+    expected_result = {"Skills found in text": "Zero"}
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
 def create_expected_result_extract_tactics_from_text_draghul():
     expected_result = "Der Untote verhält sich gemäß dem Willen seines " +\
                         "Erschaffers oder nach seinem eigenen Willen. " +\
@@ -227,6 +311,16 @@ def create_expected_result_extract_tactics_from_text_baiagorn():
                         "schlagen und den nächsten Feind oder ihre " +\
                         "Beute unerbittlich angreifen."
 
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_tactics_from_text_guard():
+    expected_result = "Der Spielercharakter, der am größten " +\
+                        "\"oder stärksten wirkt, wird zuerst vonzwei Wäch- " +\
+                        "tern angegriffen. Jeder andere Spielercharakter " +\
+                        "\'wird von einem Wachter angegriffen."
     yield expected_result
     del expected_result
 

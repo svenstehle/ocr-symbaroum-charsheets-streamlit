@@ -11,6 +11,10 @@ from src.process_text import get_attribute_value_from_text
         (
             pytest.lazy_fixture("prep_ocr_text_baiagorn"),
             pytest.lazy_fixture("prep_input_result_get_attribute_value_from_text_baiagorn")
+        ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_guard"),
+            pytest.lazy_fixture("prep_input_result_get_attribute_value_from_text_guard")
         )
     ]
 )

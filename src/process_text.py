@@ -4,8 +4,8 @@
 
 def get_attribute_value_from_text(text: str, attribute_name: str) -> str:
     attribute_name_len = len(attribute_name)
-    att_start_loc = text.find(attribute_name) + attribute_name_len + 1
-    att_end_loc = att_start_loc + 2
+    att_start_loc = text.find(attribute_name) + attribute_name_len
+    att_end_loc = text.find("(", att_start_loc)
     att_val = text[att_start_loc:att_end_loc].strip(" ")
     return att_val
 
@@ -21,6 +21,8 @@ def extract_all_skills_from_text(text: str) -> dict:
     weapon_str = "Waffen"
     skills_end_loc = text.find(weapon_str, skills_start_loc)
     all_skills = text[skills_start_loc:skills_end_loc].strip()
+    if all_skills == "Keine":
+        return {"Skills found in text": "Zero"}
     all_skills = [s.strip() for s in all_skills.split(",")]
     all_skills = {s.split(" ")[0]: s.split(" ")[1][1:-1] for s in all_skills}
     return all_skills

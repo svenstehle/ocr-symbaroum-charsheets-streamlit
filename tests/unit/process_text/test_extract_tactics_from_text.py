@@ -12,6 +12,10 @@ from src.process_text import extract_tactics_from_text
             pytest.lazy_fixture("prep_ocr_text_baiagorn"),
             pytest.lazy_fixture("create_expected_result_extract_tactics_from_text_baiagorn")
         ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_guard"),
+            pytest.lazy_fixture("create_expected_result_extract_tactics_from_text_guard")
+        ),
     ]
 )
 def test_extract_tactics_from_text(ocr_text, expected_result):

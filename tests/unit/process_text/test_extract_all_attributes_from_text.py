@@ -14,6 +14,11 @@ from src.process_text import extract_all_attributes_from_text
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_general"),
             pytest.lazy_fixture("create_expected_result_extract_all_attributes_from_text_baiagorn")
         ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_guard"),
+            pytest.lazy_fixture("create_input_extract_all_attributes_from_text_general"),
+            pytest.lazy_fixture("create_expected_result_extract_all_attributes_from_text_guard")
+        ),
     ]
 )
 def test_extract_all_attributes_from_text(ocr_text, attribute_names, expected_result):
