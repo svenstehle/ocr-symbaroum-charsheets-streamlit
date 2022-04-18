@@ -1,4 +1,4 @@
-from src.ocr import extract_tactics_from_text
+from src.process_text import extract_tactics_from_text
 
 
 def test_extract_tactics_from_text(prep_extract_tactics_from_text):

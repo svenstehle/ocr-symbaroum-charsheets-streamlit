@@ -1,4 +1,4 @@
-from src.ocr import get_toughness
+from src.process_text import get_toughness
 
 
 def test_get_toughness(prep_get_toughness):

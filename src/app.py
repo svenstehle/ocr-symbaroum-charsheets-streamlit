@@ -2,9 +2,9 @@
 
 import streamlit as st
 
-from ocr import (
-    extract_all_attributes_from_text, extract_all_skills_from_text, extract_tactics_from_text,
-    get_roll20_chat_input_str, text_detection_and_recognition
+from ocr import text_detection_and_recognition
+from process_text import (
+    extract_all_attributes_from_text, extract_all_skills_from_text, extract_tactics_from_text, get_roll20_chat_input_str
 )
 from spock_config import load_configuration
 from streamlit_helper import (

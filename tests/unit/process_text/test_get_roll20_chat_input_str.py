@@ -1,4 +1,4 @@
-from src.ocr import get_roll20_chat_input_str
+from src.process_text import get_roll20_chat_input_str
 
 
 def test_get_roll20_chat_input_str(prep_get_roll20_chat_input_str):

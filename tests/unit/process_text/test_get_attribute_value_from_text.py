@@ -1,4 +1,4 @@
-from src.ocr import get_attribute_value_from_text
+from src.process_text import get_attribute_value_from_text
 
 
 def test_get_attribute_value_from_text(prep_get_attribute_value_from_text):
