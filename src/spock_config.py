@@ -13,16 +13,18 @@ class OCRConfig:
     Attributes:
         image: path to an image file to read in and perform ocr on
         save_path: path to save the spock config information
+        debug_lang: ocr language to use, relevant for manual debug and dev
         to: language to translate the ocr'd text to
-        psm: Tesseract PSM mode, read the docs for more info
+        debug_psm: Tesseract PSM mode, relevant for manual debug and dev
         oem: Tesseract OCR Engine mode, read the docs for more info
 
     """
 
     image: str
     save_path: SavePath
+    debug_lang: Optional[str] = "deu"
     to: Optional[str] = "en"
-    psm: Optional[int] = 4
+    debug_psm: Optional[int] = 4
     oem: Optional[int] = 3
 
 

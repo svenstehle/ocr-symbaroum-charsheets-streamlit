@@ -348,3 +348,10 @@ def prep_get_toughness(request):
     expected_result = request.param[1]
     yield attributes, expected_result
     del attributes, expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_information_from_text_mode_a():
+    expected_result = {"skills": {"skillname": "level"}, "tactics": "tactic_str", "setattr_str": "setattr_str"}
+    yield expected_result
+    del expected_result

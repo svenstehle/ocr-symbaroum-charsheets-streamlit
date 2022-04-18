@@ -4,5 +4,5 @@
 
 image: dummy_path_for_compatibility
 attribute_names: ["Aufmerksamkeit", "Ausstrahlung", "Gewandtheit", "Heimlichkeit", "Präzision", "Scharfsinn", "Stärke", "Willenskraft"]
-psm: 4
-oem: 1
+debug_psm: 4
+oem: 3

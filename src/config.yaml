@@ -2,9 +2,12 @@
 # OCRConfig
 ####
 
-image: images/draghul.png
+image: images/fairy.jpeg
+# image: images/draghul.png
 save_path: runs
 supported_image_types: ["png", "jpg", "jpeg", "webp"]
 attribute_names: ["Aufmerksamkeit", "Ausstrahlung", "Gewandtheit", "Heimlichkeit", "Präzision", "Scharfsinn", "Stärke", "Willenskraft"]
-psm: 4
+debug_psm: 6 # for adventure book character sheets
+# debug_psm: 4 # for core rulebook character sheets
 oem: 3
+# debug_lang: eng

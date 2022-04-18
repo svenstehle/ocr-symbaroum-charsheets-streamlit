@@ -1,5 +1,6 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
+from typing import Dict, List, Union
 
 
 def get_attribute_value_from_text(text: str, attribute_name: str) -> str:
@@ -10,11 +11,11 @@ def get_attribute_value_from_text(text: str, attribute_name: str) -> str:
     return att_val
 
 
-def extract_all_attributes_from_text(text: str, attribute_names: str) -> dict:
+def extract_all_attributes_from_text(text: str, attribute_names: List[str]) -> Dict[str, str]:
     return {a: get_attribute_value_from_text(text, a) for a in attribute_names}
 
 
-def extract_all_skills_from_text(text: str) -> dict:
+def extract_all_skills_from_text(text: str) -> Dict[str, str]:
     skills_str = "Fähigkeiten"
     length = len(skills_str)
     skills_start_loc = text.find(skills_str) + length + 1
@@ -38,12 +39,12 @@ def extract_tactics_from_text(text: str) -> str:
     return tactics
 
 
-def get_toughness(attributes: dict) -> int:
+def get_toughness(attributes: Dict[str, str]) -> int:
     strong = int(attributes["Stärke"])
     return max((strong, 10))
 
 
-def get_roll20_chat_input_str(charname, attributes: dict) -> str:
+def get_roll20_chat_input_str(charname, attributes: Dict[str, str]) -> str:
     basic_string = f"!setattr --name {charname}"
     att_string = f" --strong|{attributes['Stärke']} --quick|{attributes['Gewandtheit']}" +\
                 f" --vigilant|{attributes['Aufmerksamkeit']} --resolute|{attributes['Willenskraft']}" +\
@@ -52,3 +53,16 @@ def get_roll20_chat_input_str(charname, attributes: dict) -> str:
 
     toughness_string = f" --toughness|{get_toughness(attributes)}"
     return basic_string + att_string + toughness_string
+
+
+def extract_information_from_text_mode_a(
+    text: str,
+    attribute_names: List[str],
+    charname: str,
+) -> Dict[str, Union[str, Dict[str, str]]]:
+    information: Dict[str, Union[str, Dict[str, str]]] = {}
+    information["skills"] = extract_all_skills_from_text(text)
+    information["tactics"] = extract_tactics_from_text(text)
+    attributes = extract_all_attributes_from_text(text, attribute_names)
+    information["setattr_str"] = get_roll20_chat_input_str(charname, attributes)
+    return information
