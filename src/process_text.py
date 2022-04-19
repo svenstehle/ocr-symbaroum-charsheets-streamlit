@@ -29,8 +29,11 @@ def extract_all_skills_from_text(text: str) -> Dict[str, str]:
     return all_skills
 
 
-def extract_tactics_from_text(text: str) -> str:
-    tactics_str = "Taktik:"
+def extract_tactics_from_text(text: str, lang: str) -> str:
+    if lang == "deu":
+        tactics_str = "Taktik:"
+    if lang == "eng":
+        tactics_str = "Tactics:"
     length = len(tactics_str)
     tactics_start_loc = text.find(tactics_str) + length + 1
     tactics = text[tactics_start_loc:].replace("\n", " ").strip()
@@ -62,7 +65,20 @@ def extract_information_from_text_mode_a(
 ) -> Dict[str, Union[str, Dict[str, str]]]:
     information: Dict[str, Union[str, Dict[str, str]]] = {}
     information["skills"] = extract_all_skills_from_text(text)
-    information["tactics"] = extract_tactics_from_text(text)
+    information["tactics"] = extract_tactics_from_text(text, "deu")
+    attributes = extract_all_attributes_from_text(text, attribute_names)
+    information["setattr_str"] = get_roll20_chat_input_str(charname, attributes)
+    return information
+
+
+def extract_information_from_text_mode_b(
+    text: str,
+    attribute_names: List[str],
+    charname: str,
+) -> Dict[str, Union[str, Dict[str, str]]]:
+    information: Dict[str, Union[str, Dict[str, str]]] = {}
+    information["skills"] = extract_all_skills_from_text(text)
+    information["tactics"] = extract_tactics_from_text(text, "eng")
     attributes = extract_all_attributes_from_text(text, attribute_names)
     information["setattr_str"] = get_roll20_chat_input_str(charname, attributes)
     return information

@@ -59,7 +59,8 @@ def main():
                 button_clicked = st.form_submit_button(
                     "Create Roll20 chat string for selected character; using cached OCR output"
                 )
-
+                #TODO work on mode_b for adventure book and do try/except
+                #  between those two modes for info extraction
                 if button_clicked:
                     information = extract_information_from_text_mode_a(
                         text,

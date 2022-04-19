@@ -108,6 +108,35 @@ def prep_ocr_text_guard():
     del text
 
 
+@pytest.fixture
+def prep_ocr_text_fairy():
+    text = (
+        "BLIGHT BORN FAIRY\n"
+        "Abomination (Spring elf), Weak resistance\n"
+        "Giggles, squints\n"
+        "ACC | CUN | DIS | PER | QUI | RES | STR | VIG\n"
+        "0 | O |-5 |+1 |-3 |+3 |+5 | -1\n\n"
+        "Defense Armor Toughness |Pain Threshold\n"
+        "-3 _ 10 3\n\n"
+        "Weapons Claws 3 (short) +1D4 corruption\n\n"
+        "Accurate\n\n"
+        "Abilities -\n\n"
+        "Traits -\n\n"
+        "Integrated Corrupting Attack (I), Long-lived,\n"
+        "Natural Weapon (I)\n\n"
+        "Equipment None\n\n"
+        "Shadow Black with greenish brown spots,\n"
+        "like decaying leaves floating on a\n"
+        "pondat night (thoroughly corrupt)\n\n"
+        "Tactics: Renn and his friends will not attack more\n\n"
+        "than one or two persons at a time. They wait for\n\n"
+        "the opportunity to arise before fearlessly assaul-\n\n"
+        "ting the prey."
+    )
+    yield text
+    del text
+
+
 def create_input_result_get_attribute_value_from_text_draghul():
     input_result_pairs = [
         ("Stärke", "3"),
@@ -321,6 +350,16 @@ def create_expected_result_extract_tactics_from_text_guard():
                         "\"oder stärksten wirkt, wird zuerst vonzwei Wäch- " +\
                         "tern angegriffen. Jeder andere Spielercharakter " +\
                         "\'wird von einem Wachter angegriffen."
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_tactics_from_text_fairy():
+    expected_result = "Renn and his friends will not attack more " +\
+                        "than one or two persons at a time. They wait for " +\
+                        "the opportunity to arise before fearlessly assaul- " +\
+                        "ting the prey."
     yield expected_result
     del expected_result
 
