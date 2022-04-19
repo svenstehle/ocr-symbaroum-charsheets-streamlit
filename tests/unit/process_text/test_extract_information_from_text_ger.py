@@ -3,6 +3,8 @@ from typing import Dict
 import pytest
 from src.process_text import extract_information_from_text_ger
 
+# TODO add tests for eng chars
+
 
 @pytest.mark.parametrize(
     "ocr_text, attribute_names, expected_result", [

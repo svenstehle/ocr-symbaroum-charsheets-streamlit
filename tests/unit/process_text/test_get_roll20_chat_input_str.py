@@ -1,6 +1,8 @@
 import pytest
 from src.process_text import get_roll20_chat_input_str
 
+#TODO add tests for eng chars
+
 
 @pytest.mark.parametrize(
     "charname, attributes, expected_result", [
