@@ -290,10 +290,41 @@ def create_expected_result_get_roll20_chat_input_str_baiagorn():
 
 
 @pytest.fixture
+def create_input_get_roll20_chat_input_str_fairy(create_expected_result_extract_all_attributes_from_text_eng_fairy):
+    yield create_expected_result_extract_all_attributes_from_text_eng_fairy
+
+
+@pytest.fixture
+def create_expected_result_get_roll20_chat_input_str_fairy():
+    expected_result = "!setattr --name Captain Marvel --strong|5 --quick|13" +\
+                        " --vigilant|11 --resolute|7 --persuasive|9" +\
+                        " --cunning|10 --discreet|15 --accurate|10" +\
+                        " --toughness|10"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_input_get_roll20_chat_input_str_brand(create_expected_result_extract_all_attributes_from_text_eng_brand):
+    yield create_expected_result_extract_all_attributes_from_text_eng_brand
+
+
+@pytest.fixture
+def create_expected_result_get_roll20_chat_input_str_brand():
+    expected_result = "!setattr --name Hulk --strong|15 --quick|11" +\
+                        " --vigilant|10 --resolute|10 --persuasive|5" +\
+                        " --cunning|7 --discreet|9 --accurate|13" +\
+                        " --toughness|15"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
 def create_expected_result_extract_all_abilities_from_text_draghul():
     expected_result = {
         "Eisenfaust": "Adept",
         "Schildkampf": "Novize",
+        "Testskill": "Meister",
     }
     yield expected_result
     del expected_result
@@ -422,6 +453,16 @@ def create_input_result_pairs_get_toughness():
             "Stärke": "9"
         }, 10), ({
             "Stärke": "3"
+        }, 10), ({
+            "STR": "15"
+        }, 15), ({
+            "STR": "11"
+        }, 11), ({
+            "STR": "10"
+        }, 10), ({
+            "STR": "9"
+        }, 10), ({
+            "STR": "3"
         }, 10)
     ]
     return input_result_pairs

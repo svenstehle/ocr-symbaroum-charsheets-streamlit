@@ -54,7 +54,7 @@ def setup_language_selection():
 
 
 def display_selected_image(image: np.ndarray):
-    st.subheader("This is the Image you uploaded")
+    st.subheader("This is the (already preprocessed!) Image you uploaded")
     st.image(image, width=450)
 
 
@@ -82,3 +82,14 @@ def display_abilities(abilities: dict):
 
 def is_ocr_cache_present(ocr_cache_key: str) -> bool:
     return ocr_cache_key in st.session_state
+
+
+def display_information_extraction_exception(e: Exception):
+    st.error(
+        (
+            "Cannot safely extract information. "
+            "OCR quality might be inferior. "
+            "Try different settings or a higher resolution image. "
+            f"Original exception: {e}"
+        )
+    )

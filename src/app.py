@@ -4,11 +4,12 @@ import streamlit as st
 
 from ocr import text_detection_and_recognition
 from process_image import get_image_as_rgb_array_from_file
-from process_text import (extract_information_from_text_eng, extract_information_from_text_ger)
+from process_text import extract_information_from_text
 from spock_config import load_configuration
 from streamlit_helper import (
-    display_abilities, display_charname_info, display_ocr_output, display_selected_image, display_tactics,
-    is_ocr_cache_present, setup_image_selection, setup_language_selection, setup_ocr_mode_selection
+    display_abilities, display_charname_info, display_information_extraction_exception, display_ocr_output,
+    display_selected_image, display_tactics, is_ocr_cache_present, setup_image_selection, setup_language_selection,
+    setup_ocr_mode_selection
 )
 
 
@@ -63,17 +64,16 @@ def main():
                 #  between those two modes for info extraction
                 if button_clicked:
                     try:
-                        information = extract_information_from_text_ger(
+                        information = extract_information_from_text(
                             text,
                             config.ExtractionConfig.attribute_names_ger,
-                            charname,
-                        )
-                    except ValueError:
-                        information = extract_information_from_text_eng(
-                            text,
                             config.ExtractionConfig.attribute_names_eng,
                             charname,
                         )
+                    except IndexError as e:
+                        display_information_extraction_exception(e)
+                    except ValueError as e:
+                        display_information_extraction_exception(e)
 
                     st.subheader("Roll20 !setattr chat string")
                     display_charname_info(charname)
