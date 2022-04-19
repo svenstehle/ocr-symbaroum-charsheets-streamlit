@@ -71,13 +71,13 @@ def display_charname_info(charname: str):
 
 
 def display_tactics(tactics: str):
-    st.subheader("Tactic")
+    st.subheader("Tactics")
     st.code(tactics)
 
 
-def display_skills(skills: dict):
-    st.subheader("Skills")
-    st.write(skills)
+def display_abilities(abilities: dict):
+    st.subheader("Abilities")
+    st.write(abilities)
 
 
 def is_ocr_cache_present(ocr_cache_key: str) -> bool:

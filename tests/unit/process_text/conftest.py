@@ -1,140 +1,56 @@
 import pytest
+from src.process_text import TextProcessor
+from tests.unit.process_text.input_ocr_texts import (
+    ocr_text_baiagorn, ocr_text_brand, ocr_text_draghul, ocr_text_fairy, ocr_text_guard, ocr_text_hunter
+)
 
 
-@pytest.fixture()
-def prep_ocr_text_draghul():
-    text = (
-        "Rasse Untoter\n\n"
-        "Herausforderung _ Normal\n"
-        "Merkmale Untot (I)\n"
-        "xysfjkj7\nScharfsinn 4 (-6), blablabla Stärke 3 (-7),\n"
-        "trolol\nAufmerksamkeit 10 (0), olo Gewandtheit 15 (+5), --23%\n"
-        "Ausstrahlung 5 (+5), Heimlichkeit 10 (0), Präzision 9 (+1),\n"
-        "Willenskraft 13 (-3)\n\n"
-        "Fähigkeiten Eisenfaust (Adept),\n"
-        "Schildkampf (Novize)\n\n"
-        "Waffen Rostiges Schwert7\n\n"
-        "Rüstung Beschlagene Leder-\n"
-        "rüstung 2 (Behinderung)\n\n"
-        "Verteidigung O(Schild)\n\n"
-        "Zähigkeit 11 _ Schmerzgrenze -\n\n"
-        "Ausrüstung 1W10 Orteg\n\n "
-        "Schatten Gelbgrau wie abgestor-\n\n"
-        "bene Haut mit dunklen\n"
-        "Flecken, die sich aus-\n"
-        "breiten, wenn der Körper\n"
-        "des Untoten zusehends\n"
-        "verfällt (durch und durch\n"
-        "korrupt)\n\n"
-        "Taktik: Der Untote verhält sich gemäß dem\n\n"
-        "Willen seines Erschaffers oder nach seinem\n\n"
-        "eigenen Willen. Er ist mmer auf der Suche nach\n"
-        "warmen Fleisch und frischem Blut."
-    )
-
-    yield text
-    del text
+@pytest.fixture(params=[ocr_text_draghul()])
+def prep_ocr_text_draghul(request):
+    text = request.param
+    TP = TextProcessor(text)
+    yield TP.text
+    del TP, text
 
 
-@pytest.fixture
-def prep_ocr_text_baiagorn():
-    text = (
-        "BAIAGORN\n\n"
-        "Rasse Bestie\n\n"
-        "Herausforderung Normal\n\n"
-        "Merkmale Natürliche Waffen (1),\n"
-        "Robust ()\n\n"
-        "Aufmerksamkeit 11 (-1), Ausstrahlung 5 (+5),\n"
-        "Gewandtheit 7 (+3), Heimlichkeit 9 (+1),\n"
-        "Präzision 10 (0), Scharfsinn 10 (0),\n\n"
-        "Stärke 15 (-5), Willenskraft 13 (-3)\n\n"
-        "Fähigkeiten Berserkerrausch (Adept)\n"
-        "Waffen Krallen 8 (Kurz)\n"
-        "Rüstung Bärenfell 4\n"
-        "Verteidigung +7\n"
-        "Zähigkeit 15 Schmerzgrenze 8\n"
-        "Ausrüstung Keine\n\n"
-        "Schatten Grün wie die Piniennadeln\n\n"
-        "des letzten Jahres\n"
-        "(Korruption: 0)\n\n"
-        "Taktik: Normalerweise sind Baiagornen vor-\n"
-        "sichtige Kreaturen, doch wenn sie verletzt oder\n"
-        "verärgert werden, verwandeln sie sich brüllende\n"
-        "Bestien, die wie wild mit ihren Krallen um sich\n"
-        "schlagen und den nächsten Feind oder ihre\n"
-        "Beute unerbittlich angreifen."
-    )
-
-    yield text
-    del text
+@pytest.fixture(params=[ocr_text_baiagorn()])
+def prep_ocr_text_baiagorn(request):
+    text = request.param
+    TP = TextProcessor(text)
+    yield TP.text
+    del TP, text
 
 
-@pytest.fixture
-def prep_ocr_text_guard():
-    text = (
-        "Karawanenwächter\n"
-        "„Ich werde dir schon nicht zu sehr weh tun ...“\n\n"
-        "Eine Gruppe von Männern und Frauen (Anzahl\n"
-        "der Spielercharaktere +1), die alle schonmehrere\n"
-        "Reisen über die Titanen überlebt haben. Es sind\n"
-        "Aallesamt abgehärtete Kämpfer, die sich jeder\n"
-        "Auseinandersetzung stellen. Im Gegenzug mangelt\n"
-        "‚s ihnen ein wenig an Umgangsformen.\n\n"
-        "Auftreten Grinst zuversichtlich und\n"
-        "schwingt sein Schwert\n"
-        "herausfordernd\n\n"
-        "Rasse Mensch (Ambrier)\n\n"
-        "Herausforderung _ Gering\n\n"
-        "Merkmale Kontakte\n"
-        "(Karawanerwächter)\n\n"
-        "Aufmerksamkeit 11 (-1). Ausstrahlung 9 (+1).\n"
-        "‚Gewandtheit 10 (0). Heimlichkeit 5 (+5).\n"
-        "Präzision 13 (-3). Scharfsinn7 (+3).\n"
-        "Stärke 15 (-5). Willenskraft 10 (0)\n\n"
-        "Fähigkeiten Keine\n"
-        "Waffen Schwert4\n\n"
-        "Rüstung. Schuppenpanzer 3\n"
-        "(Behinderung)\n"
-        "+2(Schild)\n"
-        "Schmerzgrenze 8\n"
-        "IWIO Schillinge,\n\n"
-        "Schatten Mattes Kupfer\n\n"
-        "Taktik: Der Spielercharakter, der am größten\n"
-        "\"oder stärksten wirkt, wird zuerst vonzwei Wäch-\n"
-        "tern angegriffen. Jeder andere Spielercharakter\n"
-        "\'wird von einem Wachter angegriffen."
-    )
-    yield text
-    del text
+@pytest.fixture(params=[ocr_text_guard()])
+def prep_ocr_text_guard(request):
+    text = request.param
+    TP = TextProcessor(text)
+    yield TP.text
+    del TP, text
 
 
-@pytest.fixture
-def prep_ocr_text_fairy():
-    text = (
-        "BLIGHT BORN FAIRY\n"
-        "Abomination (Spring elf), Weak resistance\n"
-        "Giggles, squints\n"
-        "ACC | CUN | DIS | PER | QUI | RES | STR | VIG\n"
-        "0 | O |-5 |+1 |-3 |+3 |+5 | -1\n\n"
-        "Defense Armor Toughness |Pain Threshold\n"
-        "-3 _ 10 3\n\n"
-        "Weapons Claws 3 (short) +1D4 corruption\n\n"
-        "Accurate\n\n"
-        "Abilities -\n\n"
-        "Traits -\n\n"
-        "Integrated Corrupting Attack (I), Long-lived,\n"
-        "Natural Weapon (I)\n\n"
-        "Equipment None\n\n"
-        "Shadow Black with greenish brown spots,\n"
-        "like decaying leaves floating on a\n"
-        "pondat night (thoroughly corrupt)\n\n"
-        "Tactics: Renn and his friends will not attack more\n\n"
-        "than one or two persons at a time. They wait for\n\n"
-        "the opportunity to arise before fearlessly assaul-\n\n"
-        "ting the prey."
-    )
-    yield text
-    del text
+@pytest.fixture(params=[ocr_text_fairy()])
+def prep_ocr_text_fairy(request):
+    text = request.param
+    TP = TextProcessor(text)
+    yield TP.text
+    del TP, text
+
+
+@pytest.fixture(params=[ocr_text_brand()])
+def prep_ocr_text_brand(request):
+    text = request.param
+    TP = TextProcessor(text)
+    yield TP.text
+    del TP, text
+
+
+@pytest.fixture(params=[ocr_text_hunter()])
+def prep_ocr_text_hunter(request):
+    text = request.param
+    TP = TextProcessor(text)
+    yield TP.text
+    del TP, text
 
 
 def create_input_result_get_attribute_value_from_text_draghul():
@@ -204,7 +120,7 @@ def prep_input_result_get_attribute_value_from_text_guard(request):
 
 
 @pytest.fixture
-def create_input_extract_all_attributes_from_text_general():
+def create_input_extract_all_attributes_from_text_ger_general():
     attribute_names = [
         "Stärke",
         "Scharfsinn",
@@ -215,6 +131,13 @@ def create_input_extract_all_attributes_from_text_general():
         "Willenskraft",
         "Heimlichkeit",
     ]
+    yield attribute_names
+    del attribute_names
+
+
+@pytest.fixture
+def create_input_extract_all_attributes_from_text_eng_general():
+    attribute_names = ["ACC", "CUN", "DIS", "PER", "QUI", "RES", "STR", "VIG"]
     yield attribute_names
     del attribute_names
 
@@ -268,6 +191,75 @@ def create_expected_result_extract_all_attributes_from_text_guard():
 
 
 @pytest.fixture
+def create_expected_result_get_all_attribute_values_from_text_eng_fairy():
+    expected_result = ["10", "10", "15", "9", "13", "7", "5", "11"]
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_get_all_attribute_values_from_text_eng_brand():
+    expected_result = ["13", "7", "9", "5", "11", "10", "15", "10"]
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_get_all_attribute_values_from_text_eng_hunter():
+    expected_result = ["5", "10", "10", "7", "11", "16", "9", "18"]
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_all_attributes_from_text_eng_fairy():
+    expected_result = {
+        "ACC": "10",
+        "CUN": "10",
+        "DIS": "15",
+        "PER": "9",
+        "QUI": "13",
+        "RES": "7",
+        "STR": "5",
+        "VIG": "11",
+    }
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_all_attributes_from_text_eng_brand():
+    expected_result = {
+        "ACC": "13",
+        "CUN": "7",
+        "DIS": "9",
+        "PER": "5",
+        "QUI": "11",
+        "RES": "10",
+        "STR": "15",
+        "VIG": "10",
+    }
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_all_attributes_from_text_eng_hunter():
+    expected_result = {
+        "ACC": "5",
+        "CUN": "10",
+        "DIS": "10",
+        "PER": "7",
+        "QUI": "11",
+        "RES": "16",
+        "STR": "9",
+        "VIG": "18",
+    }
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
 def create_input_get_roll20_chat_input_str_draghul(create_expected_result_extract_all_attributes_from_text_draghul):
     yield create_expected_result_extract_all_attributes_from_text_draghul
 
@@ -298,7 +290,7 @@ def create_expected_result_get_roll20_chat_input_str_baiagorn():
 
 
 @pytest.fixture
-def create_expected_result_extract_all_skills_from_text_draghul():
+def create_expected_result_extract_all_abilities_from_text_draghul():
     expected_result = {
         "Eisenfaust": "Adept",
         "Schildkampf": "Novize",
@@ -308,15 +300,36 @@ def create_expected_result_extract_all_skills_from_text_draghul():
 
 
 @pytest.fixture
-def create_expected_result_extract_all_skills_from_text_baiagorn():
+def create_expected_result_extract_all_abilities_from_text_baiagorn():
     expected_result = {"Berserkerrausch": "Adept"}
     yield expected_result
     del expected_result
 
 
 @pytest.fixture
-def create_expected_result_extract_all_skills_from_text_guard():
-    expected_result = {"Skills found in text": "Zero"}
+def create_expected_result_extract_all_abilities_from_text_guard():
+    expected_result = {"Abilities found in text": "Zero"}
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_all_abilities_from_text_fairy():
+    expected_result = {"Abilities found in text": "Zero"}
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_all_abilities_from_text_brand():
+    expected_result = {"Bodyguard": "master", "Iron Fist": "master", "Two-handed Force": "adept"}
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_all_abilities_from_text_hunter():
+    expected_result = {"Acrobatics": "master", "Marksman": "master", "Sixth Sense": "master", "Steadfast": "master"}
     yield expected_result
     del expected_result
 
@@ -333,7 +346,7 @@ def create_expected_result_extract_tactics_from_text_draghul():
 
 @pytest.fixture
 def create_expected_result_extract_tactics_from_text_baiagorn():
-    expected_result = "Normalerweise sind Baiagornen vor- " +\
+    expected_result = "Normalerweise sind Baiagornen vor" +\
                         "sichtige Kreaturen, doch wenn sie verletzt oder " +\
                         "verärgert werden, verwandeln sie sich brüllende " +\
                         "Bestien, die wie wild mit ihren Krallen um sich " +\
@@ -347,7 +360,7 @@ def create_expected_result_extract_tactics_from_text_baiagorn():
 @pytest.fixture
 def create_expected_result_extract_tactics_from_text_guard():
     expected_result = "Der Spielercharakter, der am größten " +\
-                        "\"oder stärksten wirkt, wird zuerst vonzwei Wäch- " +\
+                        "\"oder stärksten wirkt, wird zuerst vonzwei Wäch" +\
                         "tern angegriffen. Jeder andere Spielercharakter " +\
                         "\'wird von einem Wachter angegriffen."
     yield expected_result
@@ -358,8 +371,41 @@ def create_expected_result_extract_tactics_from_text_guard():
 def create_expected_result_extract_tactics_from_text_fairy():
     expected_result = "Renn and his friends will not attack more " +\
                         "than one or two persons at a time. They wait for " +\
-                        "the opportunity to arise before fearlessly assaul- " +\
+                        "the opportunity to arise before fearlessly assaul" +\
                         "ting the prey."
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_tactics_from_text_brand():
+    expected_result = (
+        "Brand protects his master by attacking "
+        "an enemy in full force. Also, Brand will defend "
+        "his master from all attacks and make counte"
+        "rattacks against any attacker within range of "
+        "melee, damage 8 (see the ability Bodyguard at "
+        "master level)."
+    )
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_tactics_from_text_hunter():
+    expected_result = (
+        "The Eternal Hunter moves among the "
+        "death dancers, shooting single arrows for en"
+        "couragement. When a worthy opponent emerges. "
+        "the hunter begins his own, personal hunt. He alter"
+        "nates between firing deadly arrows and trying to "
+        "charm and drink warm. delightful blood from the "
+        "victim, saturated with the sublime taste of despe"
+        "ration and fear. As soon as Gylta's herd becomes "
+        "occupied with fighting the death dancers he takes "
+        "the opportunity to commence his fight against the "
+        "forest goddess."
+    )
     yield expected_result
     del expected_result
 
@@ -390,7 +436,7 @@ def prep_get_toughness(request):
 
 
 @pytest.fixture
-def create_expected_result_extract_information_from_text_mode_a():
-    expected_result = {"skills": {"skillname": "level"}, "tactics": "tactic_str", "setattr_str": "setattr_str"}
+def create_expected_result_extract_information_from_text_ger():
+    expected_result = {"abilities": {"skillname": "level"}, "tactics": "tactic_str", "setattr_str": "setattr_str"}
     yield expected_result
     del expected_result

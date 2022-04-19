@@ -20,6 +20,14 @@ from src.process_text import extract_tactics_from_text
             pytest.lazy_fixture("prep_ocr_text_fairy"), "eng",
             pytest.lazy_fixture("create_expected_result_extract_tactics_from_text_fairy")
         ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_brand"), "eng",
+            pytest.lazy_fixture("create_expected_result_extract_tactics_from_text_brand")
+        ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_hunter"), "eng",
+            pytest.lazy_fixture("create_expected_result_extract_tactics_from_text_hunter")
+        ),
     ]
 )
 def test_extract_tactics_from_text(ocr_text, lang, expected_result):

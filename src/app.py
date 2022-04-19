@@ -4,10 +4,10 @@ import streamlit as st
 
 from ocr import text_detection_and_recognition
 from process_image import get_image_as_rgb_array_from_file
-from process_text import extract_information_from_text_mode_a
+from process_text import (extract_information_from_text_eng, extract_information_from_text_ger)
 from spock_config import load_configuration
 from streamlit_helper import (
-    display_charname_info, display_ocr_output, display_selected_image, display_skills, display_tactics,
+    display_abilities, display_charname_info, display_ocr_output, display_selected_image, display_tactics,
     is_ocr_cache_present, setup_image_selection, setup_language_selection, setup_ocr_mode_selection
 )
 
@@ -62,17 +62,24 @@ def main():
                 #TODO work on mode_b for adventure book and do try/except
                 #  between those two modes for info extraction
                 if button_clicked:
-                    information = extract_information_from_text_mode_a(
-                        text,
-                        config.ExtractionConfig.attribute_names,
-                        charname,
-                    )
+                    try:
+                        information = extract_information_from_text_ger(
+                            text,
+                            config.ExtractionConfig.attribute_names_ger,
+                            charname,
+                        )
+                    except ValueError:
+                        information = extract_information_from_text_eng(
+                            text,
+                            config.ExtractionConfig.attribute_names_eng,
+                            charname,
+                        )
 
                     st.subheader("Roll20 !setattr chat string")
                     display_charname_info(charname)
                     st.code(information["setattr_str"])
                     display_tactics(information["tactics"])
-                    display_skills(information["skills"])
+                    display_abilities(information["abilities"])
                 else:
                     st.info("Click the button to create the chat string with provided character name")
 

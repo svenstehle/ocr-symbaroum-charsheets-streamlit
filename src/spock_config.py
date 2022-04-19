@@ -51,10 +51,12 @@ class ExtractionConfig:
     Config for roll20 attribute extraction
 
     Attributes:
-        attribute_names: list of attribute names to extract from the text
+        attribute_names_ger: list of German attribute names to extract from the text
+        attribute_names_eng: list of English attribute names to extract from the text
     """
 
-    attribute_names: List[str]
+    attribute_names_ger: List[str]
+    attribute_names_eng: List[str]
 
 
 def load_configuration():
