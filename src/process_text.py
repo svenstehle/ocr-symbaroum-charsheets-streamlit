@@ -2,7 +2,7 @@
 #
 from typing import Dict, List, Union
 
-from langdetect import DetectorFactory, detect
+from process_language import detect_language
 
 
 class TextProcessor:
@@ -12,6 +12,7 @@ class TextProcessor:
 
     def preprocess_text(self) -> None:
         replacements = [
+            ("=", "-"),    # replace equal sign with dash
             (" -\n\n", " - "),    # keep single dash that is NOT a line continuation
             (" -\n", " - "),    # keep single dash that is NOT a line continuation
             ("-\n\n", ""),    # remove single dash that is a line continuation
@@ -19,7 +20,6 @@ class TextProcessor:
             ("\n\n", " "),    # remove line continuation
             ("\n", " "),    # remove line continuation
             (" _ ", " - "),    # replace separate underscore with dash
-            (" = ", " - "),    # replace separate equal sign with dash
         ]
         for key, rep in replacements:
             self.text = self.text.replace(key, rep)
@@ -31,6 +31,11 @@ def get_attribute_value_from_text_ger(text: str, attribute_name: str) -> str:
     att_start_loc = text.find(attribute_name) + attribute_name_len
     att_end_loc = text.find("(", att_start_loc)
     att_val = text[att_start_loc:att_end_loc].strip(" ")
+    mapping = [
+        ("/", "7"),
+    ]
+    for k, v in mapping:
+        att_val = att_val.replace(k, v)
     return att_val
 
 
@@ -60,6 +65,10 @@ def get_all_attribute_values_from_text_eng(text: str) -> List[str]:
         ("‘", " "),
         ("“", " "),
         ("”", " "),
+        ("\"", " "),
+        ("\\", " "),
+        ("/", " "),
+        ("00", "0 0"),
     ]
     for k, v in mapping:
         att_values = att_values.replace(k, v)
@@ -68,6 +77,8 @@ def get_all_attribute_values_from_text_eng(text: str) -> List[str]:
     for v in att_values.split():
         if v.isdigit() and len(v) == 2 and v.startswith("4"):
             v = v.replace("4", "+")
+        elif len(v) == 3 and v.startswith("+4") and v[1:].isdigit():
+            v = v.replace("+4", "+")
         att_values_clean.append(v)
     att_values_clean = [str((10 - int(v))) for v in att_values_clean]
     return att_values_clean
@@ -171,12 +182,6 @@ def extract_information_from_text_eng(
     attributes = extract_all_attributes_from_text_eng(text, attribute_names_eng)
     information["setattr_str"] = get_roll20_chat_input_str_eng(charname, attributes)
     return information
-
-
-def detect_language(text: str) -> str:
-    DetectorFactory.seed = 0
-    lang = detect(text)
-    return lang
 
 
 def extract_information_from_text(

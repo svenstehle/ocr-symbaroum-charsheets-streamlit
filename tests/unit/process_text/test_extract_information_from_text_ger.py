@@ -3,7 +3,7 @@ from typing import Dict
 import pytest
 from src.process_text import extract_information_from_text_ger
 
-# TODO add tests for eng chars
+# TODO add tests for eng chars - extract_information_from_text_eng and extract_information_from_text
 
 
 @pytest.mark.parametrize(

@@ -1,4 +1,4 @@
-from src.translate import translate_text_to
+from src.process_language import translate_text_to
 
 
 def test_translate_text_to(prep_translate_text_to):

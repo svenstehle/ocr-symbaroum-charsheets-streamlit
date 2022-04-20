@@ -6,8 +6,8 @@ from src.spock_config import ExtractionConfig, OCRConfig
 
 @pytest.fixture(scope="session")
 def prep_ocr_image():
-    image_path = "tests/unit/ocr/easy_img.webp"
-    image = get_image_as_rgb_array_from_file(image_path)
+    image_path = "tests/unit/ocr/easy_img.png"
+    image = get_image_as_rgb_array_from_file(image_path, factor=1.0)
     yield image
     del image
 

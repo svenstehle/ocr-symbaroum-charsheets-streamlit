@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import detect_language
+from src.process_language import detect_languages
 
 
 @pytest.mark.parametrize(
@@ -12,5 +12,7 @@ from src.process_text import detect_language
         (pytest.lazy_fixture("prep_ocr_text_hunter"), "en"),
     ]
 )
-def test_detect_language(ocr_text, expected_result):
-    assert detect_language(ocr_text) == expected_result
+def test_detect_languages(ocr_text, expected_result):
+    languages = detect_languages(ocr_text)
+    assert len(languages) == 1
+    assert languages[0] == expected_result

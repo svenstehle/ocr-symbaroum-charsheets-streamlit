@@ -17,6 +17,8 @@ class OCRConfig:
         to: language to translate the ocr'd text to
         debug_psm: Tesseract PSM mode, relevant for manual debug and dev
         oem: Tesseract OCR Engine mode, read the docs for more info
+        whitelist: Tesseract character whitelist - essentially which characters it is allowed to output/look for
+        thresh: Tesseract binarization threshold_method, 0 is Otsu, 1 is LeptonicaOtsu, 2 is Sauvola
 
     """
 
@@ -26,6 +28,8 @@ class OCRConfig:
     to: Optional[str] = "en"
     debug_psm: Optional[int] = 4
     oem: Optional[int] = 3
+    whitelist: Optional[str] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÜÖ   äöüabcdefghijklmnopqrstuvwxyz/|(+)-.,: 0123456789"
+    thresh: Optional[int] = 1
 
 
 @spock
@@ -43,6 +47,7 @@ class StreamlitConfig:
     supported_image_types: List[str] = ["png", "jpg", "jpeg", "webp"]
     failure_response: str = "No supported Image file selected!"
     success_response: str = "Compatible Image file selected!"
+    ocr_cache_key: str = "ocr_output"
 
 
 @spock

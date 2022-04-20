@@ -6,6 +6,19 @@ import streamlit as st
 # TODO how to test functionality that includes streamlit stuff, especially user inputs?
 
 
+def get_rescale_factor():
+    with st.sidebar:
+        st.header("Image rescale factor selection")
+        rescale_factor = st.sidebar.slider(
+            label="Change if results are poor.",
+            min_value=0.5,
+            max_value=3.0,
+            value=1.0,
+            step=0.25,
+        )
+    return rescale_factor
+
+
 def setup_image_selection(config):
     with st.sidebar:
         st.header("Image selection for OCR")
@@ -13,19 +26,10 @@ def setup_image_selection(config):
     return image_file
 
 
-def get_language_radiobutton_selection():
-    options = ("German", "English")
-    selection = st.radio(
-        label="Sometimes number detection works best in German for English text...",
-        options=options,
-    )
-    return selection, options
-
-
 def get_ocr_mode_radiobutton_selection():
     options = ("Assume a single column of text of variable sizes", "Assume a single uniform block of text")
     selection = st.radio(
-        label="Try one or the other and take the one that works best",
+        label="Choose one that works best for your image.",
         options=options,
     )
     return selection, options
@@ -33,24 +37,13 @@ def get_ocr_mode_radiobutton_selection():
 
 def setup_ocr_mode_selection():
     with st.sidebar:
-        st.subheader("Mode selection for OCR")
+        st.header("Mode selection for OCR")
         mode_selection, mode_options = get_ocr_mode_radiobutton_selection()
         if mode_selection == mode_options[0]:
             psm = 4
         elif mode_selection == mode_options[1]:
             psm = 6
     return psm
-
-
-def setup_language_selection():
-    with st.sidebar:
-        st.subheader("Language selection for OCR")
-        lang_selection, lang_options = get_language_radiobutton_selection()
-        if lang_selection == lang_options[0]:
-            lang = "deu"
-        elif lang_selection == lang_options[1]:
-            lang = "eng"
-    return lang
 
 
 def display_selected_image(image: np.ndarray):
@@ -90,6 +83,6 @@ def display_information_extraction_exception(e: Exception):
             "Cannot safely extract information. "
             "OCR quality might be inferior. "
             "Try different settings or a higher resolution image. "
-            f"Original exception: {e}"
+            f"Original exception: {repr(e)}"
         )
     )
