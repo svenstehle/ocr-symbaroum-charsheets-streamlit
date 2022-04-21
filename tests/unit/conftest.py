@@ -1,7 +1,8 @@
 import pytest
 from src.process_text import TextProcessor
 from tests.unit.input_ocr_texts import (
-    ocr_text_baiagorn, ocr_text_brand, ocr_text_draghul, ocr_text_fairy, ocr_text_guard, ocr_text_hunter
+    ocr_text_baiagorn, ocr_text_brand, ocr_text_draghul, ocr_text_fairy, ocr_text_guard, ocr_text_hunter,
+    ocr_text_sikander
 )
 
 
@@ -47,6 +48,14 @@ def prep_ocr_text_brand(request):
 
 @pytest.fixture(params=[ocr_text_hunter()])
 def prep_ocr_text_hunter(request):
+    text = request.param
+    TP = TextProcessor(text)
+    yield TP.text
+    del TP, text
+
+
+@pytest.fixture(params=[ocr_text_sikander()])
+def prep_ocr_text_sikander(request):
     text = request.param
     TP = TextProcessor(text)
     yield TP.text

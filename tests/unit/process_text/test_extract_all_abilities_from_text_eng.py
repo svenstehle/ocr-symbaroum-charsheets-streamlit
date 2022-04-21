@@ -16,6 +16,10 @@ from src.process_text import extract_all_abilities_from_text_eng
             pytest.lazy_fixture("prep_ocr_text_hunter"),
             pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_hunter")
         ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_sikander"),
+            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_sikander")
+        ),
     ]
 )
 def test_extract_all_abilities_from_text_eng(ocr_text, expected_result):

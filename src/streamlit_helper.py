@@ -10,7 +10,7 @@ def get_rescale_factor():
     with st.sidebar:
         st.header("Image rescale factor selection")
         rescale_factor = st.sidebar.slider(
-            label="Change if results are poor.",
+            label="Change if OCR results are poor.",
             min_value=0.5,
             max_value=3.0,
             value=1.0,

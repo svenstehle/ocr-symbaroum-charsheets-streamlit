@@ -34,6 +34,11 @@ from src.process_text import extract_tactics_from_text
             "Tactics:",
             pytest.lazy_fixture("create_expected_result_extract_tactics_from_text_hunter"),
         ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_sikander"),
+            "Tactics:",
+            pytest.lazy_fixture("create_expected_result_extract_tactics_from_text_sikander"),
+        ),
     ]
 )
 def test_extract_tactics_from_text(ocr_text, tactics_str, expected_result):

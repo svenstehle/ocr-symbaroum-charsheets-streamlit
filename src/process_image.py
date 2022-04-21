@@ -18,9 +18,10 @@ def rescale_img_arr(img: np.ndarray, factor) -> np.ndarray:
     img = np.asarray(img)
     assert isinstance(img, np.ndarray)
     if factor > 1.0:
-        img = cv2.resize(img, None, fx=factor, fy=factor, interpolation=cv2.INTER_CUBIC)
+        # try INTER_LANCZOS4, INTER_LINEAR, INTER_CUBIC, INTER_AREA both for up and downsampling
+        img = cv2.resize(img, None, fx=factor, fy=factor, interpolation=cv2.INTER_LANCZOS4)
     elif factor < 1.0:
-        img = cv2.resize(img, None, fx=factor, fy=factor, interpolation=cv2.INTER_AREA)
+        img = cv2.resize(img, None, fx=factor, fy=factor, interpolation=cv2.INTER_LANCZOS4)
     return img
 
 
@@ -28,16 +29,8 @@ def convert_to_grayscale(img: np.ndarray) -> np.ndarray:
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 
-def apply_dilation_erosions(img: np.ndarray, kernel_size: int) -> np.ndarray:
-    kernel = np.ones((kernel_size, kernel_size), np.uint8)
-    img = cv2.dilate(img, kernel, iterations=1)
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kernel_size, kernel_size))
-    img = cv2.erode(img, kernel, iterations=1)
-    return img
-
-
 def denoising(img):
-    # worthwhile as a LAST step! :)
+    # worthwhile as a LAST step! :) - Thresholding can introduce noise
     return cv2.fastNlMeansDenoising(img, h=3, templateWindowSize=7, searchWindowSize=21)
 
 
@@ -60,13 +53,12 @@ def add_white_border(img, bordersize=10):
 
 # test all this with the new images
 def preprocess_image(img: np.ndarray, factor: float) -> np.ndarray:
+    # don't do rotation correction for now, we only use PDFs and not slanted scans
     img = rescale_img_arr(img, factor)
     img = convert_to_grayscale(img)
     img = thresholding(img)
-    # img = apply_dilation_erosions(img, kernel_size=2)
     img = denoising(img)
     img = add_white_border(img, bordersize=10)
-    # don't do rotation correction for now, we only use PDFs and not slanted scans
     return img
 
 

@@ -160,6 +160,13 @@ def create_expected_result_get_all_attribute_values_from_text_eng_hunter():
 
 
 @pytest.fixture
+def create_expected_result_get_all_attribute_values_from_text_eng_sikander():
+    expected_result = ["9", "11", "5", "10", "13", "15", "7", "10"]
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
 def create_expected_result_extract_all_attributes_from_text_eng_fairy():
     expected_result = {
         "ACC": "10",
@@ -202,6 +209,22 @@ def create_expected_result_extract_all_attributes_from_text_eng_hunter():
         "RES": "16",
         "STR": "9",
         "VIG": "18",
+    }
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_all_attributes_from_text_eng_sikander():
+    expected_result = {
+        "ACC": "9",
+        "CUN": "11",
+        "DIS": "5",
+        "PER": "10",
+        "QUI": "13",
+        "RES": "15",
+        "STR": "7",
+        "VIG": "10",
     }
     yield expected_result
     del expected_result
@@ -314,6 +337,13 @@ def create_expected_result_extract_all_abilities_from_text_hunter():
 
 
 @pytest.fixture
+def create_expected_result_extract_all_abilities_from_text_sikander():
+    expected_result = {"Brimstone Cascade": "master", "Flame Wall": "master"}
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
 def create_expected_result_extract_tactics_from_text_draghul():
     expected_result = "Der Untote verhält sich gemäß dem Willen seines " +\
                         "Erschaffers oder nach seinem eigenen Willen. " +\
@@ -384,6 +414,22 @@ def create_expected_result_extract_tactics_from_text_hunter():
         "occupied with fighting the death dancers he takes "
         "the opportunity to commence his fight against the "
         "forest goddess."
+    )
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_tactics_from_text_sikander():
+    expected_result = (
+        "Sikander raises a Flame Wall around "
+        "himself and his flaming servant. Anyone ente"
+        "ring through the wall of fire encounters Brand in "
+        "melee while Sikander maneuvers so he can cast a "
+        "chain of Brimstone Cascades at the enemy. He is "
+        "prepared to die for his claim and during the fight "
+        "he accuses the attackers of wanting to steal his "
+        "precious treasure."
     )
     yield expected_result
     del expected_result

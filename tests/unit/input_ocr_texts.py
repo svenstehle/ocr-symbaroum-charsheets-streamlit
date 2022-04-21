@@ -192,3 +192,35 @@ def ocr_text_hunter():
         "forest goddess."
     )
     return text
+
+
+def ocr_text_sikander():
+    text = (
+        "a ITER TET) MS CCT A CH 1\n\n"
+        "Forced speechYquick to anger,\n\n"
+        "ACC | CUN | DIS | PER | QUI | RES | STR | VIG\n"
+        "+1, -1/ +5 | [0 -3 -5|+3 | O\n"
+        "Defense Armor Toughness |Pain Threshold\n"
+        "-3 2 10 4\n"
+        "Weapons Sword 4\n\n"
+        "Accurate\n\n"
+        "Abilities Brimstone Cascade (master), Flame\n\n"
+        "Wall (master),\n"
+        "Traits -\n\n"
+        "Integrated Alchemy (novice), Loremaster (mas-\n"
+        "ter), Ritualist (adept: Clairvoyance,\n"
+        "Flaming Servant, Tale of Ashes),\n"
+        "Wizardry (master) Contacts (Ordo\n\n"
+        "Magica)\n"
+        "Equipment Order Cloak, 1D10 thaler\n"
+        "Shadow Blackened silver (corruption: 5)\n\n"
+        "Tactics: Sikander raises a Flame Wall around\n"
+        "himself and his flaming servant. Anyone ente-\n"
+        "ring through the wall of fire encounters Brand in\n"
+        "melee while Sikander maneuvers so he can cast a\n"
+        "chain of Brimstone Cascades at the enemy. He is\n"
+        "prepared to die for his claim and during the fight\n"
+        "he accuses the attackers of wanting to steal his\n"
+        "precious treasure."
+    )
+    return text
