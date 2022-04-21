@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import extract_all_abilities_from_text_ger
+from src.process_text import GermanExtractor
 
 
 @pytest.mark.parametrize(
@@ -19,5 +19,6 @@ from src.process_text import extract_all_abilities_from_text_ger
     ]
 )
 def test_extract_all_abilities_from_text_ger(ocr_text, expected_result):
-    result = extract_all_abilities_from_text_ger(ocr_text)
+    GE = GermanExtractor(ocr_text)
+    result = GE.extract_all_abilities_from_text_ger()
     assert expected_result == result

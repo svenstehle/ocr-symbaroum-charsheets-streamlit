@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-from ocr import text_detection_and_recognition
+from ocr import perform_ocr
 from process_image import ImageProcessor
 from process_language import detect_languages, language_mapper_for_tesseract
 from process_text import extract_information_from_text
@@ -45,11 +45,11 @@ def main():
         if performed_ocr:
             with st.spinner("Performing OCR on image ..."):
                 lang = "deu+eng"
-                text = text_detection_and_recognition(config.OCRConfig, lang, psm, image)
+                text = perform_ocr(config.OCRConfig, lang, psm, image)
                 languages = detect_languages(text)
                 languages = language_mapper_for_tesseract(languages)
                 if len(languages) == 1:
-                    text = text_detection_and_recognition(config.OCRConfig, languages[0], psm, image)
+                    text = perform_ocr(config.OCRConfig, languages[0], psm, image)
                 st.session_state[config.StreamlitConfig.ocr_cache_key] = text
             display_ocr_output(text)
         elif is_ocr_cache_present(config.StreamlitConfig.ocr_cache_key) and not performed_ocr:

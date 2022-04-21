@@ -3,18 +3,6 @@
 from typing import List
 
 from langdetect import DetectorFactory, detect, detect_langs
-from textblob import TextBlob
-
-
-def translate_text_to(text, to):
-    # translate the text into a different language
-    tb = TextBlob(text)
-    translated = tb.translate(from_lang="de", to=to)
-    # show the translated text
-    print("TRANSLATED")
-    print("==========")
-    print(translated)
-    return translated
 
 
 def detect_language(text: str) -> str:

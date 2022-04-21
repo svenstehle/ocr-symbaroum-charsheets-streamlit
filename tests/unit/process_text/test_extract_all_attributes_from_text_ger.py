@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import extract_all_attributes_from_text_ger
+from src.process_text import GermanExtractor
 
 
 @pytest.mark.parametrize(
@@ -22,5 +22,6 @@ from src.process_text import extract_all_attributes_from_text_ger
     ]
 )
 def test_extract_all_attributes_from_text_ger(ocr_text, attribute_names, expected_result):
-    result = extract_all_attributes_from_text_ger(ocr_text, attribute_names)
+    GE = GermanExtractor(ocr_text)
+    result = GE.extract_all_attributes_from_text_ger(attribute_names)
     assert result == expected_result
