@@ -1,24 +1,28 @@
 #
 # License: APACHE LICENSE, VERSION 2.0
 #
+from typing import Union
+
 import cv2
 import numpy as np
+
 from PIL import Image
+from PIL.PngImagePlugin import PngImageFile
+from PIL.TiffImagePlugin import TiffImageFile
 from skimage import filters
 
 # TODO write tests for all this once it is more stable and not trial & error
+accepted_image_types = Union[PngImageFile, TiffImageFile]
 
 
-def load_image_from_file(uploaded_image: object) -> Image:
+def load_image_from_file(uploaded_image: object) -> accepted_image_types:
     img = Image.open(uploaded_image)
     return img
 
 
-def rescale_img_arr(img: np.ndarray, factor) -> np.ndarray:
+def rescale_img_arr(img: accepted_image_types, factor) -> np.ndarray:
     img = np.asarray(img)
-    assert isinstance(img, np.ndarray)
     if factor > 1.0:
-        # try INTER_LANCZOS4, INTER_LINEAR, INTER_CUBIC, INTER_AREA both for up and downsampling
         img = cv2.resize(img, None, fx=factor, fy=factor, interpolation=cv2.INTER_LANCZOS4)
     elif factor < 1.0:
         img = cv2.resize(img, None, fx=factor, fy=factor, interpolation=cv2.INTER_LANCZOS4)
@@ -52,7 +56,7 @@ def add_white_border(img, bordersize=10):
 
 
 # test all this with the new images
-def preprocess_image(img: np.ndarray, factor: float) -> np.ndarray:
+def preprocess_image(img: accepted_image_types, factor: float) -> np.ndarray:
     # don't do rotation correction for now, we only use PDFs and not slanted scans
     img = rescale_img_arr(img, factor)
     img = convert_to_grayscale(img)
