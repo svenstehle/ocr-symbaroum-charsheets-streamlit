@@ -2,8 +2,8 @@
 # OCRConfig
 ####
 
-image: images/hunter.png
-# image: images/draghul.png
+image: images/hunter.tiff
+# image: images/draghul.tiff
 save_path: runs
 supported_image_types: ["png", "tiff"]
 attribute_names_ger: ["Aufmerksamkeit", "Ausstrahlung", "Gewandtheit", "Heimlichkeit", "Präzision", "Scharfsinn", "Stärke", "Willenskraft"]

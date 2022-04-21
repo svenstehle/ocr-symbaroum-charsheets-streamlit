@@ -3,7 +3,7 @@
 import streamlit as st
 
 from ocr import text_detection_and_recognition
-from process_image import get_image_as_rgb_array_from_file
+from process_image import ImageProcessor
 from process_language import detect_languages, language_mapper_for_tesseract
 from process_text import extract_information_from_text
 from spock_config import load_configuration
@@ -28,7 +28,9 @@ def main():
     image_file = setup_image_selection(config)
     factor = get_rescale_factor()
     if image_file is not None:
-        image = get_image_as_rgb_array_from_file(image_file, factor)
+        IP = ImageProcessor(factor)
+        IP.get_processed_image(image_file)
+        image = IP.img
         display_selected_image(image)
         st.info(config.StreamlitConfig.success_response)
     else:

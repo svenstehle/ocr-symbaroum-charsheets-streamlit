@@ -1,15 +1,16 @@
 import pytest
 from spock import SpockBuilder
-from src.process_image import get_image_as_rgb_array_from_file
+from src.process_image import ImageProcessor
 from src.spock_config import ExtractionConfig, OCRConfig
 
 
 @pytest.fixture(scope="session")
 def prep_ocr_image():
     image_path = "tests/unit/ocr/easy_img.png"
-    image = get_image_as_rgb_array_from_file(image_path, factor=1.0)
-    yield image
-    del image
+    IP = ImageProcessor()
+    IP.get_processed_image(image_path)
+    yield IP.img
+    del IP
 
 
 @pytest.fixture(scope="session")
