@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import TextProcessor
+from src.process_text import InformationExtractor
 
 
 @pytest.mark.parametrize(
@@ -42,6 +42,6 @@ from src.process_text import TextProcessor
     ]
 )
 def test_extract_tactics_from_text(ocr_text, tactics_str, expected_result):
-    TP = TextProcessor(ocr_text)
-    TP.extract_tactics_from_text(tactics_str)
-    assert expected_result == TP.tactics
+    IE = InformationExtractor(ocr_text)
+    assert expected_result == IE.extract_tactics_from_text(tactics_str)
+    assert expected_result == IE.tactics

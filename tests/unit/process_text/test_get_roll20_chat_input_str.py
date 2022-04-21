@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import TextProcessor
+from src.process_text import InformationExtractor, TextProcessor
 
 
 @pytest.mark.parametrize(
@@ -31,13 +31,15 @@ from src.process_text import TextProcessor
     ]
 )
 def test_get_roll20_chat_input_str(charname, ocr_text, attributes, expected_result):
-    TP = TextProcessor(ocr_text)
-    result = TP.get_roll20_chat_input_str(charname, attributes)
+    IE = InformationExtractor(ocr_text)
+    result = IE.get_roll20_chat_input_str(charname, attributes)
     assert expected_result == result
+    assert expected_result == IE.setattr_str
 
 
 def test_get_roll20_chat_input_str_not_supported_language(prep_get_roll20_chat_input_str_not_supported_language):
     text, charname, attributes = prep_get_roll20_chat_input_str_not_supported_language
     TP = TextProcessor(text)
+    IE = InformationExtractor(TP.preprocess_text())
     with pytest.raises(ValueError):
-        TP.get_roll20_chat_input_str(charname, attributes)
+        IE.get_roll20_chat_input_str(charname, attributes)

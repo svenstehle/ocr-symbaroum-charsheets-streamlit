@@ -8,10 +8,8 @@ from process_language import detect_language
 class TextProcessor:
     def __init__(self, text):
         self.text = text
-        self.preprocess_text()
-        self.tactics = None
 
-    def preprocess_text(self) -> None:
+    def preprocess_text(self) -> str:
         replacements = [
             ("=", "-"),    # replace equal sign with dash
             (" -\n\n", " - "),    # keep single dash that is NOT a line continuation
@@ -25,59 +23,7 @@ class TextProcessor:
         for key, rep in replacements:
             self.text = self.text.replace(key, rep)
         self.text = self.text.strip()
-
-    @property
-    def lang(self) -> str:
-        return detect_language(self.text)
-
-    def extract_tactics_from_text(self, tactics_str: str) -> str:
-        length = len(tactics_str)
-        tactics_start_loc = self.text.find(tactics_str) + length + 1
-        tactics = self.text[tactics_start_loc:]
-        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
-        self.tactics = " ".join(tactics)
-        return self.tactics
-
-    @staticmethod
-    def get_toughness(attributes: Dict[str, str]) -> int:
-        strength_key = "STR" if "STR" in attributes else "Stärke"
-        strong = int(attributes[strength_key])
-        return max((strong, 10))
-
-    def get_roll20_chat_input_str(self, charname: str, attributes: Dict[str, str]) -> str:
-        if self.lang == "de":
-            mapping = {
-                "strong": "Stärke",
-                "quick": "Gewandtheit",
-                "vigilant": "Aufmerksamkeit",
-                "resolute": "Willenskraft",
-                "persuasive": "Ausstrahlung",
-                "cunning": "Scharfsinn",
-                "discreet": "Heimlichkeit",
-                "accurate": "Präzision"
-            }
-        elif self.lang == "en":
-            mapping = {
-                "strong": "STR",
-                "quick": "QUI",
-                "vigilant": "VIG",
-                "resolute": "RES",
-                "persuasive": "PER",
-                "cunning": "CUN",
-                "discreet": "DIS",
-                "accurate": "ACC"
-            }
-        else:
-            raise ValueError(f"Language {self.lang} not supported.")
-
-        basic_string = f"!setattr --name {charname}"
-
-        att_string = ""
-        for key, value in mapping.items():
-            att_string += f" --{key}|{attributes[value]}"
-
-        toughness_string = f" --toughness|{TextProcessor.get_toughness(attributes)}"
-        return basic_string + att_string + toughness_string
+        return self.text
 
 
 class GermanExtractor:
@@ -113,30 +59,87 @@ class GermanExtractor:
         return all_abilities
 
 
-# class InformationExtractor:
-#     def __init__(self, text: str):
-#         self.text = text
+class InformationExtractor:
+    def __init__(self, text: str):
+        self.text = text
+        self.abilities = {"Abilities not found in text": "Zero"}
+        self.attributes = {"Attributes not found in text": "Zero"}
+        self.setattr_str: str = ""
+        self.tactics: str = ""
 
-#     def extract_information_from_text(
-#         self,
-#         text: str,
-#         attribute_names_ger: List[str],
-#         attribute_names_eng: List[str],
-#         charname: str,
-#     ) -> Dict[str, Union[str, Dict[str, str]]]:
-#         lang = detect_language(text)
-#         if lang == "de":
-#             return self.extract_information_from_ger_text(text, attribute_names_ger, charname)
-#         if lang == "en":
-#             return extract_information_from_text_eng(text, attribute_names_eng, charname)
-#         raise ValueError(f"Detected language {lang} not supported")
+    @property
+    def lang(self) -> str:
+        return detect_language(self.text)
 
-#     def extract_information_from_ger_text(self, charname: str, attribute_names: List[str]) -> None:
-#         GE = GermanExtractor(self.text)
-#         abilities = GE.extract_all_abilities_from_text_ger()
-#         attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
-#         tactics = self.extract_tactics_from_text("Taktik:")
-#         setattr_str = self.get_roll20_chat_input_str(charname, attributes)
+    def extract_information_from_text(
+        self,
+        attribute_names_ger: List[str],
+        attribute_names_eng: List[str],
+        charname: str,
+    ) -> Dict[str, Union[str, Dict[str, str]]]:
+        if self.lang == "de":
+            return self.extract_information_from_ger_text(charname, attribute_names_ger)
+        if self.lang == "en":
+            return extract_information_from_text_eng(self.text, attribute_names_eng, charname)
+        raise ValueError(f"Detected language {self.lang} not supported")
+
+    def extract_information_from_ger_text(self, charname: str, attribute_names: List[str]):
+        self.text = TextProcessor(self.text).preprocess_text()
+        GE = GermanExtractor(self.text)
+        self.abilities = GE.extract_all_abilities_from_text_ger()
+        self.attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
+        self.tactics = self.extract_tactics_from_text("Taktik:")
+        self.setattr_str = self.get_roll20_chat_input_str(charname, self.attributes)
+
+    def get_roll20_chat_input_str(self, charname: str, attributes: Dict[str, str]) -> str:
+        if self.lang == "de":
+            mapping = {
+                "strong": "Stärke",
+                "quick": "Gewandtheit",
+                "vigilant": "Aufmerksamkeit",
+                "resolute": "Willenskraft",
+                "persuasive": "Ausstrahlung",
+                "cunning": "Scharfsinn",
+                "discreet": "Heimlichkeit",
+                "accurate": "Präzision"
+            }
+        elif self.lang == "en":
+            mapping = {
+                "strong": "STR",
+                "quick": "QUI",
+                "vigilant": "VIG",
+                "resolute": "RES",
+                "persuasive": "PER",
+                "cunning": "CUN",
+                "discreet": "DIS",
+                "accurate": "ACC"
+            }
+        else:
+            raise ValueError(f"Language {self.lang} not supported.")
+
+        basic_string = f"!setattr --name {charname}"
+
+        att_string = ""
+        for key, value in mapping.items():
+            att_string += f" --{key}|{attributes[value]}"
+
+        toughness_string = f" --toughness|{self.get_toughness(attributes)}"
+        self.setattr_str = basic_string + att_string + toughness_string
+        return self.setattr_str
+
+    def extract_tactics_from_text(self, tactics_str: str) -> str:
+        length = len(tactics_str)
+        tactics_start_loc = self.text.find(tactics_str) + length + 1
+        tactics = self.text[tactics_start_loc:]
+        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
+        self.tactics = " ".join(tactics)
+        return self.tactics
+
+    @staticmethod
+    def get_toughness(attributes: Dict[str, str]) -> int:
+        strength_key = "STR" if "STR" in attributes else "Stärke"
+        strong = int(attributes[strength_key])
+        return max((strong, 10))
 
 
 def extract_information_from_text_ger(
@@ -145,14 +148,14 @@ def extract_information_from_text_ger(
     charname: str,
 ) -> Dict[str, Union[str, Dict[str, str]]]:
     TP = TextProcessor(text)
-    processed_text = TP.text
+    processed_text = TP.preprocess_text()
     information: Dict[str, Union[str, Dict[str, str]]] = {}
     GE = GermanExtractor(processed_text)
     information["abilities"] = GE.extract_all_abilities_from_text_ger()
     attributes = GE.extract_all_attributes_from_text_ger(attribute_names_ger)
-    TP.extract_tactics_from_text("Taktik:")
-    information["tactics"] = TP.tactics
-    information["setattr_str"] = TP.get_roll20_chat_input_str(charname, attributes)
+    IE = InformationExtractor(processed_text)
+    information["tactics"] = IE.extract_tactics_from_text("Taktik:")
+    information["setattr_str"] = IE.get_roll20_chat_input_str(charname, attributes)
     return information
 
 
@@ -222,13 +225,14 @@ def extract_information_from_text_eng(
     charname: str,
 ) -> Dict[str, Union[str, Dict[str, str]]]:
     TP = TextProcessor(text)
-    text = TP.text
+    processed_text = TP.preprocess_text()
     information: Dict[str, Union[str, Dict[str, str]]] = {}
-    information["abilities"] = extract_all_abilities_from_text_eng(text)
-    TP.extract_tactics_from_text("Tactics:")
-    information["tactics"] = TP.tactics
-    attributes = extract_all_attributes_from_text_eng(text, attribute_names_eng)
-    information["setattr_str"] = TP.get_roll20_chat_input_str(charname, attributes)
+    information["abilities"] = extract_all_abilities_from_text_eng(processed_text)
+    IE = InformationExtractor(processed_text)
+    tactics = IE.extract_tactics_from_text("Tactics:")
+    information["tactics"] = tactics
+    attributes = extract_all_attributes_from_text_eng(processed_text, attribute_names_eng)
+    information["setattr_str"] = IE.get_roll20_chat_input_str(charname, attributes)
     return information
 
 
