@@ -24,7 +24,7 @@ class OCRConfig:
 
     image: str
     save_path: SavePath
-    debug_lang: Optional[str] = "deu"
+    debug_lang: Optional[str] = "eng"
     to: Optional[str] = "en"
     debug_psm: Optional[int] = 4
     oem: Optional[int] = 3

@@ -59,16 +59,26 @@ After successful setup, you can then process your images, e.g. from a symbaroum 
 python src/main.py --OCRConfig.image images/draghul.png
 ```
 
-The `--lang` parameter of `pytesseract` specifies the input language. The default is `deu` for German.
+The `--lang` parameter of `pytesseract` specifies the input language. In the app, the default is `deu+eng` for German and English during the language detection run. In a subsequent OCR run the detected language from the first run will be used. In the OCR-only part in `main.py`, the default is `eng` for English.
 
 The default option for `--psm` is `4`, which corresponds to `Assume a single column of text of variable sizes.`
 You can also specify the OCR engine mode with `--oem`. Default is `1`, which corresponds to `Neural Nets and LSTM engine only`.
+
+The `tessedit_char_whitelist` parameter of `tesseract` specifies the characters to be recognized. In the app, the whitelist characters can be passed to `pytesseract` with the `config` parameter and the syntax used in tesseract itself: `-c tessedit_char_whitelist="ABCDEFGHIJKLMNOPQRSTUVWXYZÄÜÖ   äöüabcdefghijklmnopqrstuvwxyz/|(+)-.,: 0123456789"`
+
+Take care to notice the quotation marks around the whitelist string and the whitespaces inside the string. These are both necessary to tell `pytesseract` to also find whitespaces and output them. Otherwise it will output a string without any whitespaces.
 
 You can read up on possible fine-tuning options on [this page](https://ai-facets.org/tesseract-ocr-best-practices/).
 
 ## Run the tests
 
-The tests can be run with
+Take care to set the `PYTHONPATH` like this
+
+```bash
+export PYTHONPATH=./src
+```
+
+to run tests from root with
 
 ```bash
 pytest tests
