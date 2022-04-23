@@ -7,7 +7,6 @@ from spock.backend.wrappers import Spockspace
 from process_language import detect_language
 
 #TODO add docstrings, maybe with extension?
-#TODO add mypy correctly
 
 
 class TextProcessor:
@@ -31,7 +30,6 @@ class TextProcessor:
         return self.text
 
 
-# refactor the class to increase cohesion across methods
 class InformationExtractor:
     def __init__(self, text: str):
         self.text = text
@@ -76,7 +74,7 @@ class InformationExtractor:
         self._abilities = GE.extract_all_abilities_from_text_ger()
         self._attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
         self.extract_tactics_from_text("Taktik:")
-        self.get_roll20_chat_input_str(charname, self.attributes)
+        self.get_roll20_chat_input_str(charname)
 
     def extract_information_from_eng_text(self, charname: str, attribute_names: List[str]) -> None:
         self.text = TextProcessor(self.text).preprocess_text()
@@ -84,9 +82,9 @@ class InformationExtractor:
         self._abilities = EE.extract_all_abilities_from_text_eng()
         self._attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
         self.extract_tactics_from_text("Tactics:")
-        self.get_roll20_chat_input_str(charname, self.attributes)
+        self.get_roll20_chat_input_str(charname)
 
-    def get_roll20_chat_input_str(self, charname: str, attributes: Dict[str, str]) -> None:
+    def get_roll20_chat_input_str(self, charname: str) -> None:
         if self.lang == "de":
             mapping = {
                 "strong": "Stärke",
@@ -116,9 +114,9 @@ class InformationExtractor:
 
         att_string = ""
         for key, value in mapping.items():
-            att_string += f" --{key}|{attributes[value]}"
+            att_string += f" --{key}|{self.attributes[value]}"
 
-        toughness_string = f" --toughness|{self.get_toughness(attributes)}"
+        toughness_string = f" --toughness|{self.get_toughness(self.attributes)}"
         self._setattr_str = basic_string + att_string + toughness_string
 
     def extract_tactics_from_text(self, tactics_str: str) -> None:

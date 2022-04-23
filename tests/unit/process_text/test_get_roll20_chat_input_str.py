@@ -32,7 +32,8 @@ from src.process_text import InformationExtractor, TextProcessor
 )
 def test_get_roll20_chat_input_str(charname, ocr_text, attributes, expected_result):
     IE = InformationExtractor(ocr_text)
-    IE.get_roll20_chat_input_str(charname, attributes)
+    IE._attributes = attributes    # pylint: disable=protected-access
+    IE.get_roll20_chat_input_str(charname)
     assert expected_result == IE.setattr_str
 
 
@@ -40,5 +41,6 @@ def test_get_roll20_chat_input_str_not_supported_language(prep_get_roll20_chat_i
     text, charname, attributes = prep_get_roll20_chat_input_str_not_supported_language
     TP = TextProcessor(text)
     IE = InformationExtractor(TP.preprocess_text())
+    IE._attributes = attributes    # pylint: disable=protected-access
     with pytest.raises(ValueError):
-        IE.get_roll20_chat_input_str(charname, attributes)
+        IE.get_roll20_chat_input_str(charname)
