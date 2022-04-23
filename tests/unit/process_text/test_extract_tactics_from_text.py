@@ -43,5 +43,5 @@ from src.process_text import InformationExtractor
 )
 def test_extract_tactics_from_text(ocr_text, tactics_str, expected_result):
     IE = InformationExtractor(ocr_text)
-    assert expected_result == IE.extract_tactics_from_text(tactics_str)
+    IE.extract_tactics_from_text(tactics_str)
     assert expected_result == IE.tactics
