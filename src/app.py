@@ -5,7 +5,7 @@ import streamlit as st
 from ocr import perform_ocr
 from process_image import ImageProcessor
 from process_language import detect_languages, language_mapper_for_tesseract
-from process_text import extract_information_from_text
+from process_text import InformationExtractor
 from spock_config import load_configuration
 from streamlit_helper import (
     display_abilities, display_charname_info, display_information_extraction_exception, display_ocr_output,
@@ -69,20 +69,22 @@ def main():
                 )
                 if button_clicked:
                     try:
-                        information = extract_information_from_text(
-                            text,
+                        IE = InformationExtractor(text)
+                        IE.extract_information_from_text(
+                        # TODO move attributes to one config object and handle inside functions
+                            charname,
                             config.ExtractionConfig.attribute_names_ger,
                             config.ExtractionConfig.attribute_names_eng,
-                            charname,
                         )
                     except (IndexError, ValueError, KeyError) as e:
                         display_information_extraction_exception(e)
                     else:
                         st.subheader("Roll20 !setattr chat string")
                         display_charname_info(charname)
-                        st.code(information["setattr_str"])
-                        display_tactics(information["tactics"])
-                        display_abilities(information["abilities"])
+                        #TODO implement getters so we dont expose object attributes
+                        st.code(IE.setattr_str)
+                        display_tactics(IE.tactics)
+                        display_abilities(IE.abilities)
                 else:
                     st.info("Click the button to create the chat string with provided character name")
 

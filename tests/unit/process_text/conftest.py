@@ -471,7 +471,7 @@ def prep_get_toughness(request):
 
 
 @pytest.fixture
-def create_expected_result_extract_information_from_text_ger():
+def create_expected_result_extract_information_from_text():
     expected_result = {"abilities": {"skillname": "level"}, "tactics": "tactic_str", "setattr_str": "setattr_str"}
     yield expected_result
     del expected_result
@@ -479,27 +479,10 @@ def create_expected_result_extract_information_from_text_ger():
 
 @pytest.fixture
 def prep_get_roll20_chat_input_str_not_supported_language(
-    create_expected_result_extract_all_attributes_from_text_eng_fairy
+    prep_ocr_text_unknown_language, create_expected_result_extract_all_attributes_from_text_eng_fairy
 ):
     charname = "Julie"
     attributes = create_expected_result_extract_all_attributes_from_text_eng_fairy
-    text = """Serveur : bonsoir, madame, en quoi puis-je vous aider ?
-    Julie : bonsoir, J’ai une réservation pour 21h au nom de Smith.
-    Serveur : une table pour quatre, n'est-ce pas ? Je crains que la table ne soit pas encore disponible. Si vous voulez attendre au bar, on vous appellera quand ce sera prêt.
-
-    30 minutes plus tard
-
-    Julie : excusez-moi, ça fait 30 minutes qu'on attend notre table. Ça va durer encore longtemps ?
-    Serveur : désolé pour le retard, nous sommes très occupés ce soir. Je vais aller vérifier.
-
-    2 minutes plus tard
-
-    Serveur : votre table est prête maintenant. Si vous voulez venir avec moi, je vous montrerai votre table.
-    Andrew : mon Dieu, les gens à la table à côté de la nôtre crient. Je m'entends à peine penser !
-    Julie : ils parlent très fort. Je vais m'en occuper. Je vais parler au serveur et voir si on peut déplacer les tables. Excusez-moi, serait-il possible de changer de table ?
-    Serveur : y a-t-il un problème avec votre table ?
-    Julie : pas avec la table, mais avec ceux de la table d'à côté ; ils parlent très fort.
-    Serveur : je vais leur demander de se calmer, pour que vous puissiez profiter de votre repas dans le calme.
-    Julie : merci bien."""
+    text = prep_ocr_text_unknown_language
     yield text, charname, attributes
     del text, charname, attributes

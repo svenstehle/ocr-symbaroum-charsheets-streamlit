@@ -40,22 +40,31 @@ class InformationExtractor:
 
     def extract_information_from_text(
         self,
+        charname: str,
         attribute_names_ger: List[str],
         attribute_names_eng: List[str],
-        charname: str,
-    ) -> Dict[str, Union[str, Dict[str, str]]]:
+    ) -> None:
         if self.lang == "de":
-            return self.extract_information_from_ger_text(charname, attribute_names_ger)
-        if self.lang == "en":
-            return extract_information_from_text_eng(self.text, attribute_names_eng, charname)
-        raise ValueError(f"Detected language {self.lang} not supported")
+            self.extract_information_from_ger_text(charname, attribute_names_ger)
+        elif self.lang == "en":
+            self.extract_information_from_eng_text(charname, attribute_names_eng)
+        else:
+            raise ValueError(f"Detected language {self.lang} not supported")
 
-    def extract_information_from_ger_text(self, charname: str, attribute_names: List[str]):
+    def extract_information_from_ger_text(self, charname: str, attribute_names: List[str]) -> None:
         self.text = TextProcessor(self.text).preprocess_text()
         GE = GermanExtractor(self.text)
         self.abilities = GE.extract_all_abilities_from_text_ger()
         self.attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
         self.tactics = self.extract_tactics_from_text("Taktik:")
+        self.setattr_str = self.get_roll20_chat_input_str(charname, self.attributes)
+
+    def extract_information_from_eng_text(self, charname: str, attribute_names: List[str]) -> None:
+        self.text = TextProcessor(self.text).preprocess_text()
+        EE = EnglishExtractor(self.text)
+        self.abilities = EE.extract_all_abilities_from_text_eng()
+        self.attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
+        self.tactics = self.extract_tactics_from_text("Tactics:")
         self.setattr_str = self.get_roll20_chat_input_str(charname, self.attributes)
 
     def get_roll20_chat_input_str(self, charname: str, attributes: Dict[str, str]) -> str:
@@ -202,6 +211,9 @@ class EnglishExtractor:
         all_abilities = [a.strip() for a in all_abilities.split(",")]
         all_abilities = {a.split("(")[0].strip(): a.split("(")[1].strip(") ") for a in all_abilities}
         return all_abilities
+
+
+# rework and delete this and tests / fixtures
 
 
 def extract_information_from_text_ger(
