@@ -158,7 +158,7 @@ def ocr_text_hunter():
         "Elf (winter elf), Mighty resistance\n"
         "Careless and playful even in the midst of carnage\n\n"
         "ACC CUN DIS PER QUI RES STR VIG\n"
-        "“+5 ,“0[ |©, []43 [”-1 \\-6 (+1 -8\n\n"
+        "“+5 ,“0[ |©, []43 [”-1 \\-6 (4+1 -8\n\n"
         "Defense Armor Toughness Pain Threshold\n\n"
         "-8 - 10 5\n\n"
         "Weapons Longbow 5 (precise). +3 on Beasts\n"

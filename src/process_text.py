@@ -210,6 +210,8 @@ class EnglishExtractor:
                 v = v.replace("4", "+")
             elif len(v) == 3 and v.startswith("+4") and v[1:].isdigit():
                 v = v.replace("+4", "+")
+            elif len(v) == 3 and v.startswith("4+") and v[2].isdigit():
+                v = v.replace("4+", "+")
             att_values_clean.append(v)
         att_values_clean = [str((10 - int(v))) for v in att_values_clean]
         return att_values_clean
