@@ -30,5 +30,5 @@ repos:
     rev: v0.920
     hooks:
      -  id: mypy
-        files: sklearn/
+        files: src/
         additional_dependencies: [pytest==7.1.1]
