@@ -38,10 +38,12 @@ class InformationExtractor:
         self.attributes = {"Attributes not found in text": "Zero"}
         self.setattr_str: str = ""
         self.tactics: str = ""
+        self._lang: str = ""
 
     @property
     def lang(self) -> str:
-        return detect_language(self.text)
+        self._lang = detect_language(self.text)
+        return self._lang
 
     @property
     def abilities(self) -> Dict[str, str]:
