@@ -1,6 +1,6 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
-from typing import Dict, List, Union
+from typing import Dict, List
 
 from process_language import detect_language
 
@@ -211,55 +211,3 @@ class EnglishExtractor:
         all_abilities = [a.strip() for a in all_abilities.split(",")]
         all_abilities = {a.split("(")[0].strip(): a.split("(")[1].strip(") ") for a in all_abilities}
         return all_abilities
-
-
-# rework and delete this and tests / fixtures
-
-
-def extract_information_from_text_ger(
-    text: str,
-    attribute_names_ger: List[str],
-    charname: str,
-) -> Dict[str, Union[str, Dict[str, str]]]:
-    TP = TextProcessor(text)
-    processed_text = TP.preprocess_text()
-    information: Dict[str, Union[str, Dict[str, str]]] = {}
-    GE = GermanExtractor(processed_text)
-    information["abilities"] = GE.extract_all_abilities_from_text_ger()
-    attributes = GE.extract_all_attributes_from_text_ger(attribute_names_ger)
-    IE = InformationExtractor(processed_text)
-    information["tactics"] = IE.extract_tactics_from_text("Taktik:")
-    information["setattr_str"] = IE.get_roll20_chat_input_str(charname, attributes)
-    return information
-
-
-def extract_information_from_text_eng(
-    text: str,
-    attribute_names_eng: List[str],
-    charname: str,
-) -> Dict[str, Union[str, Dict[str, str]]]:
-    TP = TextProcessor(text)
-    processed_text = TP.preprocess_text()
-    information: Dict[str, Union[str, Dict[str, str]]] = {}
-    IE = InformationExtractor(processed_text)
-    tactics = IE.extract_tactics_from_text("Tactics:")
-    information["tactics"] = tactics
-    EE = EnglishExtractor(processed_text)
-    information["abilities"] = EE.extract_all_abilities_from_text_eng()
-    attributes = EE.extract_all_attributes_from_text_eng(attribute_names_eng)
-    information["setattr_str"] = IE.get_roll20_chat_input_str(charname, attributes)
-    return information
-
-
-def extract_information_from_text(
-    text: str,
-    attribute_names_ger: List[str],
-    attribute_names_eng: List[str],
-    charname: str,
-) -> Dict[str, Union[str, Dict[str, str]]]:
-    lang = detect_language(text)
-    if lang == "de":
-        return extract_information_from_text_ger(text, attribute_names_ger, charname)
-    if lang == "en":
-        return extract_information_from_text_eng(text, attribute_names_eng, charname)
-    raise ValueError(f"Detected language {lang} not supported")
