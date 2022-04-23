@@ -13,7 +13,7 @@ def get_rescale_factor():
             label="Change if OCR results are poor.",
             min_value=0.5,
             max_value=3.0,
-            value=1.25,
+            value=1.0,
             step=0.25,
         )
     return rescale_factor
