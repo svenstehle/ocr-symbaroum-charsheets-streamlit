@@ -31,11 +31,12 @@ class TextProcessor:
         return self.text
 
 
+# refactor the class to increase cohesion across methods
 class InformationExtractor:
     def __init__(self, text: str):
         self.text = text
         self._abilities = {"Abilities not found in text": "Zero"}
-        self.attributes = {"Attributes not found in text": "Zero"}
+        self._attributes = {"Attributes not found in text": "Zero"}
         self.setattr_str: str = ""
         self.tactics: str = ""
         self._lang: str = ""
@@ -49,7 +50,10 @@ class InformationExtractor:
     def abilities(self) -> Dict[str, str]:
         return self._abilities
 
-    # TODO find out spock-config type
+    @property
+    def attributes(self) -> Dict[str, str]:
+        return self._attributes
+
     def extract_information_from_text(self, charname: str, config: Spockspace) -> None:
         if self.lang == "de":
             self.extract_information_from_ger_text(charname, config.ExtractionConfig.attribute_names_ger)
@@ -62,7 +66,7 @@ class InformationExtractor:
         self.text = TextProcessor(self.text).preprocess_text()
         GE = GermanExtractor(self.text)
         self._abilities = GE.extract_all_abilities_from_text_ger()
-        self.attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
+        self._attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
         self.tactics = self.extract_tactics_from_text("Taktik:")
         self.setattr_str = self.get_roll20_chat_input_str(charname, self.attributes)
 
@@ -70,7 +74,7 @@ class InformationExtractor:
         self.text = TextProcessor(self.text).preprocess_text()
         EE = EnglishExtractor(self.text)
         self._abilities = EE.extract_all_abilities_from_text_eng()
-        self.attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
+        self._attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
         self.tactics = self.extract_tactics_from_text("Tactics:")
         self.setattr_str = self.get_roll20_chat_input_str(charname, self.attributes)
 
