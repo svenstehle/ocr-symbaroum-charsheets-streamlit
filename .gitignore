@@ -11,3 +11,6 @@ images/*
 
 # spock config run info
 runs
+
+# vscode
+.vscode

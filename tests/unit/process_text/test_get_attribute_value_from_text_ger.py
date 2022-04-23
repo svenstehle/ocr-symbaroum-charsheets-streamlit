@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import get_attribute_value_from_text
+from src.process_text import GermanExtractor
 
 
 @pytest.mark.parametrize(
@@ -18,6 +18,7 @@ from src.process_text import get_attribute_value_from_text
         )
     ]
 )
-def test_get_attribute_value_from_text(ocr_text, attribute_result_pair):
+def test_get_attribute_value_from_text_ger(ocr_text, attribute_result_pair):
+    GE = GermanExtractor(ocr_text)
     target_attribute, expected_result = attribute_result_pair
-    assert get_attribute_value_from_text(ocr_text, target_attribute) == expected_result
+    assert GE.get_attribute_value_from_text_ger(target_attribute) == expected_result
