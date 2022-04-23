@@ -2,7 +2,12 @@
 #
 from typing import Dict, List
 
+from spock.backend.wrappers import Spockspace
+
 from process_language import detect_language
+
+#TODO add docstrings, maybe with extension?
+#TODO add mypy correctly
 
 
 class TextProcessor:
@@ -29,7 +34,7 @@ class TextProcessor:
 class InformationExtractor:
     def __init__(self, text: str):
         self.text = text
-        self.abilities = {"Abilities not found in text": "Zero"}
+        self._abilities = {"Abilities not found in text": "Zero"}
         self.attributes = {"Attributes not found in text": "Zero"}
         self.setattr_str: str = ""
         self.tactics: str = ""
@@ -38,8 +43,12 @@ class InformationExtractor:
     def lang(self) -> str:
         return detect_language(self.text)
 
+    @property
+    def abilities(self) -> Dict[str, str]:
+        return self._abilities
+
     # TODO find out spock-config type
-    def extract_information_from_text(self, charname: str, config: object) -> None:
+    def extract_information_from_text(self, charname: str, config: Spockspace) -> None:
         if self.lang == "de":
             self.extract_information_from_ger_text(charname, config.ExtractionConfig.attribute_names_ger)
         elif self.lang == "en":
@@ -50,7 +59,7 @@ class InformationExtractor:
     def extract_information_from_ger_text(self, charname: str, attribute_names: List[str]) -> None:
         self.text = TextProcessor(self.text).preprocess_text()
         GE = GermanExtractor(self.text)
-        self.abilities = GE.extract_all_abilities_from_text_ger()
+        self._abilities = GE.extract_all_abilities_from_text_ger()
         self.attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
         self.tactics = self.extract_tactics_from_text("Taktik:")
         self.setattr_str = self.get_roll20_chat_input_str(charname, self.attributes)
@@ -58,7 +67,7 @@ class InformationExtractor:
     def extract_information_from_eng_text(self, charname: str, attribute_names: List[str]) -> None:
         self.text = TextProcessor(self.text).preprocess_text()
         EE = EnglishExtractor(self.text)
-        self.abilities = EE.extract_all_abilities_from_text_eng()
+        self._abilities = EE.extract_all_abilities_from_text_eng()
         self.attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
         self.tactics = self.extract_tactics_from_text("Tactics:")
         self.setattr_str = self.get_roll20_chat_input_str(charname, self.attributes)
