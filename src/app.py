@@ -70,12 +70,7 @@ def main():
                 if button_clicked:
                     try:
                         IE = InformationExtractor(text)
-                        IE.extract_information_from_text(
-                        # TODO move attributes to one config object and handle inside functions
-                            charname,
-                            config.ExtractionConfig.attribute_names_ger,
-                            config.ExtractionConfig.attribute_names_eng,
-                        )
+                        IE.extract_information_from_text(charname, config)
                     except (IndexError, ValueError, KeyError) as e:
                         display_information_extraction_exception(e)
                     else:

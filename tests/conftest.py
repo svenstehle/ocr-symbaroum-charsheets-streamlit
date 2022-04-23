@@ -22,6 +22,5 @@ def prep_spock_config():
         no_cmd_line=True,
         configs=['tests/testing_config.yaml'],
     ).generate()
-    ocr_cfg = config.OCRConfig
-    yield ocr_cfg
-    del ocr_cfg
+    yield config
+    del config
