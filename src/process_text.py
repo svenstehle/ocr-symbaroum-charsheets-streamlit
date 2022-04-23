@@ -38,7 +38,7 @@ class InformationExtractor:
         self._abilities = {"Abilities not found in text": "Zero"}
         self._attributes = {"Attributes not found in text": "Zero"}
         self._tactics: str = ""
-        self.setattr_str: str = ""
+        self._setattr_str: str = ""
         self._lang: str = ""
 
     @property
@@ -58,6 +58,10 @@ class InformationExtractor:
     def tactics(self) -> str:
         return self._tactics
 
+    @property
+    def setattr_str(self) -> str:
+        return self._setattr_str
+
     def extract_information_from_text(self, charname: str, config: Spockspace) -> None:
         if self.lang == "de":
             self.extract_information_from_ger_text(charname, config.ExtractionConfig.attribute_names_ger)
@@ -72,7 +76,7 @@ class InformationExtractor:
         self._abilities = GE.extract_all_abilities_from_text_ger()
         self._attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
         self.extract_tactics_from_text("Taktik:")
-        self.setattr_str = self.get_roll20_chat_input_str(charname, self.attributes)
+        self.get_roll20_chat_input_str(charname, self.attributes)
 
     def extract_information_from_eng_text(self, charname: str, attribute_names: List[str]) -> None:
         self.text = TextProcessor(self.text).preprocess_text()
@@ -80,9 +84,9 @@ class InformationExtractor:
         self._abilities = EE.extract_all_abilities_from_text_eng()
         self._attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
         self.extract_tactics_from_text("Tactics:")
-        self.setattr_str = self.get_roll20_chat_input_str(charname, self.attributes)
+        self.get_roll20_chat_input_str(charname, self.attributes)
 
-    def get_roll20_chat_input_str(self, charname: str, attributes: Dict[str, str]) -> str:
+    def get_roll20_chat_input_str(self, charname: str, attributes: Dict[str, str]) -> None:
         if self.lang == "de":
             mapping = {
                 "strong": "Stärke",
@@ -115,10 +119,9 @@ class InformationExtractor:
             att_string += f" --{key}|{attributes[value]}"
 
         toughness_string = f" --toughness|{self.get_toughness(attributes)}"
-        self.setattr_str = basic_string + att_string + toughness_string
-        return self.setattr_str
+        self._setattr_str = basic_string + att_string + toughness_string
 
-    def extract_tactics_from_text(self, tactics_str: str):
+    def extract_tactics_from_text(self, tactics_str: str) -> None:
         length = len(tactics_str)
         tactics_start_loc = self.text.find(tactics_str) + length + 1
         tactics = self.text[tactics_start_loc:]

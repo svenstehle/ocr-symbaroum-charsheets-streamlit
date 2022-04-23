@@ -32,8 +32,7 @@ from src.process_text import InformationExtractor, TextProcessor
 )
 def test_get_roll20_chat_input_str(charname, ocr_text, attributes, expected_result):
     IE = InformationExtractor(ocr_text)
-    result = IE.get_roll20_chat_input_str(charname, attributes)
-    assert expected_result == result
+    IE.get_roll20_chat_input_str(charname, attributes)
     assert expected_result == IE.setattr_str
 
 

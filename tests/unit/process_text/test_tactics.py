@@ -3,6 +3,7 @@ from src.process_text import InformationExtractor
 
 def test_tactics_default(prep_ocr_text_fairy):
     IE = InformationExtractor(prep_ocr_text_fairy)
+    assert IE._tactics == ""    # pylint: disable=protected-access
     assert IE.tactics == ""
 
 
