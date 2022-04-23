@@ -26,39 +26,6 @@ class TextProcessor:
         return self.text
 
 
-class GermanExtractor:
-    def __init__(self, text: str):
-        self.text = text
-
-    def get_attribute_value_from_text_ger(self, attribute_name: str) -> str:
-        attribute_name_len = len(attribute_name)
-        att_start_loc = self.text.find(attribute_name) + attribute_name_len
-        att_end_loc = self.text.find("(", att_start_loc)
-        att_val = self.text[att_start_loc:att_end_loc].strip(" ")
-        mapping = [
-            ("/", "7"),
-        ]
-        for k, v in mapping:
-            att_val = att_val.replace(k, v)
-        return att_val
-
-    def extract_all_attributes_from_text_ger(self, attribute_names: List[str]) -> Dict[str, str]:
-        return {a: self.get_attribute_value_from_text_ger(a) for a in attribute_names}
-
-    def extract_all_abilities_from_text_ger(self) -> Dict[str, str]:
-        abilities_str = "Fähigkeiten"
-        length = len(abilities_str)
-        abilities_start_loc = self.text.find(abilities_str) + length + 1
-        weapon_str = "Waffen"
-        abilities_end_loc = self.text.find(weapon_str, abilities_start_loc)
-        all_abilities = self.text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
-        if all_abilities == "Keine":
-            return {"Abilities found in text": "Zero"}
-        all_abilities = [a.strip() for a in all_abilities.split(",")]
-        all_abilities = {a.split(" ")[0]: a.split(" ")[1][1:-1] for a in all_abilities}
-        return all_abilities
-
-
 class InformationExtractor:
     def __init__(self, text: str):
         self.text = text
@@ -142,6 +109,101 @@ class InformationExtractor:
         return max((strong, 10))
 
 
+class GermanExtractor:
+    def __init__(self, text: str):
+        self.text = text
+
+    def get_attribute_value_from_text_ger(self, attribute_name: str) -> str:
+        attribute_name_len = len(attribute_name)
+        att_start_loc = self.text.find(attribute_name) + attribute_name_len
+        att_end_loc = self.text.find("(", att_start_loc)
+        att_val = self.text[att_start_loc:att_end_loc].strip(" ")
+        mapping = [
+            ("/", "7"),
+        ]
+        for k, v in mapping:
+            att_val = att_val.replace(k, v)
+        return att_val
+
+    def extract_all_attributes_from_text_ger(self, attribute_names: List[str]) -> Dict[str, str]:
+        return {a: self.get_attribute_value_from_text_ger(a) for a in attribute_names}
+
+    def extract_all_abilities_from_text_ger(self) -> Dict[str, str]:
+        abilities_str = "Fähigkeiten"
+        length = len(abilities_str)
+        abilities_start_loc = self.text.find(abilities_str) + length + 1
+        weapon_str = "Waffen"
+        abilities_end_loc = self.text.find(weapon_str, abilities_start_loc)
+        all_abilities = self.text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
+        if all_abilities == "Keine":
+            return {"Abilities found in text": "Zero"}
+        all_abilities = [a.strip() for a in all_abilities.split(",")]
+        all_abilities = {a.split(" ")[0]: a.split(" ")[1][1:-1] for a in all_abilities}
+        return all_abilities
+
+
+class EnglishExtractor:
+    def __init__(self, text: str):
+        self.text = text
+
+    def extract_all_attributes_from_text_eng(self, attribute_names_eng: List[str]) -> Dict[str, str]:
+        att_values = self.get_all_attribute_values_from_text_eng()
+        return {a: v for a, v in zip(attribute_names_eng, att_values)}
+
+    def get_all_attribute_values_from_text_eng(self) -> List[str]:
+        start_word = "VIG"
+        end_word = "Defense"
+        att_start_loc = self.text.find(start_word) + 3
+        att_end_loc = self.text.find(end_word, att_start_loc)
+        att_values = self.text[att_start_loc:att_end_loc]
+        mapping = [
+            ("|", " "),
+            ("[", " "),
+            ("]", " "),
+            ("{", " "),
+            ("}", " "),
+            ("(", " "),
+            (")", " "),
+            (",", " "),
+            ("O", "0"),
+            ("©", "0"),
+            (".", " "),
+            ("’", " "),
+            ("‘", " "),
+            ("“", " "),
+            ("”", " "),
+            ("\"", " "),
+            ("\\", " "),
+            ("/", " "),
+            ("00", "0 0"),
+        ]
+        for k, v in mapping:
+            att_values = att_values.replace(k, v)
+
+        att_values_clean = []
+        for v in att_values.split():
+            if v.isdigit() and len(v) == 2 and v.startswith("4"):
+                v = v.replace("4", "+")
+            elif len(v) == 3 and v.startswith("+4") and v[1:].isdigit():
+                v = v.replace("+4", "+")
+            att_values_clean.append(v)
+        att_values_clean = [str((10 - int(v))) for v in att_values_clean]
+        return att_values_clean
+
+    def extract_all_abilities_from_text_eng(self) -> Dict[str, str]:
+        abilities_str = "Abilities"
+        length = len(abilities_str)
+        abilities_start_loc = self.text.find(abilities_str) + length + 1
+        traits_str = "Traits"
+        abilities_end_loc = self.text.find(traits_str, abilities_start_loc)
+        all_abilities = self.text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
+        if all_abilities in ["-", None, "", " "]:
+            return {"Abilities found in text": "Zero"}
+        all_abilities = [a.strip() for a in all_abilities.split(",")]
+        all_abilities = {a.split("(")[0].strip(): a.split("(")[1].strip(") ") for a in all_abilities}
+        return all_abilities
+
+
 def extract_information_from_text_ger(
     text: str,
     attribute_names_ger: List[str],
@@ -159,66 +221,6 @@ def extract_information_from_text_ger(
     return information
 
 
-def get_all_attribute_values_from_text_eng(text: str) -> List[str]:
-    start_word = "VIG"
-    end_word = "Defense"
-    att_start_loc = text.find(start_word) + 3
-    att_end_loc = text.find(end_word, att_start_loc)
-    att_values = text[att_start_loc:att_end_loc]
-    mapping = [
-        ("|", " "),
-        ("[", " "),
-        ("]", " "),
-        ("{", " "),
-        ("}", " "),
-        ("(", " "),
-        (")", " "),
-        (",", " "),
-        ("O", "0"),
-        ("©", "0"),
-        (".", " "),
-        ("’", " "),
-        ("‘", " "),
-        ("“", " "),
-        ("”", " "),
-        ("\"", " "),
-        ("\\", " "),
-        ("/", " "),
-        ("00", "0 0"),
-    ]
-    for k, v in mapping:
-        att_values = att_values.replace(k, v)
-
-    att_values_clean = []
-    for v in att_values.split():
-        if v.isdigit() and len(v) == 2 and v.startswith("4"):
-            v = v.replace("4", "+")
-        elif len(v) == 3 and v.startswith("+4") and v[1:].isdigit():
-            v = v.replace("+4", "+")
-        att_values_clean.append(v)
-    att_values_clean = [str((10 - int(v))) for v in att_values_clean]
-    return att_values_clean
-
-
-def extract_all_attributes_from_text_eng(text: str, attribute_names_eng: List[str]) -> Dict[str, str]:
-    att_values = get_all_attribute_values_from_text_eng(text)
-    return {a: v for a, v in zip(attribute_names_eng, att_values)}
-
-
-def extract_all_abilities_from_text_eng(text: str) -> Dict[str, str]:
-    abilities_str = "Abilities"
-    length = len(abilities_str)
-    abilities_start_loc = text.find(abilities_str) + length + 1
-    traits_str = "Traits"
-    abilities_end_loc = text.find(traits_str, abilities_start_loc)
-    all_abilities = text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
-    if all_abilities in ["-", None, "", " "]:
-        return {"Abilities found in text": "Zero"}
-    all_abilities = [a.strip() for a in all_abilities.split(",")]
-    all_abilities = {a.split("(")[0].strip(): a.split("(")[1].strip(") ") for a in all_abilities}
-    return all_abilities
-
-
 def extract_information_from_text_eng(
     text: str,
     attribute_names_eng: List[str],
@@ -227,11 +229,12 @@ def extract_information_from_text_eng(
     TP = TextProcessor(text)
     processed_text = TP.preprocess_text()
     information: Dict[str, Union[str, Dict[str, str]]] = {}
-    information["abilities"] = extract_all_abilities_from_text_eng(processed_text)
     IE = InformationExtractor(processed_text)
     tactics = IE.extract_tactics_from_text("Tactics:")
     information["tactics"] = tactics
-    attributes = extract_all_attributes_from_text_eng(processed_text, attribute_names_eng)
+    EE = EnglishExtractor(processed_text)
+    information["abilities"] = EE.extract_all_abilities_from_text_eng()
+    attributes = EE.extract_all_attributes_from_text_eng(attribute_names_eng)
     information["setattr_str"] = IE.get_roll20_chat_input_str(charname, attributes)
     return information
 

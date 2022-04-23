@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import get_all_attribute_values_from_text_eng
+from src.process_text import EnglishExtractor
 
 
 @pytest.mark.parametrize(
@@ -23,4 +23,5 @@ from src.process_text import get_all_attribute_values_from_text_eng
     ]
 )
 def test_get_all_attribute_values_from_text_eng(ocr_text, expected_result):
-    assert get_all_attribute_values_from_text_eng(ocr_text) == expected_result
+    EE = EnglishExtractor(ocr_text)
+    assert EE.get_all_attribute_values_from_text_eng() == expected_result
