@@ -3,6 +3,9 @@ name = "symbaroum-adventures"
 version = "0.1.0"
 description = "OCR detection app for Symbaroum on Streamlit"
 authors = ["Sven Stehle <svenstehle@web.de>"]
+packages = [
+    { include = "src" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -28,11 +31,11 @@ pytest-instafail = "^0.4.2"
 pylint = "^2.13.5"
 pytest-cov = "^3.0.0"
 pytest-randomly = "^3.11.0"
-pytest-deadfixtures = "^2.2.1"
 yapf = "^0.32.0"
 mypy = "^0.942"
 toml = "^0.10.2"
 pytest-lazy-fixture = "^0.6.3"
+codecov = "^2.1.12"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

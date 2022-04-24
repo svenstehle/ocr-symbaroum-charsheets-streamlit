@@ -1,6 +1,12 @@
 # OCR for Symbaroum Charactersheets with Streamlit
 
-this repository allows you to read in symbaroum character sheets with tesseract OCR and provides preformatted commands for use in the roll20 API to create any charactersheet (& token?) you read in with the OCR functionality.
+[![lint](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/lint.yml/badge.svg)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/lint.yml)
+[![tests](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/linting_and_tests.yml/badge.svg)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/linting_and_tests.yml)
+[![codecov](https://codecov.io/gh/svenstehle/ocr-symbaroum-charsheets-streamlit/branch/main/graph/badge.svg?token=AK24E5TVTI)](https://codecov.io/gh/svenstehle/ocr-symbaroum-charsheets-streamlit)
+[![PythonVersion](https://img.shields.io/badge/python-3.8%20%7C%203.9%20-blue)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit)
+[![yapf](https://img.shields.io/badge/code%20style-YAPF-lightgrey)](https://github.com/google/yapf)
+
+This repository allows you to read in symbaroum character sheets with tesseract OCR and provides preformatted commands for use in the roll20 API to create any charactersheet (& token?) you read in with the OCR functionality.
 
 ## Access the App on Streamlit cloud
 
@@ -8,10 +14,12 @@ Visit our site on the [Streamlit Cloud](https://share.streamlit.io/svenstehle/oc
 
 Every push on the `main` branch will update the app on the Streamlit Cloud.
 
+**NOTE** OCR works best with high-quality images. Try to screenshot from a high-dpi monitor and ideally use `.tiff` or at least `.png` files. Image compression leads to poor OCR results. **NOTE**
+
 ## Quickstart
 
 To run the app locally, you have to do a bit of setup.
-First, install the dependencies in the project. See the [Setup](#Setup) section for more information.
+First, install the dependencies in the project. See the [Setup](#setup) section for more information.
 
 And then run the streamlit app with
 
@@ -25,15 +33,26 @@ and switch to the browser.
 
 ### Python Environment
 
-First, install dependencies with `python -m pip install .`. This will make use of the `pyproject.toml` file to install the dependencies.
+We manage the Python environment and dependencies with [poetry](https://python-poetry.org/docs/basic-usage/). Detailed installation instructions can be found [here](https://python-poetry.org/docs/master/#installing-with-the-official-installer). Example of a quick setup:
 
-Then, to make use of poetry to manage environments and dependencies, you need to install the [poetry](https://python-poetry.org/docs/basic-usage/) package with `poetry install`.
+```bash
+# download and install poetry
+curl -sSL https://install.python-poetry.org | python3 -
+# check if poetry works
+poetry --version
+```
+
+Make use of the `pyproject.toml` file to install dependencies automatically:
+
+```bash
+poetry install
+```
 
 ### System Packages
 
 #### Basic Language Support
 
-If you want to install for example only the English and German language packages for tesseract, you can do so with `sudo apt-get install tesseract-ocr-eng tesseract-ocr-deu`. [Other languages](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html) out of 100+ can be installed in the same manner 1-by-1 or you can just download the whole tessdata repository, see paragraph below.
+If you want to install for example only the English and German language packages for tesseract on `ubuntu`, you can do so with `sudo apt-get install tesseract-ocr-eng tesseract-ocr-deu`. [Other languages](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html) out of 100+ can be installed in the same manner 1-by-1 or you can just download the whole tessdata repository, see paragraph below.
 
 #### Extended Language Support
 
@@ -56,7 +75,7 @@ export TESSDATA_PREFIX=$(PWD)/tessdata
 After successful setup, you can then process your images, e.g. from a symbaroum rulebook, by applying this command to a cut-out section of a charactersheet:
 
 ```bash
-python src/main.py --OCRConfig.image images/draghul.png
+python src/main.py --OCRConfig.image images/charactersheet_screenshot.png
 ```
 
 The `--lang` parameter of `pytesseract` specifies the input language. In the app, the default is `deu+eng` for German and English during the language detection run. In a subsequent OCR run the detected language from the first run will be used. In the OCR-only part in `main.py`, the default is `eng` for English.
@@ -91,17 +110,35 @@ I appreciate support in writing streamlit-related-tests for (at least visual?) r
 Have fun and raise any issues you see. Feel free to contribute and extend.
 Already identified possible improvements:
 
-- Improve OCR detection performance by preprocessing with OpenCV (bounding boxes) or working with bounding boxes provided by pytesseract image_to_data based on confidence in results
+- Improve the documentation
+- Add docstrings
+- Improve streamlit tests and test coverage
 - Extract more info from the OCR results
 - Make more of the extracted information available to the roll20 API in the correct format/way to improve ease of character setup in roll20
-- Add GitHub Actions for automatic tests and continuous integration
+- Add and improve GitHub Actions for automatic tests and continuous integration
 
-### Setup for Coding Style
+### Developing
 
-Coding style and pre-commit can be setup with [pre-commit](https://pre-commit.com/):
+See [Python Environment](#python-environment) for the dependencies setup information.
+
+This project uses `yapf` to format code, `pylint` for linting and `mypy` for type-checking. We also support `pre-commit` to ensure these have been run. To configure your local environment please install these development dependencies and set up the commit hooks.
+
+Coding style checks and pre-commit are setup with [pre-commit](https://pre-commit.com/).
 
 ```bash
+# download and install poetry
+curl -sSL https://install.python-poetry.org | python3 -
+poetry --version
+```
+
+```bash
+# install project dependencies
+poetry install
+# setup pre-commit hooks
 pre-commit install
 ```
 
-`pylint`, `yapf` and `mypy` should have been installed together with the dependencies.
+```bash
+# tesseract setup on ubuntu
+sudo apt-get install tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
+```
