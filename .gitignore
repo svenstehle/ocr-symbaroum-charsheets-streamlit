@@ -14,3 +14,7 @@ runs
 
 # vscode
 .vscode
+
+# test coverage
+.coverage
+coverage.xml
