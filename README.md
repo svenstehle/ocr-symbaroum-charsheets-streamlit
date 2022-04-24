@@ -1,6 +1,10 @@
 # OCR for Symbaroum Charactersheets with Streamlit
 
-[![lint](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/lint.yml/badge.svg)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/lint.yml)[![tests](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/linting_and_tests.yml/badge.svg)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/linting_and_tests.yml)[![codecov](https://codecov.io/gh/svenstehle/ocr-symbaroum-charsheets-streamlit/branch/main/graph/badge.svg?token=AK24E5TVTI)](https://codecov.io/gh/svenstehle/ocr-symbaroum-charsheets-streamlit)[![PythonVersion](https://img.shields.io/badge/python-3.8%20%7C%203.9%20-blue)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit)[![yapf](https://img.shields.io/badge/code%20style-YAPF-lightgrey)](https://github.com/google/yapf)
+[![lint](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/lint.yml/badge.svg)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/lint.yml)
+[![tests](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/linting_and_tests.yml/badge.svg)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/linting_and_tests.yml)
+[![codecov](https://codecov.io/gh/svenstehle/ocr-symbaroum-charsheets-streamlit/branch/main/graph/badge.svg?token=AK24E5TVTI)](https://codecov.io/gh/svenstehle/ocr-symbaroum-charsheets-streamlit)
+[![PythonVersion](https://img.shields.io/badge/python-3.8%20%7C%203.9%20-blue)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit)
+[![yapf](https://img.shields.io/badge/code%20style-YAPF-lightgrey)](https://github.com/google/yapf)
 
 This repository allows you to read in symbaroum character sheets with tesseract OCR and provides preformatted commands for use in the roll20 API to create any charactersheet (& token?) you read in with the OCR functionality.
 
