@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import EnglishExtractor
+from src.process_text.extract_english import EnglishExtractor
 
 
 @pytest.mark.parametrize(

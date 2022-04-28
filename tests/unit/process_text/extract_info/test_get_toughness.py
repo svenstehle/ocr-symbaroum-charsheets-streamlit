@@ -1,4 +1,4 @@
-from src.process_text import InformationExtractor
+from src.process_text.extract_info import InformationExtractor
 
 
 def test_get_toughness(prep_get_toughness):
