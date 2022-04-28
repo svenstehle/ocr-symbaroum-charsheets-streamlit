@@ -9,8 +9,6 @@ from spock.backend.wrappers import \
 from process_text.extract_english import EnglishExtractor
 from process_text.extract_german import GermanExtractor
 
-#TODO add docstrings, maybe with extension?
-
 
 class InformationExtractor:
     def __init__(self, text: str):

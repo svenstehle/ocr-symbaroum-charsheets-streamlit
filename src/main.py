@@ -6,6 +6,7 @@ from spock_config import load_configuration
 
 
 def main():
+    """loads an image, performs OCR on it and prints the result."""
     config = load_configuration()
     ocr_cfg = config.OCRConfig
     IP = ImageProcessor()
