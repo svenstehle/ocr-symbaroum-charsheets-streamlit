@@ -15,6 +15,12 @@ from streamlit_helper import (
 
 
 def main():
+    """Entry point for the streamlit OCR app.
+    You can upload an image with the streamlit file_uploader.
+    OCR will be performed on this image.
+    Then, the text will be processed and roll20 symbaroum relevant information
+    will be extracted and presented to the user.
+    """
     config = load_configuration()
 
     # initialize necessary variables to None
