@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import InformationExtractor
+from src.process_text.extract_info import InformationExtractor
 
 
 @pytest.mark.parametrize(

@@ -1,5 +1,5 @@
 import pytest
-from src.process_text import InformationExtractor, TextProcessor
+from src.process_text.extract_info import InformationExtractor
 
 
 @pytest.mark.parametrize(
@@ -39,8 +39,7 @@ def test_get_roll20_chat_input_str(charname, ocr_text, attributes, expected_resu
 
 def test_get_roll20_chat_input_str_not_supported_language(prep_get_roll20_chat_input_str_not_supported_language):
     text, charname, attributes = prep_get_roll20_chat_input_str_not_supported_language
-    TP = TextProcessor(text)
-    IE = InformationExtractor(TP.preprocess_text())
+    IE = InformationExtractor(text)
     IE._attributes = attributes    # pylint: disable=protected-access
     with pytest.raises(ValueError):
         IE.get_roll20_chat_input_str(charname)

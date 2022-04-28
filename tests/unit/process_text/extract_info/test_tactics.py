@@ -1,4 +1,4 @@
-from src.process_text import InformationExtractor
+from src.process_text.extract_info import InformationExtractor
 
 
 def test_tactics_default(prep_ocr_text_fairy):
