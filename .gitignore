@@ -8,6 +8,7 @@ images/*
 .pytest_cache
 *__pycache__*
 *.mypy_cache*
+archived_logs
 
 # hydra config run info
 outputs

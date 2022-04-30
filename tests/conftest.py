@@ -13,7 +13,7 @@ def prep_ocr_image():
     del IP
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def prep_hydra_config():
     # context initialization
     with initialize(config_path="../src/conf", job_name="test_app"):

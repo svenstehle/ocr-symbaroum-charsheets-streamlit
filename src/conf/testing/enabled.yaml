@@ -1,6 +1,6 @@
 # @package _global_
 ocr:
   pytesseract:
-    image: dummy_path_for_compatibility
+    image: ${oc.env:PWD}/tests/integration/main/easy_img.png
     debug_psm: 4
     oem: 3

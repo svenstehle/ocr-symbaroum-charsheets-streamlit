@@ -1,7 +1,8 @@
 # image: images/draghul.tiff
 to: en
 pytesseract:
-  image: ${oc.env:PWD}/images/hunter.tiff
+  image: ${oc.env:PWD}/tests/integration/main/easy_img.png
+  # image: ${oc.env:PWD}/images/hunter.tiff
   debug_psm: 4 # for adventure and core rulebook book character sheets alike, sometimes 6
   oem: 1
   debug_lang: eng
