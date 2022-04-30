@@ -17,7 +17,6 @@ def main(cfg: DictConfig) -> None:
     print("ORIGINAL")
     print("========")
     print(text)
-    print("")
 
 
 if __name__ == "__main__":
