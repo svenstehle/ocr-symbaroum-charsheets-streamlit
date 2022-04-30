@@ -174,17 +174,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "branca"
-version = "0.5.0"
-description = "Generate complex HTML+JS pages with Python"
-category = "dev"
-optional = false
-python-versions = ">=3.5"
-
-[package.dependencies]
-jinja2 = "*"
-
-[[package]]
 name = "cachetools"
 version = "5.0.0"
 description = "Extensible memoizing collections and decorators"
@@ -413,23 +402,6 @@ python-versions = ">=3.7"
 [package.extras]
 docs = ["furo (>=2021.8.17b43)", "sphinx (>=4.1)", "sphinx-autodoc-typehints (>=1.12)"]
 testing = ["covdefaults (>=1.2.0)", "coverage (>=4)", "pytest (>=4)", "pytest-cov", "pytest-timeout (>=1.4.2)"]
-
-[[package]]
-name = "folium"
-version = "0.12.1.post1"
-description = "Make beautiful maps with Leaflet.js & Python"
-category = "dev"
-optional = false
-python-versions = ">=3.5"
-
-[package.dependencies]
-branca = ">=0.3.0"
-jinja2 = ">=2.9"
-numpy = "*"
-requests = "*"
-
-[package.extras]
-testing = ["pytest"]
 
 [[package]]
 name = "gitdb"
@@ -1980,20 +1952,6 @@ validators = "*"
 watchdog = {version = "*", markers = "platform_system != \"Darwin\""}
 
 [[package]]
-name = "streamlit-folium"
-version = "0.6.7"
-description = "Render Folium objects in Streamlit"
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-
-[package.dependencies]
-branca = "*"
-folium = ">=0.11"
-jinja2 = "*"
-streamlit = ">=1.2"
-
-[[package]]
 name = "termcolor"
 version = "1.1.0"
 description = "ANSII Color formatting for output in terminal."
@@ -2313,7 +2271,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.11.0"
-content-hash = "ddb278512befc23edfe09c440a6bb87d7ca9aeb994319ec560bca6a5d6d42006"
+content-hash = "16eed58abab5150579bbc6c8e240a061e4d2c6333f983c94e53fe0ad027b1d10"
 
 [metadata.files]
 altair = [
@@ -2406,10 +2364,6 @@ blinker = [
 boto = [
     {file = "boto-2.49.0-py2.py3-none-any.whl", hash = "sha256:147758d41ae7240dc989f0039f27da8ca0d53734be0eb869ef16e3adcfa462e8"},
     {file = "boto-2.49.0.tar.gz", hash = "sha256:ea0d3b40a2d852767be77ca343b58a9e3a4b00d9db440efb8da74b4e58025e5a"},
-]
-branca = [
-    {file = "branca-0.5.0-py3-none-any.whl", hash = "sha256:781ff32bf82979584b0004bd84c254cfccda26bc31b2f7333346d03fb7b97741"},
-    {file = "branca-0.5.0.tar.gz", hash = "sha256:e6f2f7eba7dd368ceef8f63822b867f5e11d4d3abdd099a787db9ed2b7065ae1"},
 ]
 cachetools = [
     {file = "cachetools-5.0.0-py3-none-any.whl", hash = "sha256:8fecd4203a38af17928be7b90689d8083603073622229ca7077b72d8e5a976e4"},
@@ -2624,10 +2578,6 @@ fastjsonschema = [
 filelock = [
     {file = "filelock-3.6.0-py3-none-any.whl", hash = "sha256:f8314284bfffbdcfa0ff3d7992b023d4c628ced6feb957351d4c48d059f56bc0"},
     {file = "filelock-3.6.0.tar.gz", hash = "sha256:9cd540a9352e432c7246a48fe4e8712b10acb1df2ad1f30e8c070b82ae1fed85"},
-]
-folium = [
-    {file = "folium-0.12.1.post1-py2.py3-none-any.whl", hash = "sha256:e856ae1de0b322a719b01ceed64ea16f6f011bd28ed22e954a7f7884313da672"},
-    {file = "folium-0.12.1.post1.tar.gz", hash = "sha256:e91e57d8298f3ccf4cce3c5e065bea6eb17033e3c5432b8a22214009c266b2ab"},
 ]
 gitdb = [
     {file = "gitdb-4.0.9-py3-none-any.whl", hash = "sha256:8033ad4e853066ba6ca92050b9df2f89301b8fc8bf7e9324d412a63f8bf1a8fd"},
@@ -3599,10 +3549,6 @@ soupsieve = [
 streamlit = [
     {file = "streamlit-1.8.1-py2.py3-none-any.whl", hash = "sha256:24d19c420d760c88eafc3f9508cbbd77ddab4a99a3a3b4db06f7741531f120a5"},
     {file = "streamlit-1.8.1.tar.gz", hash = "sha256:507c84439996c6ffed150a2bdd1352b46acc8a476a1012e73241f7cc2fda3056"},
-]
-streamlit-folium = [
-    {file = "streamlit_folium-0.6.7-py3-none-any.whl", hash = "sha256:72e535755f95464865da2424881d77808717c02cc96a3ddcfe080adb107c0614"},
-    {file = "streamlit_folium-0.6.7.tar.gz", hash = "sha256:f26bfcce06267791b1f3e9ed10957f08ece30a973d5afbc5754666cb9959ebdf"},
 ]
 termcolor = [
     {file = "termcolor-1.1.0.tar.gz", hash = "sha256:1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"},
