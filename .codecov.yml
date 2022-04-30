@@ -25,3 +25,5 @@ codecov:
 
 ignore:
 - "tests"
+- "src/streamlit_helper.py"
+- "src/app.py"

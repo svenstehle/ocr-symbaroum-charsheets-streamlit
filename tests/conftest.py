@@ -1,7 +1,7 @@
 import pytest
-from spock import SpockBuilder
+from hydra import compose, initialize
+from omegaconf import OmegaConf
 from src.process_image import ImageProcessor
-from src.spock_config import ExtractionConfig, OCRConfig
 
 
 @pytest.fixture(scope="session")
@@ -13,14 +13,11 @@ def prep_ocr_image():
     del IP
 
 
-@pytest.fixture(scope="session")
-def prep_spock_config():
-    config = SpockBuilder(
-        OCRConfig,
-        ExtractionConfig,
-        desc="OCR config",
-        no_cmd_line=True,
-        configs=['tests/testing_config.yaml'],
-    ).generate()
-    yield config
-    del config
+@pytest.fixture(scope="module")
+def prep_hydra_config():
+    # context initialization
+    with initialize(config_path="../src/conf", job_name="test_app"):
+        cfg = compose(config_name="config", overrides=["testing=enabled"])
+        print(OmegaConf.to_yaml(cfg))
+        yield cfg
+        del cfg

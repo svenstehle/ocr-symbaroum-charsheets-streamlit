@@ -8,32 +8,32 @@ from src.process_text.extract_info import InformationExtractor
     "ocr_text, config, lang", [
         (
             pytest.lazy_fixture("prep_ocr_text_draghul"),
-            pytest.lazy_fixture("prep_spock_config"),
+            pytest.lazy_fixture("prep_hydra_config"),
             "de",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_baiagorn"),
-            pytest.lazy_fixture("prep_spock_config"),
+            pytest.lazy_fixture("prep_hydra_config"),
             "de",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_guard"),
-            pytest.lazy_fixture("prep_spock_config"),
+            pytest.lazy_fixture("prep_hydra_config"),
             "de",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_fairy"),
-            pytest.lazy_fixture("prep_spock_config"),
+            pytest.lazy_fixture("prep_hydra_config"),
             "en",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_brand"),
-            pytest.lazy_fixture("prep_spock_config"),
+            pytest.lazy_fixture("prep_hydra_config"),
             "en",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_sikander"),
-            pytest.lazy_fixture("prep_spock_config"),
+            pytest.lazy_fixture("prep_hydra_config"),
             "en",
         ),
     ]
@@ -50,9 +50,9 @@ def test_extract_information_from_text(ocr_text, config, lang):
 
 def test_extract_information_from_text_exception(
     prep_ocr_text_unknown_language,
-    prep_spock_config,
+    prep_hydra_config,
 ):
     IE = InformationExtractor(prep_ocr_text_unknown_language)
     with pytest.raises(ValueError):
-        IE.extract_information_from_text("dummyname", prep_spock_config)
+        IE.extract_information_from_text("dummyname", prep_hydra_config)
     assert IE.lang == "fr"

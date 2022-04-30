@@ -1,9 +1,2 @@
-####
-# config for testing purposes
-####
-
-image: dummy_path_for_compatibility
 attribute_names_ger: ["Aufmerksamkeit", "Ausstrahlung", "Gewandtheit", "Heimlichkeit", "Präzision", "Scharfsinn", "Stärke", "Willenskraft"]
 attribute_names_eng: ["ACC", "CUN", "DIS", "PER", "QUI", "RES", "STR", "VIG"]
-debug_psm: 4
-oem: 3

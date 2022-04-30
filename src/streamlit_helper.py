@@ -19,10 +19,10 @@ def get_rescale_factor():
     return rescale_factor
 
 
-def setup_image_selection(config):
+def setup_image_selection(cfg):
     with st.sidebar:
         st.header("Image selection for OCR")
-        image_file = st.file_uploader("Upload an Image", type=config.StreamlitConfig.supported_image_types)
+        image_file = st.file_uploader("Upload an Image", type=cfg.streamlit.supported_image_types)
     return image_file
 
 

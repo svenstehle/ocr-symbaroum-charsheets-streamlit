@@ -8,9 +8,10 @@ images/*
 .pytest_cache
 *__pycache__*
 *.mypy_cache*
+archived_logs
 
-# spock config run info
-runs
+# hydra config run info
+outputs
 
 # vscode
 .vscode
