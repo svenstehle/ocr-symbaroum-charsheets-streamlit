@@ -9,11 +9,11 @@ def test_tactics_default(prep_ocr_text_fairy):
 
 def test_tactics_extracted(
     prep_ocr_text_fairy,
-    prep_spock_config,
+    prep_hydra_config,
     create_expected_result_extract_tactics_from_text_fairy,
 ):
     IE = InformationExtractor(prep_ocr_text_fairy)
     assert IE._tactics == ""    # pylint: disable=protected-access
-    IE.extract_information_from_text("dummy", prep_spock_config)
+    IE.extract_information_from_text("dummy", prep_hydra_config)
     assert IE.tactics == create_expected_result_extract_tactics_from_text_fairy
     assert IE._tactics == create_expected_result_extract_tactics_from_text_fairy    # pylint: disable=protected-access

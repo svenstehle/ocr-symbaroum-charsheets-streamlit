@@ -1,0 +1,6 @@
+# @package _global_
+ocr:
+  pytesseract:
+    image: ${oc.env:PWD}/tests/integration/main/easy_img.png
+    debug_psm: 4
+    oem: 3

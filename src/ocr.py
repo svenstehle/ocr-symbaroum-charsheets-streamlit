@@ -9,9 +9,9 @@ def perform_ocr(ocr_config, lang, psm, image):
     """
 
     options = (
-        f"-l {lang} --psm {psm} --oem {ocr_config.oem} "
-        f"-c thresholding_method={ocr_config.thresh} "
-        f"-c tessedit_char_whitelist='{ocr_config.whitelist}' "
+        f"-l {lang} --psm {psm} --oem {ocr_config.pytesseract.oem} "
+        f"-c thresholding_method={ocr_config.pytesseract.thresh} "
+        f"-c tessedit_char_whitelist='{ocr_config.pytesseract.whitelist}' "
     )
     text = pytesseract.image_to_string(image, config=options)
     return text
