@@ -9,8 +9,8 @@ images/*
 *__pycache__*
 *.mypy_cache*
 
-# spock config run info
-runs
+# hydra config run info
+outputs
 
 # vscode
 .vscode

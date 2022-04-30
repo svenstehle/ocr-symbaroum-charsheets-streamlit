@@ -2,9 +2,8 @@
 #
 from typing import Dict, List
 
+from omegaconf import DictConfig
 from process_language import detect_language
-from spock.backend.wrappers import \
-    Spockspace  # pylint: disable=wrong-import-order
 
 from process_text.extract_english import EnglishExtractor
 from process_text.extract_german import GermanExtractor
@@ -42,11 +41,11 @@ class InformationExtractor:
     def setattr_str(self) -> str:
         return self._setattr_str
 
-    def extract_information_from_text(self, charname: str, config: Spockspace) -> None:
+    def extract_information_from_text(self, charname: str, cfg: DictConfig) -> None:
         if self.lang == "de":
-            self.extract_information_from_ger_text(charname, config.ExtractionConfig.attribute_names_ger)
+            self.extract_information_from_ger_text(charname, cfg.extraction.attribute_names_ger)
         elif self.lang == "en":
-            self.extract_information_from_eng_text(charname, config.ExtractionConfig.attribute_names_eng)
+            self.extract_information_from_eng_text(charname, cfg.extraction.attribute_names_eng)
         else:
             raise ValueError(f"Detected language {self.lang} not supported")
 

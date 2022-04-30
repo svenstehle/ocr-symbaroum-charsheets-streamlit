@@ -17,14 +17,14 @@ from src.process_text.extract_info import InformationExtractor
     ]
 )
 def test_tactics_extracted(
-    prep_spock_config,
+    prep_hydra_config,
     charname,
     ocr_text,
     expected_result,
 ):
     IE = InformationExtractor(ocr_text)
     assert IE._setattr_str == ""    # pylint: disable=protected-access
-    IE.extract_information_from_text(charname, prep_spock_config)
+    IE.extract_information_from_text(charname, prep_hydra_config)
     assert IE.setattr_str == expected_result
     assert IE._setattr_str == expected_result    # pylint: disable=protected-access
 
