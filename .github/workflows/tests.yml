@@ -34,8 +34,8 @@ jobs:
         system: [
           {
             os: "ubuntu-latest",
-            prod: "./.github/scripts/ubuntu_prod.sh",
-            debug: "./.github/scripts/ubuntu_debug.sh"
+            prod: ".github/scripts/ubuntu_prod.sh",
+            debug: ".github/scripts/ubuntu_debug.sh"
           },
           {
             os: "macos-latest",
@@ -51,11 +51,11 @@ jobs:
     steps:
     - name: Install System Dependencies Debug
       if: ${{ env.DEBUG == 'true' }}
-      run: ${{ matrix.system.debug }}
+      run: sh ${{ matrix.system.debug }}
 
     - name: Install System Dependencies Prod
       if: ${{ env.DEBUG == 'false' }}
-      run: ${{ matrix.system.prod }}
+      run: sh ${{ matrix.system.prod }}
 
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
