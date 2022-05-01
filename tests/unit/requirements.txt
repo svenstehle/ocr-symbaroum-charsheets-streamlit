@@ -1,4 +1,0 @@
-streamlit>=1.2
-pytest==6.2.5
-seleniumbase==1.67.1
-opencv-python>=4.3
