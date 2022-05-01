@@ -21,7 +21,7 @@ env:
     wget https://github.com/tesseract-ocr/tessdata_best/raw/main/deu.traineddata
     export TESSDATA_PREFIX=/usr/local/share/tessdata
     tesseract --list-langs
-  ubuntu_cmd: sudo apt install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
+  ubuntu_prod: sudo apt install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
 
 jobs:
   test:
@@ -34,9 +34,14 @@ jobs:
         system: [
           {
             os: "ubuntu-latest",
-            cmd: "sudo apt install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu",
-            debug: "${{ env.ubuntu_debug }}"},
-          {os: "macos-latest", cmd: "brew update && brew upgrade && brew install tesseract-lang"}
+            prod: "./.github/scripts/ubuntu_prod.sh",
+            debug: "./.github/scripts/ubuntu_debug.sh"
+          },
+          {
+            os: "macos-latest",
+            prod: "brew install tesseract-lang",
+            debug: "brew update && brew upgrade && brew install tesseract-lang"
+          },
         ]
 
         # sudo apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 && \
@@ -50,7 +55,7 @@ jobs:
 
     - name: Install System Dependencies Prod
       if: ${{ env.DEBUG == 'false' }}
-      run: ${{ matrix.system.cmd }}
+      run: ${{ matrix.system.prod }}
 
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
