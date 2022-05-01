@@ -17,7 +17,7 @@ class ComponentsTest(BaseCase):
         # and https://github.com/seleniumbase/SeleniumBase/blob/master/examples/my_first_test.py
 
         self.click('//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div/div[6]/div/div/label[2]')
-        time.sleep(2)
+        time.sleep(4)
         self.check_window(name=test_name, level=2)
 
         compare_baseline_actual(test_group, test_name)

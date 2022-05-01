@@ -6,18 +6,12 @@ from tests.testing_utils import compare_baseline_actual
 
 class ComponentsTest(BaseCase):
     def test_app_startup(self):
-        # more info on https://blog.streamlit.io/testing-streamlit-apps-using-seleniumbase/
         test_name = "test_app_startup_title"
         test_group = "test_app_startup"
 
-        # open the app and take a screenshot
         self.open("http://localhost:8501")
         time.sleep(5)
 
-        # automated visual regression testing
-        # tests page has identical structure to baseline
-        # https://github.com/seleniumbase/SeleniumBase/tree/master/examples/visual_testing
-        # level 2 chosen, as id values dynamically generated on each page run
         self.check_window(name=test_name, level=2)
 
         # mid page
