@@ -1,13 +1,12 @@
-export DATA_DIR=/usr/local/share/tessdata
+export TESSDATA_PREFIX=/usr/local/share/tessdata
 
-sudo apt update &&
-    sudo apt upgrade &&
-    sudo apt install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu &&
-    sudo mkdir ${DATA_DIR} &&
-    cd ${DATA_DIR} &&
+apt-get update &&
+    apt-get upgrade &&
+    apt-get install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu &&
+    mkdir ${TESSDATA_PREFIX} &&
+    cd ${TESSDATA_PREFIX} &&
     wget https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata &&
     wget https://github.com/tesseract-ocr/tessdata_best/raw/main/deu.traineddata &&
-    export TESSDATA_PREFIX=${DATA_DIR} &&
     tesseract --list-langs
 
 # sudo apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 && \

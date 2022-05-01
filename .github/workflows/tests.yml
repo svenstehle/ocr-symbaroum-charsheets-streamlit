@@ -11,6 +11,7 @@ on:
 
 env:
   DEBUG: false
+  TESSDATA_PREFIX: /usr/local/share/tessdata
 
 jobs:
   test:
@@ -44,17 +45,18 @@ jobs:
       if: ${{ env.DEBUG == 'true' }}
       run: |
         ${{ matrix.system.debug }}
-        export TESSDATA_PREFIX=/usr/local/share/tessdata
 
     - name: Install System Dependencies Prod
       if: ${{ env.DEBUG == 'false' }}
-      run: ${{ matrix.system.prod }}
+      run: |
+        ${{ matrix.system.prod }}
+        echo $TESSDATA_PREFIX
 
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install poetry
-        poetry config virtualenvs.create true
+        poetry config virtualenvs.create false
         poetry install
 
     - name: Install chromedriver
