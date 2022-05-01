@@ -45,7 +45,7 @@ jobs:
 
     - name: Start Streamlit app
       run: |
-        streamlit run src/app.py &
+        poetry run streamlit run src/app.py &
 
     - name: Testing the Code with Pytest
       run: PYTHONPATH=./src poetry run pytest --cov-report=xml --cov
