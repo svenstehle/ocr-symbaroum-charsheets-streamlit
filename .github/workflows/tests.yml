@@ -3,27 +3,25 @@
 
 name: tests
 
-env:
-  DEBUG: false
-  TESSDATA_PREXIX: /usr/local/share/tessdata
-  ubuntu_debug: |
-    sudo apt update
-    sudo apt upgrade
-    sudo apt install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
-    mkdir $TESSDATA_PREFIX
-    cd $TESSDATA_PREFIX
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/deu.traineddata
-    export TESSDATA_PREFIX=$TESSDATA_PREFIX
-    tesseract --list-langs
-  ubuntu_cmd: sudo apt install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
-
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
 
+env:
+  DEBUG: false
+  ubuntu_debug: |
+    sudo apt update
+    sudo apt upgrade
+    sudo apt install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
+    mkdir /usr/local/share/tessdata
+    cd /usr/local/share/tessdata
+    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata
+    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/deu.traineddata
+    export TESSDATA_PREFIX=/usr/local/share/tessdata
+    tesseract --list-langs
+  ubuntu_cmd: sudo apt install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
 
 jobs:
   test:
@@ -34,7 +32,10 @@ jobs:
         # python-version: ["3.8"]
         python-version: ["3.8", "3.9"]
         system: [
-          {os: "ubuntu-latest", cmd: "${{ env.ubuntu_cmd }}", debug: "${{ env.ubuntu_debug }}"},
+          {
+            os: "ubuntu-latest",
+            cmd: "sudo apt install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu",
+            debug: "${{ env.ubuntu_debug }}"},
           {os: "macos-latest", cmd: "brew update && brew upgrade && brew install tesseract-lang"}
         ]
 
