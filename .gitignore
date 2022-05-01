@@ -2,7 +2,7 @@
 *.jpg
 tessdata
 .env
-images/*
+images
 
 # cache
 .pytest_cache
@@ -11,6 +11,7 @@ images/*
 
 # logs
 archived_logs
+latest_logs
 nohup.out
 
 # hydra config run info

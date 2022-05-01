@@ -142,3 +142,11 @@ pre-commit install
 # tesseract setup on ubuntu
 sudo apt-get install tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
 ```
+
+#### Debugging Github Actions
+
+To debug Github Actions, [act](https://github.com/nektos/act) is a very useful tool. Follow the install and usage instructions on its github.
+
+See [this guide](https://mauricius.dev/run-and-debug-github-actions-locally/) for more information on how to use it in practice.
+
+Be mindful that you cannot execute tesseract with the downloaded languages inside a dockerized ubuntu by default. That is why the CI has the `env.DEBUG` flag and the different installation commands. `DEBUG: false` is used for the `virtual environment` used by Github Actions, `DEBUG: true` is used for the local `act` ubuntu `docker` environment.

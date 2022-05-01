@@ -13,6 +13,8 @@ def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.0
 
     original = cv2.imread(f"visual_baseline/{test_group}/{test_name}/baseline.png")
     duplicate = cv2.imread(f"visual_baseline/{test_group}/{test_name}/latest.png")
+    print(f"original shape: {original.shape}")
+    print(f"duplicate shape: {duplicate.shape}")
     assert original.shape == duplicate.shape
 
     difference = cv2.subtract(original, duplicate)
