@@ -49,6 +49,13 @@ jobs:
         # sudo apt-get install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu libtesseract-dev libleptonica-dev ldconfig libsm6 libxext6 python-opencv
 
     steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: x64
+
     - name: Install System Dependencies Debug
       if: ${{ env.DEBUG == 'true' }}
       run: sh ${{ matrix.system.debug }}
@@ -57,12 +64,7 @@ jobs:
       if: ${{ env.DEBUG == 'false' }}
       run: sh ${{ matrix.system.prod }}
 
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-        architecture: x64
+
 
     - name: Install Python Dependencies
       run: |
