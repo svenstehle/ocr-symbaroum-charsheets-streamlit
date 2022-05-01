@@ -10,7 +10,7 @@ on:
     branches: [main]
 
 env:
-  DEBUG: true
+  DEBUG: false
 
 jobs:
   test:
@@ -42,7 +42,9 @@ jobs:
 
     - name: Install System Dependencies Debug
       if: ${{ env.DEBUG == 'true' }}
-      run: ${{ matrix.system.debug }}
+      run: |
+        ${{ matrix.system.debug }}
+        export TESSDATA_PREFIX=/usr/local/share/tessdata
 
     - name: Install System Dependencies Prod
       if: ${{ env.DEBUG == 'false' }}
@@ -65,9 +67,8 @@ jobs:
         nohup poetry run streamlit run src/app.py &
 
     - name: Sleep for 8 seconds
-      uses: jakejarvis/wait-action@master
-      with:
-        time: '8s'
+      run: sleep 8s
+      shell: bash
 
     - name: Testing the Code with Pytest
       run: PYTHONPATH=./src poetry run pytest tests/unit/ocr --cov-report=xml --cov
