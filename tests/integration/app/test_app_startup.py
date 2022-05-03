@@ -1,9 +1,10 @@
 import time
 
-from tests.testing_utils import WebDriverSetup, compare_baseline_actual
+from seleniumbase import BaseCase
+from tests.testing_utils import compare_baseline_actual
 
 
-class ComponentsTest(WebDriverSetup):
+class ComponentsTest(BaseCase):
     def test_app_startup(self):
         """Basic test to check if we can connect to our running streamlit app on localhost."""
         test_group = "test_app_startup"

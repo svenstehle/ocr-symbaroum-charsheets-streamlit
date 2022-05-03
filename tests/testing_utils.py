@@ -1,11 +1,17 @@
 import cv2
-from selenium import webdriver
-from seleniumbase import BaseCase
 
 
 def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.05) -> None:
     """Compares the baseline to the actual screenshot.
     If the differences in the image channels are too large, fail the test.
+
+    **** NOTE ****
+    We need to make visual tests compatible with ubuntu and macos vm in GitHub Actions CI.
+    Thus, for all visual_baseline screenshots taken on macos retina display, the following settings are needed:
+    - True Tone: off
+    - Nightshift: off
+    - Colour Profile: sRGB IEC61966-2.1     # still need to double check if standard 'Colour LCD' works
+    **** NOTE ****
 
     Args:
         test_group (str): the test group name
@@ -24,19 +30,3 @@ def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.0
     assert cv2.countNonZero(blue) <= thresh * blue.sum()
     assert cv2.countNonZero(green) <= thresh * green.sum()
     assert cv2.countNonZero(red) <= thresh * red.sum()
-
-
-class WebDriverSetup(BaseCase):
-    def get_new_driver(self, *args, **kwargs):
-        """ This method overrides get_new_driver() from BaseCase. """
-        options = webdriver.ChromeOptions()
-        options.add_argument("--force-device-scale-factor=1")    # fix macos retina displays
-        if self.headless:
-            options.add_argument("--headless")
-            options.add_argument("--disable-gpu")
-        driver = webdriver.Chrome(options=options)
-        width = 1250
-        height = 719
-        driver.set_window_size(width, height)
-        print('Window size', driver.get_window_size())
-        return driver
