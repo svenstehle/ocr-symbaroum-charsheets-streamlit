@@ -11,6 +11,7 @@ on:
 
 env:
   DEBUG: false
+  DISPLAY: null
 
 jobs:
   test:
@@ -26,11 +27,11 @@ jobs:
             prod: ".github/scripts/ubuntu_prod.sh",
             debug: ".github/scripts/ubuntu_debug.sh"
           },
-          {
-            os: "macos-latest",
-            prod: ".github/scripts/macos_prod.sh",
-            debug: ".github/scripts/macos_debug.sh"
-          },
+          # {
+          #   os: "macos-latest",
+          #   prod: ".github/scripts/macos_prod.sh",
+          #   debug: ".github/scripts/macos_debug.sh"
+          # },
         ]
 
     steps:
@@ -50,7 +51,10 @@ jobs:
       if: ${{ env.DEBUG == 'false' }}
       run: |
         ${{ matrix.system.prod }}
-        echo $TESSDATA_PREFIX
+
+    - name: Install chrome
+      run: |
+        .github/scripts/install_chrome.sh
 
     - name: Install Python Dependencies
       run: |
@@ -59,26 +63,32 @@ jobs:
         poetry config virtualenvs.create false
         poetry install
 
-    - name: Install chromedriver
-      run: |
-        poetry run seleniumbase install chromedriver latest
-        poetry run sbase install chromedriver latest
-
     - name: Start Streamlit app
       run: |
-        nohup poetry run streamlit run src/app.py &
+        poetry run streamlit run src/app.py --server.port=8501 --server.headless=true --server.enableCORS=false --server.enableWebsocketCompression=false --server.enableXsrfProtection=false &
+        # poetry run streamlit run src/app.py --server.port=8501 --server.headless=true &
+        echo ::set-output name=exit_code::$?
 
-    - name: Sleep for 8 seconds
-      run: sleep 8s
-      shell: bash
+    # - name: Sleep for 10 seconds and do healthcheck on streamlit server
+    #   shell: bash
+    #   run: |
+    #     sleep 10
+    #     curl -Is http://localhost:8501 | head -n 1
 
     - name: Testing the Code with Pytest if debug
       if: ${{ env.DEBUG == 'true' }}
-      run: PYTHONPATH=./src TESSDATA_PREFIX=/usr/local/share/tessdata poetry run pytest tests/unit/ocr --cov-report=xml --cov
+      run: >
+        PYTHONPATH=./src TESSDATA_PREFIX=/usr/local/share/tessdata
+        poetry run pytest tests/integration/app/test_localhost.py tests/integration/app/test_chrome.py
+        --headless --cov-report=xml --cov
+      # run: PYTHONPATH=./src TESSDATA_PREFIX=/usr/local/share/tessdata poetry run pytest tests/integration/app/test_app_startup.py --headless --cov-report=xml --cov
 
     - name: Testing the Code with Pytest if prod
       if: ${{ env.DEBUG == 'false' }}
-      run: PYTHONPATH=./src poetry run pytest tests/unit/ocr --cov-report=xml --cov
+      run: >
+        PYTHONPATH=./src
+        poetry run pytest tests/integration/app/test_localhost.py tests/integration/app/test_chrome.py
+        --headless --cov-report=xml --cov
 
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2

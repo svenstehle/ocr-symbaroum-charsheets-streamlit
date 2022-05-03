@@ -9,6 +9,23 @@ apt-get update &&
     wget https://github.com/tesseract-ocr/tessdata_best/raw/main/deu.traineddata &&
     tesseract --list-langs
 
-# sudo apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 && \
-# sudo apt-get install -y libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libopenjp2-7-dev libavformat-dev libpq-dev && \
-# sudo apt-get install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu libtesseract-dev libleptonica-dev ldconfig libsm6 libxext6 python-opencv
+# apt-get update && apt-get install -y fonts-liberation &&
+#     wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - &&
+#     sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' &&
+#     apt update && apt install -y google-chrome-stable
+
+
+# sudo apt-get update
+# sudo apt install -y software-properties-common
+# sudo add-apt-repository ppa:phd.re/chromium-browser
+# sudo apt-get update
+# sudo apt install -y chromium-browser
+
+# apt-get update && apt-get install -y fonts-liberation
+# wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+# sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+# apt update && apt install -y google-chrome-stable
+
+# not really working
+# wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
+#     apt-get install ./google-chrome-stable_current_amd64.deb
