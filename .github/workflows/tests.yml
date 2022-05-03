@@ -85,7 +85,8 @@ jobs:
       if: ${{ env.DEBUG == 'false' }}
       run: >
         PYTHONPATH=./src
-        poetry run pytest tests/integration/app/test_app_startup.py
+        poetry run pytest tests/integration/app --settings-file=tests/visual_testing.py
+        --chromium-arg="force-device-scale-factor=1,headless"
         --headless --cov-report=xml --cov
 
     - name: Upload Coverage to Codecov
