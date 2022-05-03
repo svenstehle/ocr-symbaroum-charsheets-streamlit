@@ -52,7 +52,7 @@ folderWatchBlacklist = ['']
 
 # If false, will attempt to open a browser window on start.
 # Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.
-headless = false
+headless = true
 
 # Immediately share the app in such a way that enables live monitoring, and post-run analysis.
 # Default: false
