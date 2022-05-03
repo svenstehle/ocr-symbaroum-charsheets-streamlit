@@ -11,10 +11,11 @@ disableWatchdogWarning = false
 # Default: true
 showWarningOnDirectExecution = true
 
+[logger]
+
 # Level of logging: 'error', 'warning', 'info', or 'debug'.
 # Default: 'info'
-logLevel = "debug"
-
+level = "debug"
 
 [client]
 
