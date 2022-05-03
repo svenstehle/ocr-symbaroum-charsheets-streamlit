@@ -27,11 +27,11 @@ jobs:
             prod: ".github/scripts/ubuntu_prod.sh",
             debug: ".github/scripts/ubuntu_debug.sh"
           },
-          # {
-          #   os: "macos-latest",
-          #   prod: ".github/scripts/macos_prod.sh",
-          #   debug: ".github/scripts/macos_debug.sh"
-          # },
+          {
+            os: "macos-latest",
+            prod: ".github/scripts/macos_prod.sh",
+            debug: ".github/scripts/macos_debug.sh"
+          },
         ]
 
     steps:
