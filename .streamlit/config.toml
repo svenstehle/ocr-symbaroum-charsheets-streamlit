@@ -50,8 +50,6 @@ fixMatplotlib = true
 # Default: []
 folderWatchBlacklist = ['']
 
-
-
 # If false, will attempt to open a browser window on start.
 # Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.
 headless = true
@@ -70,7 +68,16 @@ port = 8501
 
 # Enables support for Cross-Origin Request Sharing, for added security.
 # Default: true
-enableCORS = false
+enableCORS = true
+
+# Enables support for websocket compression.
+# Default: true
+enableWebsocketCompression = true
+
+# Enables support for Cross-Site Request Forgery (XSRF) protection, for added security.
+# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.
+# Default: true
+enableXsrfProtection = true
 
 
 [browser]
