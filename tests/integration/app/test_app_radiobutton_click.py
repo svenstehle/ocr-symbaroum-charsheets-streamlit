@@ -1,11 +1,11 @@
 import time
 
-from seleniumbase import BaseCase
-from tests.testing_utils import compare_baseline_actual
+from tests.testing_utils import WebDriverSetup, compare_baseline_actual
 
 
-class ComponentsTest(BaseCase):
+class ComponentsTest(WebDriverSetup):
     def test_app_radiobutton(self):
+        """Check if we can use our radiobutton without error."""
         test_group = "test_app_radiobutton"
         test_name = f"{test_group}_click"
 
