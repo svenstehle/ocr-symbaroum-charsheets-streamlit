@@ -64,12 +64,6 @@ jobs:
         poetry run streamlit run src/app.py &
         echo ::set-output name=exit_code::$?
 
-    # - name: Sleep for 10 seconds and do healthcheck on streamlit server
-    #   shell: bash
-    #   run: |
-    #     sleep 10
-    #     curl -Is http://localhost:8501 | head -n 1
-
     - name: Testing the Code with Pytest if debug
       if: ${{ env.DEBUG == 'true' }}
       run: >
@@ -81,7 +75,7 @@ jobs:
       if: ${{ env.DEBUG == 'false' }}
       run: >
         PYTHONPATH=./src
-        poetry run pytest tests/integration/app --settings-file=tests/visual_testing.py
+        poetry run pytest --settings-file=tests/visual_testing.py
         --chromium-arg="force-device-scale-factor=1,headless"
         --cov-report=xml --cov
 
