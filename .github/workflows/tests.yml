@@ -10,7 +10,7 @@ on:
     branches: [main]
 
 env:
-  DEBUG: true
+  DEBUG: false
   DISPLAY: null
 
 jobs:
