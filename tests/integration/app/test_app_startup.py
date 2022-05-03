@@ -15,7 +15,8 @@ class ComponentsTest(BaseCase):
             # options.add_argument("--force-dark-mode")
             # options.add_argument("--window-size=1250,719")
         driver = webdriver.Chrome(options=options)
-        driver.set_window_size(1250, 719)
+        driver.set_window_size(2500, 1438)
+        # driver.set_window_size(1250, 719)
         return driver
 
     def test_app_startup(self):
