@@ -1,7 +1,7 @@
 import time
 
 from seleniumbase import BaseCase
-from tests.testing_utils import compare_baseline_actual
+from tests.testing_utils import (compare_baseline_actual, set_browser_window_size)
 
 
 class ComponentsTest(BaseCase):
@@ -9,6 +9,7 @@ class ComponentsTest(BaseCase):
     def test_app_startup(self):
         test_group = "test_app_startup"
         test_name = f"{test_group}_title"
+        set_browser_window_size()
 
         self.open("http://localhost:8501")
         time.sleep(5)
