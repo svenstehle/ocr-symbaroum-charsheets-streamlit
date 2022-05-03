@@ -5,9 +5,10 @@ from tests.testing_utils import compare_baseline_actual
 
 
 class ComponentsTest(BaseCase):
+    """Basic test to check if we can connect to our running streamlit app on localhost."""
     def test_app_startup(self):
-        test_name = "test_app_startup_title"
         test_group = "test_app_startup"
+        test_name = f"{test_group}_title"
 
         self.open("http://localhost:8501")
         time.sleep(5)

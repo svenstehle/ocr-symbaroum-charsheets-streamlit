@@ -6,8 +6,8 @@ from tests.testing_utils import compare_baseline_actual
 
 class ComponentsTest(BaseCase):
     def test_app_radiobutton(self):
-        test_name = "test_app_radiobutton_click"
         test_group = "test_app_radiobutton"
+        test_name = f"{test_group}_click"
 
         self.open("http://localhost:8501")
 

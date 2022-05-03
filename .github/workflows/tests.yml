@@ -79,7 +79,7 @@ jobs:
       if: ${{ env.DEBUG == 'true' }}
       run: >
         PYTHONPATH=./src TESSDATA_PREFIX=/usr/local/share/tessdata
-        poetry run pytest tests/integration/app/test_localhost.py tests/integration/app/test_chrome.py
+        poetry run pytest tests/integration/app/test_localhost.py
         --headless --cov-report=xml --cov
       # run: PYTHONPATH=./src TESSDATA_PREFIX=/usr/local/share/tessdata poetry run pytest tests/integration/app/test_app_startup.py --headless --cov-report=xml --cov
 
@@ -87,7 +87,7 @@ jobs:
       if: ${{ env.DEBUG == 'false' }}
       run: >
         PYTHONPATH=./src
-        poetry run pytest tests/integration/app/test_localhost.py tests/integration/app/test_chrome.py
+        poetry run pytest tests/integration/app/test_app_startup.py
         --headless --cov-report=xml --cov
 
     - name: Upload Coverage to Codecov
