@@ -36,8 +36,10 @@ class WebDriverSetup(BaseCase):
             # options.add_argument("--disable-gpu")
             # options.add_argument("--window-size=1250,719")
         driver = webdriver.Chrome(options=options)
-        width = 2500
-        height = 1438
+        width = 1250
+        height = 719
+        # width = 2500
+        # height = 1438
         driver.set_window_size(width, height)
         print('Window size', driver.get_window_size())
         return driver
