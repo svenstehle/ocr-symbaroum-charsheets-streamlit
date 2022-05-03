@@ -1,4 +1,6 @@
 import cv2
+from selenium import webdriver
+from seleniumbase import BaseCase
 
 
 def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.05) -> None:
@@ -22,3 +24,20 @@ def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.0
     assert cv2.countNonZero(blue) <= thresh * blue.sum()
     assert cv2.countNonZero(green) <= thresh * green.sum()
     assert cv2.countNonZero(red) <= thresh * red.sum()
+
+
+class WebDriverSetup(BaseCase):
+    def get_new_driver(self, *args, **kwargs):
+        """ This method overrides get_new_driver() from BaseCase. """
+        options = webdriver.ChromeOptions()
+        options.add_argument("--force-device-scale-factor=1")    # fix macos retina displays
+        if self.headless:
+            options.add_argument("--headless")
+            # options.add_argument("--disable-gpu")
+            # options.add_argument("--window-size=1250,719")
+        driver = webdriver.Chrome(options=options)
+        width = 2500
+        height = 1438
+        driver.set_window_size(width, height)
+        print('Window size', driver.get_window_size())
+        return driver

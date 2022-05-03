@@ -1,24 +1,9 @@
 import time
 
-from selenium import webdriver
-from seleniumbase import BaseCase
-from tests.testing_utils import compare_baseline_actual
+from tests.testing_utils import WebDriverSetup, compare_baseline_actual
 
 
-class ComponentsTest(BaseCase):
-    def get_new_driver(self, *args, **kwargs):
-        """ This method overrides get_new_driver() from BaseCase. """
-        options = webdriver.ChromeOptions()
-        if self.headless:
-            options.add_argument("--headless")
-            # options.add_argument("--disable-gpu")
-            # options.add_argument("--force-dark-mode")
-            # options.add_argument("--window-size=1250,719")
-        driver = webdriver.Chrome(options=options)
-        driver.set_window_size(2500, 1438)
-        # driver.set_window_size(1250, 719)
-        return driver
-
+class ComponentsTest(WebDriverSetup):
     def test_app_startup(self):
         """Basic test to check if we can connect to our running streamlit app on localhost."""
         test_group = "test_app_startup"
