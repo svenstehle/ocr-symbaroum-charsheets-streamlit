@@ -2,8 +2,8 @@ import cv2
 
 
 def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.05) -> None:
-    """Compares the baseline to the actual screenshot.
-    If the differences in the image channels are too large, fail the test.
+    """Compares the baseline to the actual screenshot. Loads the baseline and actual screenshot.
+    Converts images to grayscale. If the differences in the image are too large, fail the test.
 
     **** NOTE ****
     We need to make visual tests compatible with ubuntu and macos vm in GitHub Actions CI.
@@ -16,17 +16,14 @@ def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.0
     Args:
         test_group (str): the test group name
         test_name (str): name of the test
-        thresh (float, optional): percentage of pixels that can be different in each channel. Defaults to 0.05.
+        thresh (float, optional): percentage of pixels that can be different. Defaults to 0.05.
     """
 
-    original = cv2.imread(f"visual_baseline/{test_group}/{test_name}/baseline.png")
-    duplicate = cv2.imread(f"visual_baseline/{test_group}/{test_name}/latest.png")
+    original = cv2.cvtColor(cv2.imread(f"visual_baseline/{test_group}/{test_name}/baseline.png"), cv2.COLOR_BGR2GRAY)
+    duplicate = cv2.cvtColor(cv2.imread(f"visual_baseline/{test_group}/{test_name}/latest.png"), cv2.COLOR_BGR2GRAY)
     print(f"original shape: {original.shape}")
     print(f"duplicate shape: {duplicate.shape}")
     assert original.shape == duplicate.shape
 
     difference = cv2.subtract(original, duplicate)
-    blue, green, red = cv2.split(difference)
-    assert cv2.countNonZero(blue) <= thresh * blue.sum()
-    assert cv2.countNonZero(green) <= thresh * green.sum()
-    assert cv2.countNonZero(red) <= thresh * red.sum()
+    assert cv2.countNonZero(difference) <= thresh * difference.size

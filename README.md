@@ -89,56 +89,19 @@ Take care to notice the quotation marks around the whitelist string and the whit
 
 You can read up on possible fine-tuning options on [this page](https://ai-facets.org/tesseract-ocr-best-practices/).
 
-## Run the tests
-
-1. Take care to set the `PYTHONPATH` like this
-
-    ```bash
-    export PYTHONPATH=./src
-    ```
-
-2. Start the streamlit app with
-
-    ```bash
-    streamlit run src/app.py
-    ```
-
-    By default, streamlit will start in headless mode according to `.streamlit/config.toml` and the `headless = true` value. If you want to change this, change the value to `false` temporarily.
-
-3. Run tests (including visual tests) from root with
-
-    ```bash
-    pytest tests --settings-file=tests/visual_testing.py --chromium-arg="force-device-scale-factor=1,headless"
-    ```
-
-    If you want to see what is happening, remove the `headless` from `--chromium-arg` before running the tests.
-
-### Visual testing with seleniumbase
-
-To reset the baselines for visual tests run:
-
-```bash
-sh tests/generate_visual_baseline.sh
-```
-
-or
-
-```bash
-pytest tests/integration/app --settings-file=tests/visual_testing.py --chromium-arg="force-device-scale-factor=1,headless" --visual_baseline
-```
-
 ## Contributing
 
 Have fun and raise any issues you see. Feel free to contribute and extend.
 Already identified possible improvements:
 
 - Improve the documentation
-- Add docstrings
-- Improve streamlit tests and test coverage
+- Add more docstrings
+- Improve streamlit tests and test coverage of regression / visual tests
 - Extract more info from the OCR results
 - Use Regex to deal with some OCR inaccuracies in a better way
 - Make more of the extracted information available to the roll20 API in the correct format/way to improve ease of character setup in roll20
 - Add and improve GitHub Actions for automatic tests and continuous integration
+- Add issue / contribution / pull request templates
 
 ### Developing
 
@@ -164,6 +127,64 @@ pre-commit install
 ```bash
 # tesseract setup on ubuntu
 sudo apt-get install tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
+```
+
+### Run the tests
+
+1. Take care to set the `PYTHONPATH` like this
+
+    ```bash
+    export PYTHONPATH=./src
+    ```
+
+2. Start the streamlit app with
+
+    ```bash
+    streamlit run src/app.py
+    ```
+
+    By default, streamlit will start in headless mode according to `.streamlit/config.toml` and the `headless = true` value. If you want to change this, change the value to `false` temporarily.
+
+3. Run tests (including visual tests) from root with this script:
+
+    ```bash
+    sh tests/run_tests.sh
+    ```
+
+    or run manually:
+
+    ```bash
+    pytest tests --settings-file=tests/visual_testing.py --chromium-arg="force-device-scale-factor=1,headless"
+    ```
+
+    If you want to see what is happening, remove the `headless` from `--chromium-arg` before running the tests.
+
+#### Visual testing with seleniumbase
+
+To reset the baselines for visual tests run this script:
+
+```bash
+sh tests/generate_visual_baseline.sh
+```
+
+or run manually:
+
+```bash
+pytest tests/integration/app --settings-file=tests/visual_testing.py --chromium-arg="force-device-scale-factor=1,headless" --visual_baseline
+```
+
+#### Test Coverage
+
+Get the test coverage by running this script:
+
+```bash
+sh tests/run_cov.sh
+```
+
+or run manually:
+
+```bash
+pytest tests --settings-file=tests/visual_testing.py --chromium-arg="force-device-scale-factor=1,headless" --cov-report term-missing --cov
 ```
 
 #### Debugging Github Actions
