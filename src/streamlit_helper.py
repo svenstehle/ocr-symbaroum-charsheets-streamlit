@@ -4,8 +4,9 @@ from typing import Tuple
 
 import numpy as np
 import streamlit as st
+from omegaconf import DictConfig
 
-from src.process_image import upload_image_types
+from process_image import upload_image_types
 
 
 def get_rescale_factor() -> float:
@@ -27,7 +28,7 @@ def get_rescale_factor() -> float:
     return rescale_factor
 
 
-def setup_image_selection(cfg) -> upload_image_types:
+def setup_image_selection(cfg: DictConfig) -> upload_image_types:
     """Sets up the image uploader.
 
     Args:
