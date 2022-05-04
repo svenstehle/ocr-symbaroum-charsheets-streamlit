@@ -10,7 +10,6 @@ on:
     branches: [main]
 
 env:
-  DEBUG: false
   DISPLAY: null
 
 jobs:
@@ -23,13 +22,11 @@ jobs:
         system: [
           {
             os: "ubuntu-latest",
-            prod: ".github/scripts/ubuntu_prod.sh",
-            debug: ".github/scripts/ubuntu_debug.sh"
+            cmd: ".github/scripts/ubuntu_prod.sh",
           },
           {
             os: "macos-latest",
-            prod: ".github/scripts/macos_prod.sh",
-            debug: ".github/scripts/macos_debug.sh"
+            cmd: ".github/scripts/macos_prod.sh",
           },
         ]
 
@@ -41,15 +38,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
         architecture: x64
 
-    - name: Install System Dependencies Debug
-      if: ${{ env.DEBUG == 'true' }}
+    - name: Install System Dependencies
       run: |
-        ${{ matrix.system.debug }}
-
-    - name: Install System Dependencies Prod
-      if: ${{ env.DEBUG == 'false' }}
-      run: |
-        ${{ matrix.system.prod }}
+        ${{ matrix.system.cmd }}
 
     - name: Install Python Dependencies
       run: |
@@ -63,15 +54,7 @@ jobs:
         poetry run streamlit run src/app.py &
         echo ::set-output name=exit_code::$?
 
-    - name: Testing the Code with Pytest if debug
-      if: ${{ env.DEBUG == 'true' }}
-      run: >
-        PYTHONPATH=./src TESSDATA_PREFIX=/usr/local/share/tessdata
-        poetry run pytest tests/integration/app/test_localhost.py
-        --headless --cov-report=xml --cov
-
-    - name: Testing the Code with Pytest if prod
-      if: ${{ env.DEBUG == 'false' }}
+    - name: Testing the Code with Pytest
       run: >
         PYTHONPATH=./src
         poetry run pytest tests --settings-file=tests/visual_testing.py
