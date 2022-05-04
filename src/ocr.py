@@ -1,11 +1,19 @@
 # License: APACHE LICENSE, VERSION 2.0
 
+import numpy as np
 import pytesseract
+from omegaconf import DictConfig
 
 
-def perform_ocr(ocr_config, lang, psm, image):
-    """
-    OCR the image at the given path with respective pytesseract arguments.
+def perform_ocr(ocr_config: DictConfig, lang: str, psm: int, image: np.ndarray) -> str:
+    """Perform OCR on the provided image.
+    Args:
+        ocr_config (DictConfig): spock-config configuration
+        lang (str): string of languages to use for OCR, e.g. "deu+eng"
+        psm (int): page segmentation mode to use for OCR
+        image (np.ndarray): image to perform OCR on
+    Returns:
+        str: the extracted raw text that has been retrieved from the image
     """
 
     options = (

@@ -4,14 +4,33 @@ from typing import Dict, List
 
 
 class EnglishExtractor:
+    """Extracts all attributes from English text."""
     def __init__(self, text: str):
+        """Constructs all the necessary attributes for the EnglishExtractor object.
+
+        Args:
+            text (str): the preprocessed text to extract attributes from.
+        """
         self.text = text
 
     def extract_all_attributes_from_text_eng(self, attribute_names_eng: List[str]) -> Dict[str, str]:
+        """Extracts all roll20 character attributes from English text.
+
+        Args:
+            attribute_names_eng (List[str]): list of the attribute names in English.
+
+        Returns:
+            Dict[str, str]: dictionary of the attribute names and their values.
+        """
         att_values = self.get_all_attribute_values_from_text_eng()
         return {a: v for a, v in zip(attribute_names_eng, att_values)}
 
     def get_all_attribute_values_from_text_eng(self) -> List[str]:
+        """Returns all the attribute values from English text.
+
+        Returns:
+            List[str]: list of the attribute values without any names.
+        """
         start_word = "VIG"
         end_word = "Defense"
         att_start_loc = self.text.find(start_word) + 3
@@ -54,6 +73,11 @@ class EnglishExtractor:
         return att_values_clean
 
     def extract_all_abilities_from_text_eng(self) -> Dict[str, str]:
+        """Extracts all roll20 character abilities from English text.
+
+        Returns:
+            Dict[str, str]: dictionary of the ability names and their rank.
+        """
         abilities_str = "Abilities"
         length = len(abilities_str)
         abilities_start_loc = self.text.find(abilities_str) + length + 1

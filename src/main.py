@@ -9,6 +9,7 @@ from process_image import ImageProcessor
 
 @hydra.main(config_path="conf", config_name="config")
 def main(cfg: DictConfig) -> None:
+    """loads an image, performs OCR on it and prints the result."""
 
     IP = ImageProcessor()
     image = IP.get_processed_image(cfg.ocr.pytesseract.image)

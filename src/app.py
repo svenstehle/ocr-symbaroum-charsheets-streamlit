@@ -17,6 +17,12 @@ from streamlit_helper import (
 
 @hydra.main(config_path="conf", config_name="config")
 def main(cfg: DictConfig) -> None:
+    """Entry point for the streamlit OCR app.
+    You can upload an image with the streamlit file_uploader.
+    OCR will be performed on this image.
+    Then, the text will be processed and roll20 symbaroum relevant information
+    will be extracted and presented to the user.
+    """
     # initialize necessary variables to None
     image = None
     text = None

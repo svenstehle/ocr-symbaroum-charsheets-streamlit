@@ -9,28 +9,38 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  DISPLAY: null
+
 jobs:
   test:
     runs-on: ${{ matrix.system.os }}
     strategy:
       fail-fast: false
       matrix:
-        system: [
-          {os: "ubuntu-latest", cmd: "sudo apt-get install -y tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu"},
-          {os: "macos-latest", cmd: "brew install tesseract-lang"}
-        ]
         python-version: ["3.8", "3.9"]
+        system: [
+          {
+            os: "ubuntu-latest",
+            cmd: ".github/scripts/ubuntu_prod.sh",
+          },
+          {
+            os: "macos-latest",
+            cmd: ".github/scripts/macos_prod.sh",
+          },
+        ]
 
     steps:
-    - name: Install System Dependencies
-      run: ${{ matrix.system.cmd }}
-
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
         architecture: x64
+
+    - name: Install System Dependencies
+      run: |
+        ${{ matrix.system.cmd }}
 
     - name: Install Python Dependencies
       run: |
@@ -39,11 +49,20 @@ jobs:
         poetry config virtualenvs.create false
         poetry install
 
+    - name: Start Streamlit app
+      run: |
+        poetry run streamlit run src/app.py &
+        echo ::set-output name=exit_code::$?
+
     - name: Testing the Code with Pytest
-      run: PYTHONPATH=./src poetry run pytest --cov-report=xml --cov
+      run: >
+        PYTHONPATH=./src
+        poetry run pytest tests --settings-file=tests/visual_testing.py
+        --chromium-arg="force-device-scale-factor=1,headless"
+        --cov-report=xml --cov
 
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         files: coverage.xml,./coverage.xml
-        fail_ci_if_error: true
+        fail_ci_if_error: false

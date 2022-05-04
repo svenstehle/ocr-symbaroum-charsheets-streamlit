@@ -2,13 +2,18 @@
 *.jpg
 tessdata
 .env
-images/*
+images
 
 # cache
 .pytest_cache
 *__pycache__*
 *.mypy_cache*
+*.DS_Store*
+
+# logs
 archived_logs
+latest_logs
+nohup.out
 
 # hydra config run info
 outputs

@@ -7,9 +7,9 @@ coverage:
     project:
       default:
         # Commits pushed to main should not make the overall
-        # project coverage decrease by more than 1%:
+        # project coverage decrease by more than 5%:
         target: auto
-        threshold: 1%
+        threshold: 5%
     patch:
       default:
         # Be tolerant on slight code coverage diff on PRs to limit
@@ -17,7 +17,7 @@ coverage:
         # Note: The coverage stats are still uploaded
         # to codecov so that PR reviewers can see uncovered lines
         target: auto
-        threshold: 1%
+        threshold: 5%
 
 codecov:
   notify:
