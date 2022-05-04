@@ -50,14 +50,14 @@ class GermanExtractor:
         Returns:
             Dict[str, str]: dictionary of the ability names and their values.
         """
-        abilities_str = "Fähigkeiten"
+        abilities_str = "fähigkeiten"
         length = len(abilities_str)
         abilities_start_loc = self.text.find(abilities_str) + length + 1
-        weapon_str = "Waffen"
+        weapon_str = "waffen"
         abilities_end_loc = self.text.find(weapon_str, abilities_start_loc)
         all_abilities = self.text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
-        if all_abilities == "Keine":
+        if all_abilities == "keine":
             return {"Abilities found in text": "Zero"}
         all_abilities = [a.strip() for a in all_abilities.split(",")]
-        all_abilities = {a.split(" ")[0]: a.split(" ")[1][1:-1] for a in all_abilities}
+        all_abilities = {a.split(" ")[0].title(): a.split(" ")[1][1:-1].title() for a in all_abilities}
         return all_abilities

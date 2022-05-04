@@ -246,3 +246,32 @@ def ocr_text_unknown_language():
     Serveur : je vais leur demander de se calmer, pour que vous puissiez profiter de votre repas dans le calme.
     Julie : merci bien."""
     return text
+
+
+def ocr_text_aeber():
+    text = (
+        "Rasse Besti\n\n"
+        "Herausforderung Gro\n\n"
+        "Merkmale Natürlicher Panzer (Il),\n"
+        "Natürliche Waffen (Il),\n"
+        "Robust (Ill)\n\n"
+        "Aufmerksamkeit 9 (+1). Ausstrahlung 5 (+5),\n"
+        "Gewandtheit 13 (-3), Heimlichkeit 7 (+3),\n\n"
+        "Präzision 10 (0). Scharfsinn 10 (0).\n"
+        "Stärke 15 (-5). Willenskraft 11 (-1)\n"
+        "Fähigkeiten Eisenfaust (Adept)\n"
+        "Waffen StoBzähne 10 (Kurz)\n"
+        "Rüstung Schweinehaut 7\n"
+        "Verteidigung 4\n\n"
+        "Zähigkeit 15 Schmerzgrenze 8\n"
+        "Ausrüstung Keine\n\n"
+        "Schatten Dunkelrot mit rostroten\n\n"
+        "Streifen (Korruption: 3)\n\n"
+        "Taktik: Der ber setzt fingierte Angriffe ein und\n"
+        "versucht damit. seine Feinde zu verscheuchen.\n"
+        "Sollte das scheitern. verlässt er sich darauf,\n"
+        "dass seine Reflexe, seine widerstandsfähige\n"
+        "Haut und seine brutalen Hauer ausreichen, um\n"
+        "jeden Gegner niederzumetzeln."
+    )
+    return text

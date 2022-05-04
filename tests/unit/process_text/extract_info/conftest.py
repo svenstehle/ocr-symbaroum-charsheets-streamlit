@@ -7,7 +7,7 @@ def create_expected_result_extract_tactics_from_text_fairy():
                         "than one or two persons at a time. They wait for " +\
                         "the opportunity to arise before fearlessly assaul" +\
                         "ting the prey."
-    yield expected_result
+    yield expected_result.lower()
     del expected_result
 
 
@@ -17,7 +17,7 @@ def create_expected_result_extract_tactics_from_text_draghul():
                         "Erschaffers oder nach seinem eigenen Willen. " +\
                         "Er ist mmer auf der Suche nach warmen Fleisch und " +\
                         "frischem Blut."
-    yield expected_result
+    yield expected_result.lower()
     del expected_result
 
 
@@ -29,8 +29,7 @@ def create_expected_result_extract_tactics_from_text_baiagorn():
                         "Bestien, die wie wild mit ihren Krallen um sich " +\
                         "schlagen und den nächsten Feind oder ihre " +\
                         "Beute unerbittlich angreifen."
-
-    yield expected_result
+    yield expected_result.lower()
     del expected_result
 
 
@@ -40,7 +39,19 @@ def create_expected_result_extract_tactics_from_text_guard():
                         "\"oder stärksten wirkt, wird zuerst vonzwei Wäch" +\
                         "tern angegriffen. Jeder andere Spielercharakter " +\
                         "\'wird von einem Wachter angegriffen."
-    yield expected_result
+    yield expected_result.lower()
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_tactics_from_text_aeber():
+    expected_result = "Der ber setzt fingierte Angriffe ein und " +\
+                        "versucht damit. seine Feinde zu verscheuchen. " +\
+                        "Sollte das scheitern. verlässt er sich darauf, " +\
+                        "dass seine Reflexe, seine widerstandsfähige " +\
+                        "Haut und seine brutalen Hauer ausreichen, um " +\
+                        "jeden Gegner niederzumetzeln."
+    yield expected_result.lower()
     del expected_result
 
 
@@ -54,7 +65,7 @@ def create_expected_result_extract_tactics_from_text_brand():
         "melee, damage 8 (see the ability Bodyguard at "
         "master level)."
     )
-    yield expected_result
+    yield expected_result.lower()
     del expected_result
 
 
@@ -73,7 +84,7 @@ def create_expected_result_extract_tactics_from_text_hunter():
         "the opportunity to commence his fight against the "
         "forest goddess."
     )
-    yield expected_result
+    yield expected_result.lower()
     del expected_result
 
 
@@ -89,7 +100,7 @@ def create_expected_result_extract_tactics_from_text_sikander():
         "he accuses the attackers of wanting to steal his "
         "precious treasure."
     )
-    yield expected_result
+    yield expected_result.lower()
     del expected_result
 
 
@@ -167,25 +178,25 @@ def prep_get_roll20_chat_input_str_not_supported_language(
 def create_input_result_pairs_get_toughness():
     input_result_pairs = [
         ({
-            "Stärke": "15"
+            "stärke": "15"
         }, 15), ({
-            "Stärke": "11"
+            "stärke": "11"
         }, 11), ({
-            "Stärke": "10"
+            "stärke": "10"
         }, 10), ({
-            "Stärke": "9"
+            "stärke": "9"
         }, 10), ({
-            "Stärke": "3"
+            "stärke": "3"
         }, 10), ({
-            "STR": "15"
+            "str": "15"
         }, 15), ({
-            "STR": "11"
+            "str": "11"
         }, 11), ({
-            "STR": "10"
+            "str": "10"
         }, 10), ({
-            "STR": "9"
+            "str": "9"
         }, 10), ({
-            "STR": "3"
+            "str": "3"
         }, 10)
     ]
     return input_result_pairs
@@ -197,3 +208,17 @@ def prep_get_toughness(request):
     expected_result = request.param[1]
     yield attributes, expected_result
     del attributes, expected_result
+
+
+@pytest.fixture
+def create_german_regex_weapon_matching_pattern():
+    pattern = r"w[ä-üabdeft]{3}en"
+    yield pattern
+    del pattern
+
+
+@pytest.fixture
+def create_english_regex_weapon_matching_pattern():
+    pattern = r"w[aeop]{3}ons"
+    yield pattern
+    del pattern

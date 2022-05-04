@@ -71,5 +71,4 @@ class StartupTest(BaseCase):
             '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div/div[6]/div/div/label[2]/div[2]'
         )
 
-        # test screenshots look exactly the same
         compare_baseline_actual(test_group, test_name)

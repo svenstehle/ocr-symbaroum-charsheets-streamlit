@@ -4,14 +4,14 @@ import pytest
 @pytest.fixture
 def create_expected_result_extract_all_attributes_from_text_draghul():
     expected_result = {
-        "Stärke": "3",
-        "Scharfsinn": "4",
-        "Gewandtheit": "15",
-        "Aufmerksamkeit": "10",
-        "Ausstrahlung": "5",
-        "Präzision": "9",
-        "Willenskraft": "13",
-        "Heimlichkeit": "10",
+        "stärke": "3",
+        "scharfsinn": "4",
+        "gewandtheit": "15",
+        "aufmerksamkeit": "10",
+        "ausstrahlung": "5",
+        "präzision": "9",
+        "willenskraft": "13",
+        "heimlichkeit": "10",
     }
     yield expected_result
     del expected_result
@@ -20,14 +20,14 @@ def create_expected_result_extract_all_attributes_from_text_draghul():
 @pytest.fixture
 def create_expected_result_extract_all_attributes_from_text_baiagorn():
     expected_result = {
-        "Stärke": "15",
-        "Scharfsinn": "10",
-        "Gewandtheit": "7",
-        "Aufmerksamkeit": "11",
-        "Ausstrahlung": "5",
-        "Präzision": "10",
-        "Willenskraft": "13",
-        "Heimlichkeit": "9",
+        "stärke": "15",
+        "scharfsinn": "10",
+        "gewandtheit": "7",
+        "aufmerksamkeit": "11",
+        "ausstrahlung": "5",
+        "präzision": "10",
+        "willenskraft": "13",
+        "heimlichkeit": "9",
     }
     yield expected_result
     del expected_result
@@ -36,14 +36,30 @@ def create_expected_result_extract_all_attributes_from_text_baiagorn():
 @pytest.fixture
 def create_expected_result_extract_all_attributes_from_text_guard():
     expected_result = {
-        "Stärke": "15",
-        "Scharfsinn": "7",
-        "Gewandtheit": "10",
-        "Aufmerksamkeit": "11",
-        "Ausstrahlung": "9",
-        "Präzision": "13",
-        "Willenskraft": "10",
-        "Heimlichkeit": "5",
+        "stärke": "15",
+        "scharfsinn": "7",
+        "gewandtheit": "10",
+        "aufmerksamkeit": "11",
+        "ausstrahlung": "9",
+        "präzision": "13",
+        "willenskraft": "10",
+        "heimlichkeit": "5",
+    }
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_all_attributes_from_text_aeber():
+    expected_result = {
+        "stärke": "15",
+        "scharfsinn": "10",
+        "gewandtheit": "13",
+        "aufmerksamkeit": "9",
+        "ausstrahlung": "5",
+        "präzision": "10",
+        "willenskraft": "11",
+        "heimlichkeit": "7",
     }
     yield expected_result
     del expected_result
@@ -52,14 +68,14 @@ def create_expected_result_extract_all_attributes_from_text_guard():
 @pytest.fixture
 def create_expected_result_extract_all_attributes_from_text_eng_fairy():
     expected_result = {
-        "ACC": "10",
-        "CUN": "10",
-        "DIS": "15",
-        "PER": "9",
-        "QUI": "13",
-        "RES": "7",
-        "STR": "5",
-        "VIG": "11",
+        "acc": "10",
+        "cun": "10",
+        "dis": "15",
+        "per": "9",
+        "qui": "13",
+        "res": "7",
+        "str": "5",
+        "vig": "11",
     }
     yield expected_result
     del expected_result
@@ -68,14 +84,14 @@ def create_expected_result_extract_all_attributes_from_text_eng_fairy():
 @pytest.fixture
 def create_expected_result_extract_all_attributes_from_text_eng_brand():
     expected_result = {
-        "ACC": "13",
-        "CUN": "7",
-        "DIS": "9",
-        "PER": "5",
-        "QUI": "11",
-        "RES": "10",
-        "STR": "15",
-        "VIG": "10",
+        "acc": "13",
+        "cun": "7",
+        "dis": "9",
+        "per": "5",
+        "qui": "11",
+        "res": "10",
+        "str": "15",
+        "vig": "10",
     }
     yield expected_result
     del expected_result
@@ -84,14 +100,14 @@ def create_expected_result_extract_all_attributes_from_text_eng_brand():
 @pytest.fixture
 def create_expected_result_extract_all_attributes_from_text_eng_hunter():
     expected_result = {
-        "ACC": "5",
-        "CUN": "10",
-        "DIS": "10",
-        "PER": "7",
-        "QUI": "11",
-        "RES": "16",
-        "STR": "9",
-        "VIG": "18",
+        "acc": "5",
+        "cun": "10",
+        "dis": "10",
+        "per": "7",
+        "qui": "11",
+        "res": "16",
+        "str": "9",
+        "vig": "18",
     }
     yield expected_result
     del expected_result
@@ -100,14 +116,14 @@ def create_expected_result_extract_all_attributes_from_text_eng_hunter():
 @pytest.fixture
 def create_expected_result_extract_all_attributes_from_text_eng_sikander():
     expected_result = {
-        "ACC": "9",
-        "CUN": "11",
-        "DIS": "5",
-        "PER": "10",
-        "QUI": "13",
-        "RES": "15",
-        "STR": "7",
-        "VIG": "10",
+        "acc": "9",
+        "cun": "11",
+        "dis": "5",
+        "per": "10",
+        "qui": "13",
+        "res": "15",
+        "str": "7",
+        "vig": "10",
     }
     yield expected_result
     del expected_result
@@ -134,14 +150,14 @@ def create_expected_result_extract_all_abilities_from_text_sikander():
 @pytest.fixture
 def create_input_extract_all_attributes_from_text_ger_general():
     attribute_names = [
-        "Stärke",
-        "Scharfsinn",
-        "Gewandtheit",
-        "Aufmerksamkeit",
-        "Ausstrahlung",
-        "Präzision",
-        "Willenskraft",
-        "Heimlichkeit",
+        "stärke",
+        "scharfsinn",
+        "gewandtheit",
+        "aufmerksamkeit",
+        "ausstrahlung",
+        "präzision",
+        "willenskraft",
+        "heimlichkeit",
     ]
     yield attribute_names
     del attribute_names
@@ -149,6 +165,6 @@ def create_input_extract_all_attributes_from_text_ger_general():
 
 @pytest.fixture
 def create_input_extract_all_attributes_from_text_eng_general():
-    attribute_names = ["ACC", "CUN", "DIS", "PER", "QUI", "RES", "STR", "VIG"]
+    attribute_names = ["acc", "cun", "dis", "per", "qui", "res", "str", "vig"]
     yield attribute_names
     del attribute_names

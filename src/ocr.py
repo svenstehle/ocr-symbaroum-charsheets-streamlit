@@ -15,7 +15,6 @@ def perform_ocr(ocr_config: DictConfig, lang: str, psm: int, image: np.ndarray) 
     Returns:
         str: the extracted raw text that has been retrieved from the image
     """
-
     options = (
         f"-l {lang} --psm {psm} --oem {ocr_config.pytesseract.oem} "
         f"-c thresholding_method={ocr_config.pytesseract.thresh} "

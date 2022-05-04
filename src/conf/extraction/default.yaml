@@ -1,2 +1,2 @@
-attribute_names_ger: ["Aufmerksamkeit", "Ausstrahlung", "Gewandtheit", "Heimlichkeit", "Präzision", "Scharfsinn", "Stärke", "Willenskraft"]
-attribute_names_eng: ["ACC", "CUN", "DIS", "PER", "QUI", "RES", "STR", "VIG"]
+attribute_names_ger: ["aufmerksamkeit", "ausstrahlung", "gewandtheit", "heimlichkeit", "präzision", "scharfsinn", "stärke", "willenskraft"]
+attribute_names_eng: ["acc", "cun", "dis", "per", "qui", "res", "str", "vig"]
