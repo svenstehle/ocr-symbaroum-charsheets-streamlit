@@ -74,7 +74,7 @@ jobs:
       if: ${{ env.DEBUG == 'false' }}
       run: >
         PYTHONPATH=./src
-        poetry run pytest --settings-file=tests/visual_testing.py
+        poetry run pytest tests --settings-file=tests/visual_testing.py
         --chromium-arg="force-device-scale-factor=1,headless"
         --cov-report=xml --cov
 

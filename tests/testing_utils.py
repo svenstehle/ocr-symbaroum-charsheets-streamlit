@@ -20,7 +20,11 @@ def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.0
     """
 
     original = cv2.cvtColor(cv2.imread(f"visual_baseline/{test_group}/{test_name}/baseline.png"), cv2.COLOR_BGR2GRAY)
-    duplicate = cv2.cvtColor(cv2.imread(f"visual_baseline/{test_group}/{test_name}/latest.png"), cv2.COLOR_BGR2GRAY)
+    latest = f"visual_baseline/{test_group}/{test_name}/latest.png"
+    duplicate = cv2.imread(latest)
+    if duplicate is None:
+        raise ValueError(f"Could not find screenshot '{latest}' for {test_name}. Did you already set a baseline?")
+    duplicate = cv2.cvtColor(duplicate, cv2.COLOR_BGR2GRAY)
     print(f"original shape: {original.shape}")
     print(f"duplicate shape: {duplicate.shape}")
     assert original.shape == duplicate.shape

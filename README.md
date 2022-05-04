@@ -143,7 +143,7 @@ sudo apt-get install tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu
     streamlit run src/app.py
     ```
 
-    By default, streamlit will start in headless mode according to `.streamlit/config.toml` and the `headless = true` value. If you want to change this, change the value to `false` temporarily.
+    By default, streamlit will start in headless mode according to `.streamlit/config.toml` and the `headless = true` value. If you want to change this, change the value to `false` temporarily. The GitHub Actions CI environment needs this on `true`, otherwise the tests will fail.
 
 3. Run tests (including visual tests) from root with this script:
 
