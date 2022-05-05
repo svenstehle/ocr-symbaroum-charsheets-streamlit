@@ -4,6 +4,8 @@ import re
 from typing import List, Tuple
 
 
+# TODO watch out for refactoring inheritance of TextProcessor
+# Depending on future features, mb move to English/GermanExtractor
 class TextProcessor:
     """Processes the text from OCR'd images."""
     def __init__(self, text: str):
