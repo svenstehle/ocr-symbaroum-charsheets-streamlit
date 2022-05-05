@@ -1,5 +1,5 @@
 import pytest
-from src.process_text.extract_info import insert_str_between_indices
+from src.process_text.extract_info import TextProcessor
 
 
 @pytest.mark.parametrize(
@@ -14,5 +14,6 @@ from src.process_text.extract_info import insert_str_between_indices
     ]
 )
 def test_insert_str_between_indices(text, string, start, end, expected_result):
-    result = insert_str_between_indices(text, string, start, end)
+    TP = TextProcessor(text)
+    result = TP.insert_str_between_indices(string, start, end)
     assert result == expected_result

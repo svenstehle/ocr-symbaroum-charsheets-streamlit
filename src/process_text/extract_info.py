@@ -1,13 +1,13 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
-import re
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 from omegaconf import DictConfig
 from process_language import detect_language
 
 from process_text.extract_english import EnglishExtractor
 from process_text.extract_german import GermanExtractor
+from process_text.process_ocr import TextProcessor
 
 
 class InformationExtractor:
@@ -96,7 +96,8 @@ class InformationExtractor:
             attribute_names (List[str]): list of the attribute names in German language.
         """
         self.preprocess_text()
-        self.text = replace_all_weapon_strings(self.text, "waffen")
+        TP = TextProcessor(self.text)
+        self.text = TP.replace_all_weapon_strings("waffen")
         GE = GermanExtractor(self.text)
         self._abilities = GE.extract_all_abilities_from_text_ger()
         self._attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
@@ -111,7 +112,8 @@ class InformationExtractor:
             attribute_names (List[str]): list of the attribute names in English language.
         """
         self.preprocess_text()
-        self.text = replace_all_weapon_strings(self.text, "weapons")
+        TP = TextProcessor(self.text)
+        self.text = TP.replace_all_weapon_strings("weapons")
         EE = EnglishExtractor(self.text)
         self._abilities = EE.extract_all_abilities_from_text_eng()
         self._attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
@@ -133,7 +135,19 @@ class InformationExtractor:
         for key, rep in replacements:
             self.text = self.text.replace(key, rep)
         self.text = self.text.strip()
-        self.text = get_lowercase_text(self.text)
+        self.text = self.get_lowercase_text(self.text)
+
+    def extract_tactics_from_text(self, tactics_str: str) -> None:
+        """Extracts the tactics from the text.
+
+        Args:
+            tactics_str (str): tactics search keyword in the relevant language.
+        """
+        length = len(tactics_str)
+        tactics_start_loc = self.text.find(tactics_str) + length + 1
+        tactics = self.text[tactics_start_loc:]
+        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
+        self._tactics = " ".join(tactics)
 
     def get_roll20_chat_input_str(self, charname: str) -> None:
         """Creates the roll20 chat input string for the setattr API script.
@@ -178,17 +192,17 @@ class InformationExtractor:
         toughness_string = f" --toughness|{self.get_toughness(self.attributes)}"
         self._setattr_str = basic_string + att_string + toughness_string
 
-    def extract_tactics_from_text(self, tactics_str: str) -> None:
-        """Extracts the tactics from the text.
+    @staticmethod
+    def get_lowercase_text(text: str) -> str:
+        """Returns the text in lowercase.
 
         Args:
-            tactics_str (str): tactics search keyword in the relevant language.
+            text (str): input text with capital letters.
+
+        Returns:
+            str: text with only lowercase letters.
         """
-        length = len(tactics_str)
-        tactics_start_loc = self.text.find(tactics_str) + length + 1
-        tactics = self.text[tactics_start_loc:]
-        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
-        self._tactics = " ".join(tactics)
+        return text.lower()
 
     @staticmethod
     def get_toughness(attributes: Dict[str, str]) -> int:
@@ -203,70 +217,3 @@ class InformationExtractor:
         strength_key = "str" if "str" in attributes else "stärke"
         strong = int(attributes[strength_key])
         return max((strong, 10))
-
-
-# TODO refactor this ASAP
-
-
-def get_lowercase_text(text: str) -> str:
-    """Returns the text in lowercase.
-
-    Args:
-        text (str): input text with capital letters.
-
-    Returns:
-        str: text with only lowercase letters.
-    """
-    return text.lower()
-
-
-def replace_all_weapon_strings(text: str, string: str) -> str:
-    """Replaces all weapon strings with the corresponding weapon name.
-
-    Args:
-        text (str): the input text to replace the weapon strings in.
-        string (str): the string to replace the found matching 'weapon' strings with.
-
-    Returns:
-        str: the text string with all occurrences of 'weapon' strings replaced with the full and correct term.
-    """
-    if string == "waffen":
-        pattern = r"w[ä-üabdeft]{3}en"
-    elif string == "weapons":
-        pattern = r"w[aeop]{3}ons"
-    else:
-        raise ValueError(f"Search string '{string}' not supported.")
-
-    indices = get_indices_of_weapon_strings(text, pattern)
-    for (start, end) in indices:
-        text = insert_str_between_indices(text, string, start, end)
-    return text
-
-
-def insert_str_between_indices(text: str, string: str, start: int, end: int) -> str:
-    """Inserts a string between two indices of another string, called text.
-
-    Args:
-        text (str): input text to insert the string into.
-        string (str): string to insert.
-        start (int): starting index for insertion into text.
-        end (int): ending index for insertion (excluding, character at index will remain in text).
-
-    Returns:
-        str: text with the inserted string.
-    """
-    return text[:start] + string + text[end:]
-
-
-def get_indices_of_weapon_strings(text: str, pattern: str) -> List[Tuple[int, int]]:
-    """Returns the indices of all matching weapon strings in the text. Using regex.
-
-    Args:
-        text (str): lowercase, cleaned OCR text.
-        pattern (str): the regex pattern to find matching weapon strings in the text with.
-
-    Returns:
-        List[Tuple[int, int]]: List of Tuples with the start and end indices of the weapon strings.
-    """
-    all_matches = [(m.start(0), m.end(0)) for m in re.finditer(pattern, text)]
-    return all_matches

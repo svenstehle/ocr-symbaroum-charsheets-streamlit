@@ -1,5 +1,5 @@
 import pytest
-from src.process_text.extract_info import replace_all_weapon_strings
+from src.process_text.extract_info import TextProcessor
 
 
 @pytest.mark.parametrize(
@@ -24,5 +24,6 @@ from src.process_text.extract_info import replace_all_weapon_strings
     ]
 )
 def test_replace_all_weapon_strings(text, string, expected_result):
-    result = replace_all_weapon_strings(text, string)
+    TP = TextProcessor(text)
+    result = TP.replace_all_weapon_strings(string)
     assert result == expected_result

@@ -208,17 +208,3 @@ def prep_get_toughness(request):
     expected_result = request.param[1]
     yield attributes, expected_result
     del attributes, expected_result
-
-
-@pytest.fixture
-def create_german_regex_weapon_matching_pattern():
-    pattern = r"w[ä-üabdeft]{3}en"
-    yield pattern
-    del pattern
-
-
-@pytest.fixture
-def create_english_regex_weapon_matching_pattern():
-    pattern = r"w[aeop]{3}ons"
-    yield pattern
-    del pattern

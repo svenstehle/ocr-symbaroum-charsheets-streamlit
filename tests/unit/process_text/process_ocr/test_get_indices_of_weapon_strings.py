@@ -1,5 +1,5 @@
 import pytest
-from src.process_text.extract_info import get_indices_of_weapon_strings
+from src.process_text.extract_info import TextProcessor
 
 
 @pytest.mark.parametrize(
@@ -112,5 +112,6 @@ from src.process_text.extract_info import get_indices_of_weapon_strings
     ]
 )
 def test_get_indices_of_weapon_strings(text, pattern, expected_result):
-    all_results = get_indices_of_weapon_strings(text, pattern)
+    TP = TextProcessor(text)
+    all_results = TP.get_indices_of_weapon_strings(pattern)
     assert all_results == expected_result
