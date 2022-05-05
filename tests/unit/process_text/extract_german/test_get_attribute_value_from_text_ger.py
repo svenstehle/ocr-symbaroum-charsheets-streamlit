@@ -15,6 +15,10 @@ from src.process_text.extract_german import GermanExtractor
         (
             pytest.lazy_fixture("prep_ocr_text_guard"),
             pytest.lazy_fixture("prep_input_result_get_attribute_value_from_text_guard")
+        ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_aeber"),
+            pytest.lazy_fixture("prep_input_result_get_attribute_value_from_text_aeber")
         )
     ]
 )

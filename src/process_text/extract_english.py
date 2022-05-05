@@ -31,8 +31,8 @@ class EnglishExtractor:
         Returns:
             List[str]: list of the attribute values without any names.
         """
-        start_word = "VIG"
-        end_word = "Defense"
+        start_word = "vig"
+        end_word = "defense"
         att_start_loc = self.text.find(start_word) + 3
         att_end_loc = self.text.find(end_word, att_start_loc)
         att_values = self.text[att_start_loc:att_end_loc]
@@ -46,6 +46,7 @@ class EnglishExtractor:
             (")", " "),
             (",", " "),
             ("O", "0"),
+            ("o", "0"),
             ("©", "0"),
             (".", " "),
             ("’", " "),
@@ -78,14 +79,32 @@ class EnglishExtractor:
         Returns:
             Dict[str, str]: dictionary of the ability names and their rank.
         """
-        abilities_str = "Abilities"
+        abilities_str = "abilities"
         length = len(abilities_str)
         abilities_start_loc = self.text.find(abilities_str) + length + 1
-        traits_str = "Traits"
+        traits_str = "traits"
         abilities_end_loc = self.text.find(traits_str, abilities_start_loc)
         all_abilities = self.text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
         if all_abilities in ["-", None, "", " "]:
             return {"Abilities found in text": "Zero"}
         all_abilities = [a.strip() for a in all_abilities.split(",")]
-        all_abilities = {a.split("(")[0].strip(): a.split("(")[1].strip(") ") for a in all_abilities}
+        all_abilities = {
+            self.capitalize_ability_name(a.split("(")[0].strip()): a.split("(")[1].strip(") ")
+            for a in all_abilities
+        }
         return all_abilities
+
+    @staticmethod
+    def capitalize_ability_name(ability_name: str) -> str:
+        """Capitalizes the ability name. Leaves hyphens or dashes etc
+        untouched and only capitalizes words separated by whitespaces.
+
+        Args:
+            ability_name (str): the roll20 ability name extracted from the text.
+
+        Returns:
+            str: the capitalized ability name.
+        """
+        ability_name = ability_name.split()
+        ability_name = " ".join([a.capitalize() for a in ability_name])
+        return ability_name

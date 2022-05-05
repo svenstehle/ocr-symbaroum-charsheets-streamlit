@@ -19,6 +19,11 @@ from src.process_text.extract_german import GermanExtractor
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_ger_general"),
             pytest.lazy_fixture("create_expected_result_extract_all_attributes_from_text_guard")
         ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_aeber"),
+            pytest.lazy_fixture("create_input_extract_all_attributes_from_text_ger_general"),
+            pytest.lazy_fixture("create_expected_result_extract_all_attributes_from_text_aeber")
+        ),
     ]
 )
 def test_extract_all_attributes_from_text_ger(ocr_text, attribute_names, expected_result):

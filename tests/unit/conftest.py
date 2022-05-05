@@ -1,8 +1,8 @@
 import pytest
 from src.process_text.extract_info import InformationExtractor
 from tests.unit.input_ocr_texts import (
-    ocr_text_baiagorn, ocr_text_brand, ocr_text_draghul, ocr_text_fairy, ocr_text_guard, ocr_text_hunter,
-    ocr_text_sikander, ocr_text_unknown_language
+    ocr_text_aeber, ocr_text_baiagorn, ocr_text_brand, ocr_text_draghul, ocr_text_fairy, ocr_text_guard,
+    ocr_text_hunter, ocr_text_sikander, ocr_text_unknown_language
 )
 
 
@@ -71,6 +71,15 @@ def prep_ocr_text_sikander(request):
 
 @pytest.fixture(params=[ocr_text_unknown_language()])
 def prep_ocr_text_unknown_language(request):
+    text = request.param
+    IE = InformationExtractor(text)
+    IE.preprocess_text()
+    yield IE.text
+    del IE
+
+
+@pytest.fixture(params=[ocr_text_aeber()])
+def prep_ocr_text_aeber(request):
     text = request.param
     IE = InformationExtractor(text)
     IE.preprocess_text()

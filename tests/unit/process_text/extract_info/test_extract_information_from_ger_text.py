@@ -18,6 +18,10 @@ from src.process_text.extract_info import InformationExtractor
             pytest.lazy_fixture("prep_ocr_text_guard"),
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_ger_general"),
         ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_aeber"),
+            pytest.lazy_fixture("create_input_extract_all_attributes_from_text_ger_general"),
+        ),
     ]
 )
 def test_extract_information_from_ger_text(ocr_text, attribute_names):

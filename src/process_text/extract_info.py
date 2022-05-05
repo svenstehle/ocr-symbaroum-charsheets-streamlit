@@ -7,16 +7,18 @@ from process_language import detect_language
 
 from process_text.extract_english import EnglishExtractor
 from process_text.extract_german import GermanExtractor
+from process_text.process_ocr import TextProcessor
 
 
-class InformationExtractor:
+class InformationExtractor(TextProcessor):
     """Extracts all Information from OCR'd text."""
-    def __init__(self, text: str):
+    def __init__(self, text: str, **kwargs):
         """Constructs all the necessary attributes for the InformationExtractor object.
 
         Args:
             text (str): raw text from pytesseract OCR.
         """
+        super().__init__(text, **kwargs)
         self.text = text
         self._abilities = {"Abilities not found in text": "Zero"}
         self._attributes = {"Attributes not found in text": "Zero"}
@@ -95,10 +97,11 @@ class InformationExtractor:
             attribute_names (List[str]): list of the attribute names in German language.
         """
         self.preprocess_text()
+        self.replace_all_weapon_strings("waffen")
         GE = GermanExtractor(self.text)
         self._abilities = GE.extract_all_abilities_from_text_ger()
         self._attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
-        self.extract_tactics_from_text("Taktik:")
+        self.extract_tactics_from_text("taktik:")
         self.get_roll20_chat_input_str(charname)
 
     def extract_information_from_eng_text(self, charname: str, attribute_names: List[str]) -> None:
@@ -109,10 +112,11 @@ class InformationExtractor:
             attribute_names (List[str]): list of the attribute names in English language.
         """
         self.preprocess_text()
+        self.replace_all_weapon_strings("weapons")
         EE = EnglishExtractor(self.text)
         self._abilities = EE.extract_all_abilities_from_text_eng()
         self._attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
-        self.extract_tactics_from_text("Tactics:")
+        self.extract_tactics_from_text("tactics:")
         self.get_roll20_chat_input_str(charname)
 
     def preprocess_text(self) -> None:
@@ -130,49 +134,7 @@ class InformationExtractor:
         for key, rep in replacements:
             self.text = self.text.replace(key, rep)
         self.text = self.text.strip()
-
-    def get_roll20_chat_input_str(self, charname: str) -> None:
-        """Creates the roll20 chat input string for the setattr API script.
-
-        Args:
-            charname (str): name of the roll20 character for which to create the setattr string.
-
-        Raises:
-            ValueError: raised if the detected language of the input text is not supported.
-        """
-        if self.lang == "de":
-            mapping = {
-                "strong": "Stärke",
-                "quick": "Gewandtheit",
-                "vigilant": "Aufmerksamkeit",
-                "resolute": "Willenskraft",
-                "persuasive": "Ausstrahlung",
-                "cunning": "Scharfsinn",
-                "discreet": "Heimlichkeit",
-                "accurate": "Präzision"
-            }
-        elif self.lang == "en":
-            mapping = {
-                "strong": "STR",
-                "quick": "QUI",
-                "vigilant": "VIG",
-                "resolute": "RES",
-                "persuasive": "PER",
-                "cunning": "CUN",
-                "discreet": "DIS",
-                "accurate": "ACC"
-            }
-        else:
-            raise ValueError(f"Language {self.lang} not supported.")
-
-        basic_string = f"!setattr --name {charname}"
-
-        att_string = ""
-        for key, value in mapping.items():
-            att_string += f" --{key}|{self.attributes[value]}"
-
-        toughness_string = f" --toughness|{self.get_toughness(self.attributes)}"
-        self._setattr_str = basic_string + att_string + toughness_string
+        self.text = self.get_lowercase_text(self.text)
 
     def extract_tactics_from_text(self, tactics_str: str) -> None:
         """Extracts the tactics from the text.
@@ -186,6 +148,61 @@ class InformationExtractor:
         tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
         self._tactics = " ".join(tactics)
 
+    def get_roll20_chat_input_str(self, charname: str) -> None:
+        """Creates the roll20 chat input string for the setattr API script.
+
+        Args:
+            charname (str): name of the roll20 character for which to create the setattr string.
+
+        Raises:
+            ValueError: raised if the detected language of the input text is not supported.
+        """
+        if self.lang == "de":
+            mapping = {
+                "strong": "stärke",
+                "quick": "gewandtheit",
+                "vigilant": "aufmerksamkeit",
+                "resolute": "willenskraft",
+                "persuasive": "ausstrahlung",
+                "cunning": "scharfsinn",
+                "discreet": "heimlichkeit",
+                "accurate": "präzision"
+            }
+        elif self.lang == "en":
+            mapping = {
+                "strong": "str",
+                "quick": "qui",
+                "vigilant": "vig",
+                "resolute": "res",
+                "persuasive": "per",
+                "cunning": "cun",
+                "discreet": "dis",
+                "accurate": "acc"
+            }
+        else:
+            raise ValueError(f"Language {self.lang} not supported.")
+
+        basic_string = f"!setattr --name {charname}"
+
+        att_string = ""
+        for key, value in mapping.items():
+            att_string += f" --{key}|{self.attributes[value]}"
+
+        toughness_string = f" --toughness|{self.get_toughness(self.attributes)}"
+        self._setattr_str = basic_string + att_string + toughness_string
+
+    @staticmethod
+    def get_lowercase_text(text: str) -> str:
+        """Returns the text in lowercase.
+
+        Args:
+            text (str): input text with capital letters.
+
+        Returns:
+            str: text with only lowercase letters.
+        """
+        return text.lower()
+
     @staticmethod
     def get_toughness(attributes: Dict[str, str]) -> int:
         """Calculates the toughness from the strong attribute in the relevant language.
@@ -196,6 +213,6 @@ class InformationExtractor:
         Returns:
             int: roll20 symbaroum character toughness value.
         """
-        strength_key = "STR" if "STR" in attributes else "Stärke"
+        strength_key = "str" if "str" in attributes else "stärke"
         strong = int(attributes[strength_key])
         return max((strong, 10))

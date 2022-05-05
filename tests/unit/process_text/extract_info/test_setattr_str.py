@@ -16,7 +16,7 @@ from src.process_text.extract_info import InformationExtractor
         ),
     ]
 )
-def test_tactics_extracted(
+def test_setattr_str_with_info_extracted(
     prep_hydra_config,
     charname,
     ocr_text,

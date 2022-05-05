@@ -15,9 +15,9 @@ from src.process_text.extract_info import InformationExtractor
                 "Long-lived,\n\nEquipment = test"
             ),
             (
-                "-(master), Ritualist (master: only relevant "
-                "is Dance of Death, new ritual),"
-                "Long-lived, Equipment - test"
+                "-(master), ritualist (master: only relevant "
+                "is dance of death, new ritual),"
+                "long-lived, equipment - test"
             ),
         ),
     ]

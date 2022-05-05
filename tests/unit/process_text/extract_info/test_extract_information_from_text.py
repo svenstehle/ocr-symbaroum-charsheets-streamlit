@@ -22,6 +22,11 @@ from src.process_text.extract_info import InformationExtractor
             "de",
         ),
         (
+            pytest.lazy_fixture("prep_ocr_text_aeber"),
+            pytest.lazy_fixture("prep_hydra_config"),
+            "de",
+        ),
+        (
             pytest.lazy_fixture("prep_ocr_text_fairy"),
             pytest.lazy_fixture("prep_hydra_config"),
             "en",

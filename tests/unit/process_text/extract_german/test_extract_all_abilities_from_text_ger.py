@@ -16,6 +16,10 @@ from src.process_text.extract_german import GermanExtractor
             pytest.lazy_fixture("prep_ocr_text_guard"),
             pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_guard")
         ),
+        (
+            pytest.lazy_fixture("prep_ocr_text_aeber"),
+            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_aeber")
+        ),
     ]
 )
 def test_extract_all_abilities_from_text_ger(ocr_text, expected_result):
