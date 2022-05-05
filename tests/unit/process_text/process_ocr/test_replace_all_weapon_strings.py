@@ -25,5 +25,5 @@ from src.process_text.extract_info import TextProcessor
 )
 def test_replace_all_weapon_strings(text, string, expected_result):
     TP = TextProcessor(text)
-    result = TP.replace_all_weapon_strings(string)
-    assert result == expected_result
+    TP.replace_all_weapon_strings(string)
+    assert TP.text == expected_result

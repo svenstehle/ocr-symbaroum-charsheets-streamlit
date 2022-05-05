@@ -14,14 +14,14 @@ class TextProcessor:
         """
         self.text = text
 
-    def replace_all_weapon_strings(self, string: str) -> str:
+    def replace_all_weapon_strings(self, string: str) -> None:
         """Replaces all weapon strings with the corresponding weapon name.
 
         Args:
             string (str): the string to replace the found matching 'weapon' strings with.
 
-        Returns:
-            str: the text string with all occurrences of 'weapon' strings replaced with the full and correct term.
+        Raises:
+            ValueError: raises if the string is not a valid weapon name.
         """
         if string == "waffen":
             pattern = r"w[ä-üabdeft]{3}en"
@@ -33,7 +33,6 @@ class TextProcessor:
         indices = self.get_indices_of_weapon_strings(pattern)
         for (start, end) in indices:
             self.text = self.insert_str_between_indices(string, start, end)
-        return self.text
 
     def get_indices_of_weapon_strings(self, pattern: str) -> List[Tuple[int, int]]:
         """Returns the indices of all matching weapon strings in the text. Using regex.

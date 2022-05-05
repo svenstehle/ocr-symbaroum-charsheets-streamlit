@@ -10,14 +10,15 @@ from process_text.extract_german import GermanExtractor
 from process_text.process_ocr import TextProcessor
 
 
-class InformationExtractor:
+class InformationExtractor(TextProcessor):
     """Extracts all Information from OCR'd text."""
-    def __init__(self, text: str):
+    def __init__(self, text: str, **kwargs):
         """Constructs all the necessary attributes for the InformationExtractor object.
 
         Args:
             text (str): raw text from pytesseract OCR.
         """
+        super().__init__(text, **kwargs)
         self.text = text
         self._abilities = {"Abilities not found in text": "Zero"}
         self._attributes = {"Attributes not found in text": "Zero"}
@@ -96,8 +97,7 @@ class InformationExtractor:
             attribute_names (List[str]): list of the attribute names in German language.
         """
         self.preprocess_text()
-        TP = TextProcessor(self.text)
-        self.text = TP.replace_all_weapon_strings("waffen")
+        self.replace_all_weapon_strings("waffen")
         GE = GermanExtractor(self.text)
         self._abilities = GE.extract_all_abilities_from_text_ger()
         self._attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
@@ -112,8 +112,7 @@ class InformationExtractor:
             attribute_names (List[str]): list of the attribute names in English language.
         """
         self.preprocess_text()
-        TP = TextProcessor(self.text)
-        self.text = TP.replace_all_weapon_strings("weapons")
+        self.replace_all_weapon_strings("weapons")
         EE = EnglishExtractor(self.text)
         self._abilities = EE.extract_all_abilities_from_text_eng()
         self._attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
