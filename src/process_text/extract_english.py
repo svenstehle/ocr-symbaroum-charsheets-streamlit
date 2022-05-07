@@ -1,5 +1,6 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
+import re
 from typing import Dict, List
 
 
@@ -38,16 +39,8 @@ class EnglishExtractor:
         att_values = self.text[att_start_loc:att_end_loc]
 
         att_values = self.clean_attribute_values(att_values)
-        att_values_clean = []
+        att_values_clean = self.clean_misrecognized_plus_characters(att_values)
 
-        for v in att_values:
-            if v.isdigit() and len(v) == 2 and v.startswith("4"):
-                v = v.replace("4", "+")
-            elif len(v) == 3 and v.startswith("+4") and v[1:].isdigit():
-                v = v.replace("+4", "+")
-            elif len(v) == 3 and v.startswith("4+") and v[2].isdigit():
-                v = v.replace("4+", "+")
-            att_values_clean.append(v)
         att_values_clean = [str((10 - int(v))) for v in att_values_clean]
         return att_values_clean
 
@@ -87,6 +80,24 @@ class EnglishExtractor:
         for k, v in mapping:
             attribute_values = attribute_values.replace(k, v)
         return attribute_values.split()
+
+    @staticmethod
+    def clean_misrecognized_plus_characters(attribute_values: List[str]) -> List[str]:
+        """Cleans the attribute values based on the regex match.
+        Mainly targets the plus characters that can get misrecognized or even added as additional '4's.
+
+        Args:
+            attribute_values (List[str]): list of the attribute values with only '[-+0-9]' characters.
+
+        Returns:
+            List[str]: cleaned list of attribute values.
+        """
+        for i, v in enumerate(attribute_values):
+            pattern = r"[+0-9]{2,3}$"
+            match = re.search(pattern, v)
+            if match:
+                attribute_values[i] = "+" + v[-1]
+        return attribute_values
 
     def extract_all_abilities_from_text_eng(self) -> Dict[str, str]:
         """Extracts all roll20 character abilities from English text.
