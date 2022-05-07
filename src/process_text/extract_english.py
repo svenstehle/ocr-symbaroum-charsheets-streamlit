@@ -36,6 +36,32 @@ class EnglishExtractor:
         att_start_loc = self.text.find(start_word) + 3
         att_end_loc = self.text.find(end_word, att_start_loc)
         att_values = self.text[att_start_loc:att_end_loc]
+
+        att_values = self.clean_attribute_values(att_values)
+        att_values_clean = []
+
+        for v in att_values:
+            if v.isdigit() and len(v) == 2 and v.startswith("4"):
+                v = v.replace("4", "+")
+            elif len(v) == 3 and v.startswith("+4") and v[1:].isdigit():
+                v = v.replace("+4", "+")
+            elif len(v) == 3 and v.startswith("4+") and v[2].isdigit():
+                v = v.replace("4+", "+")
+            att_values_clean.append(v)
+        att_values_clean = [str((10 - int(v))) for v in att_values_clean]
+        return att_values_clean
+
+    @staticmethod
+    def clean_attribute_values(attribute_values: str) -> List[str]:
+        """Cleans the attribute values based on the mappings.
+
+        Args:
+            attribute_values (str): string of attribute values extracted
+            from the OCR'd text with misrecognized / altered characters.
+
+        Returns:
+            List[str]: list of cleaned attribute values.
+        """
         mapping = [
             ("|", " "),
             ("[", " "),
@@ -59,19 +85,8 @@ class EnglishExtractor:
             ("00", "0 0"),
         ]
         for k, v in mapping:
-            att_values = att_values.replace(k, v)
-
-        att_values_clean = []
-        for v in att_values.split():
-            if v.isdigit() and len(v) == 2 and v.startswith("4"):
-                v = v.replace("4", "+")
-            elif len(v) == 3 and v.startswith("+4") and v[1:].isdigit():
-                v = v.replace("+4", "+")
-            elif len(v) == 3 and v.startswith("4+") and v[2].isdigit():
-                v = v.replace("4+", "+")
-            att_values_clean.append(v)
-        att_values_clean = [str((10 - int(v))) for v in att_values_clean]
-        return att_values_clean
+            attribute_values = attribute_values.replace(k, v)
+        return attribute_values.split()
 
     def extract_all_abilities_from_text_eng(self) -> Dict[str, str]:
         """Extracts all roll20 character abilities from English text.
