@@ -5,7 +5,6 @@ import streamlit as st
 from omegaconf import DictConfig
 
 from ocr import perform_ocr
-from process_image import ImageProcessor
 from process_language import detect_languages, language_mapper_for_tesseract
 from process_text.extract_info import InformationExtractor
 from streamlit_helper import (
@@ -13,6 +12,7 @@ from streamlit_helper import (
     display_selected_image, display_tactics, get_rescale_factor, is_ocr_cache_present, setup_image_selection,
     setup_ocr_mode_selection
 )
+from utils import get_processed_image_file
 
 
 @hydra.main(config_path="conf", config_name="config")
@@ -34,9 +34,7 @@ def main(cfg: DictConfig) -> None:
     image_file = setup_image_selection(cfg)
     factor = get_rescale_factor()
     if image_file is not None:
-        IP = ImageProcessor(factor)
-        IP.get_processed_image(image_file)
-        image = IP.img
+        image = get_processed_image_file(image_file, factor)
         display_selected_image(image)
         st.info(cfg.streamlit.success_response)
     else:
