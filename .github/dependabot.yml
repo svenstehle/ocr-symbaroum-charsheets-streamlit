@@ -1,0 +1,12 @@
+# Customize the manifest version strategy
+
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    # poetry is used by github once it detects the poetry.lock file
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # Only allow updates to the lockfile for pip and
+    # ignore any version updates that affect the manifest
+    versioning-strategy: lockfile-only
