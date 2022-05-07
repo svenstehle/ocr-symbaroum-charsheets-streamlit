@@ -42,6 +42,10 @@ class ImageProcessor:
         self.load_image_from_file(uploaded_image)
         self.preprocess_image()
         self.raise_if_not_ndarray("Image was not processed correctly!")
+        # The environment mypy flags the value if we do not assert and we used # type: ignore.
+        # But then pre-commit mypy complains about unused # type: ignore on return
+        # Since we perform the same check in self.raise_if_not_ndarray, this is unfortunately very redundant
+        assert isinstance(self.img, np.ndarray)
         return self.img
 
     def load_image_from_file(self, uploaded_image: accepted_image_types) -> None:
