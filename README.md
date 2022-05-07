@@ -3,6 +3,7 @@
 [![lint](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/lint.yml/badge.svg)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/lint.yml)
 [![tests](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/linting_and_tests.yml/badge.svg)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/actions/workflows/linting_and_tests.yml)
 [![codecov](https://codecov.io/gh/svenstehle/ocr-symbaroum-charsheets-streamlit/branch/main/graph/badge.svg?token=AK24E5TVTI)](https://codecov.io/gh/svenstehle/ocr-symbaroum-charsheets-streamlit)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8ecf59f184dc9c87564d/maintainability)](https://codeclimate.com/github/svenstehle/ocr-symbaroum-charsheets-streamlit/maintainability)
 [![PythonVersion](https://img.shields.io/badge/python-3.8%20%7C%203.9%20-blue)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit)
 [![yapf](https://img.shields.io/badge/code%20style-YAPF-lightgrey)](https://github.com/google/yapf)
 
