@@ -10,8 +10,9 @@ from PIL.PngImagePlugin import PngImageFile
 from PIL.TiffImagePlugin import TiffImageFile
 from skimage import filters
 
-upload_image_types = Union[PngImageFile, TiffImageFile]
+upload_image_types = Union[PngImageFile, TiffImageFile, None]    # None at app start
 accepted_image_types = Union[upload_image_types, str]
+processed_image_types = Union[np.ndarray, None]
 
 
 class ImageProcessor:
@@ -25,7 +26,7 @@ class ImageProcessor:
             bordersize (int, optional): the bordersize used during application
                 of white border around the image with add_white_border. Defaults to 10.
         """
-        self.img: upload_image_types = None
+        self.img: processed_image_types = None
         self.factor = factor
         self.bordersize = bordersize
 
@@ -40,6 +41,7 @@ class ImageProcessor:
         """
         self.load_image_from_file(uploaded_image)
         self.preprocess_image()
+        self.raise_if_not_ndarray("Image was not processed correctly!")
         return self.img
 
     def load_image_from_file(self, uploaded_image: accepted_image_types) -> None:
@@ -57,6 +59,18 @@ class ImageProcessor:
         self.apply_thresholding()
         self.apply_denoising()
         self.add_white_border()
+
+    def raise_if_not_ndarray(self, msg: str) -> None:
+        """Raises ValueError if the image is not a numpy array.
+
+        Args:
+            msg (str): the string to be displayed in the raised ValueError
+
+        Raises:
+            ValueError: _description_
+        """
+        if not isinstance(self.img, np.ndarray):
+            raise ValueError(f"self.img is no instance of 'np.ndarray', {msg}")
 
     def rescale_img_arr(self) -> None:
         """Rescale the image to the desired factor. If factor is 1.0, no rescaling is applied."""
@@ -79,8 +93,9 @@ class ImageProcessor:
         Returns:
             bool: returns True if the image is grayscale, raises ValueError otherwise
         """
-        if self.img.ndim != 2:
-            raise ValueError("Image must be grayscale")
+        self.raise_if_not_ndarray("Image was not loaded!")
+        if self.img.ndim != 2:    # type: ignore
+            raise ValueError("Image must be grayscale!")
         return True
 
     def apply_thresholding(self) -> None:

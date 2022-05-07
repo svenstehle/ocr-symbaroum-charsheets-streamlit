@@ -9,10 +9,8 @@ from process_language import detect_languages, language_mapper_for_tesseract
 from process_text.extract_info import InformationExtractor
 from streamlit_helper import (
     display_abilities, display_charname_info, display_information_extraction_exception, display_ocr_output,
-    display_selected_image, display_tactics, get_rescale_factor, is_ocr_cache_present, setup_image_selection,
-    setup_ocr_mode_selection
+    display_tactics, image_handler, is_ocr_cache_present, setup_sidebar
 )
-from utils import get_processed_image_file
 
 
 @hydra.main(config_path="conf", config_name="config")
@@ -30,17 +28,11 @@ def main(cfg: DictConfig) -> None:
     # start Streamlit page setup
     st.title("OCR for Symbaroum Charactersheets with Streamlit")
 
-    # setup sidebar with selections
-    image_file = setup_image_selection(cfg)
-    factor = get_rescale_factor()
-    if image_file is not None:
-        image = get_processed_image_file(image_file, factor)
-        display_selected_image(image)
-        st.info(cfg.streamlit.success_response)
-    else:
-        st.info(cfg.streamlit.failure_response)
+    # setup the Streamlit sidebar
+    image_file, factor, psm = setup_sidebar(cfg)
 
-    psm = setup_ocr_mode_selection()
+    # handle image processing and display results in Streamlit
+    image = image_handler(cfg, image_file, factor)
 
     # OCR part
     if image is not None:

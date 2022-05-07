@@ -1,12 +1,33 @@
 # License: APACHE LICENSE, VERSION 2.0
-
 from typing import Tuple
 
 import numpy as np
 import streamlit as st
 from omegaconf import DictConfig
 
-from process_image import upload_image_types
+from process_image import (accepted_image_types, processed_image_types, upload_image_types)
+from utils import get_processed_image_file
+
+
+def setup_sidebar(cfg: DictConfig) -> Tuple[upload_image_types, float, int]:
+    """Sidebar setup in streamlit app.
+    1. Can load an image from the file_uploader
+    2. Can set the rescale factor for the image for zoom/shrink operations during processing.
+        Returns default if no user action is taken.
+    3. Can set the tesseract OCR page segmentation mode.
+        Returns default if no user action is taken.
+
+    Args:
+        cfg (DictConfig): hydra config object
+
+    Returns:
+        Tuple[upload_image_types, float, int]: the image file (None if no image is loaded),
+        the rescale factor, and the OCR mode.
+    """
+    image_file = setup_image_selection(cfg)
+    factor = get_rescale_factor()
+    psm = setup_ocr_mode_selection()
+    return image_file, factor, psm
 
 
 def get_rescale_factor() -> float:
@@ -41,6 +62,29 @@ def setup_image_selection(cfg: DictConfig) -> upload_image_types:
         st.header("Image selection for OCR")
         image_file = st.file_uploader("Upload an Image", type=cfg.streamlit.supported_image_types)
     return image_file
+
+
+def image_handler(cfg: DictConfig, image_file: accepted_image_types, factor: float) -> processed_image_types:
+    """Handles the image processing and rescaling based on the factor
+    provided by the use via the streamlit slider.
+
+    Args:
+        cfg (DictConfig): the hydra config object
+        image_file (accepted_image_types): the image file to process.
+            Either a file object or a path to an image
+        factor (float): the rescale factor to zoom/shrink the image with.
+
+    Returns:
+        processed_image_types: the processed image file or at start of the app the default None.
+    """
+    image = None
+    if image_file is not None:
+        image = get_processed_image_file(image_file, factor)
+        display_selected_image(image)
+        st.info(cfg.streamlit.success_response)
+    else:
+        st.info(cfg.streamlit.failure_response)
+    return image
 
 
 available_options = Tuple[str, str]
