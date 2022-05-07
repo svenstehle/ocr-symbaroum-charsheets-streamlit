@@ -1165,7 +1165,7 @@ python-versions = "*"
 
 [[package]]
 name = "pre-commit"
-version = "2.18.1"
+version = "2.19.0"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 category = "main"
 optional = false
@@ -1871,7 +1871,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "streamlit"
-version = "1.8.1"
+version = "1.9.0"
 description = "The fastest way to build data apps in Python"
 category = "main"
 optional = false
@@ -2902,8 +2902,8 @@ pprintpp = [
     {file = "pprintpp-0.4.0.tar.gz", hash = "sha256:ea826108e2c7f49dc6d66c752973c3fc9749142a798d6b254e1e301cfdbc6403"},
 ]
 pre-commit = [
-    {file = "pre_commit-2.18.1-py2.py3-none-any.whl", hash = "sha256:02226e69564ebca1a070bd1f046af866aa1c318dbc430027c50ab832ed2b73f2"},
-    {file = "pre_commit-2.18.1.tar.gz", hash = "sha256:5d445ee1fa8738d506881c5d84f83c62bb5be6b2838e32207433647e8e5ebe10"},
+    {file = "pre_commit-2.19.0-py2.py3-none-any.whl", hash = "sha256:10c62741aa5704faea2ad69cb550ca78082efe5697d6f04e5710c3c229afdd10"},
+    {file = "pre_commit-2.19.0.tar.gz", hash = "sha256:4233a1e38621c87d9dda9808c6606d7e7ba0e087cd56d3fe03202a01d2919615"},
 ]
 prometheus-client = [
     {file = "prometheus_client-0.14.1-py3-none-any.whl", hash = "sha256:522fded625282822a89e2773452f42df14b5a8e84a86433e3f8a189c1d54dc01"},
@@ -3382,8 +3382,8 @@ soupsieve = [
     {file = "soupsieve-2.3.2.post1.tar.gz", hash = "sha256:fc53893b3da2c33de295667a0e19f078c14bf86544af307354de5fcf12a3f30d"},
 ]
 streamlit = [
-    {file = "streamlit-1.8.1-py2.py3-none-any.whl", hash = "sha256:24d19c420d760c88eafc3f9508cbbd77ddab4a99a3a3b4db06f7741531f120a5"},
-    {file = "streamlit-1.8.1.tar.gz", hash = "sha256:507c84439996c6ffed150a2bdd1352b46acc8a476a1012e73241f7cc2fda3056"},
+    {file = "streamlit-1.9.0-py2.py3-none-any.whl", hash = "sha256:dd7718147cfc8eb4c5a18b36b67a36de37454e7fe49ac72470ad2a43771aef13"},
+    {file = "streamlit-1.9.0.tar.gz", hash = "sha256:543c809843b0561f5aa3850af2e90f7a6df17c80906b09ab76bab498846e6797"},
 ]
 termcolor = [
     {file = "termcolor-1.1.0.tar.gz", hash = "sha256:1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"},
