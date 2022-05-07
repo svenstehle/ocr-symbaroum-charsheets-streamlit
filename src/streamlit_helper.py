@@ -5,6 +5,7 @@ import numpy as np
 import streamlit as st
 from omegaconf import DictConfig
 
+from ocr import OCR
 from process_image import (accepted_image_types, processed_image_types, upload_image_types)
 from utils import get_processed_image_file
 
@@ -28,6 +29,21 @@ def setup_sidebar(cfg: DictConfig) -> Tuple[upload_image_types, float, int]:
     factor = get_rescale_factor()
     psm = setup_ocr_mode_selection()
     return image_file, factor, psm
+
+
+def ocr_handler(cfg, image, psm):
+    # TODO DOCSTRING/ TESTS
+    if image is not None:
+        st.subheader("Perform OCR on selected image?")
+        performed_ocr = st.button("Yes, start OCR", key="OCR")
+        if performed_ocr:
+            with st.spinner("Performing OCR on image ..."):
+                ocr = OCR(cfg, image, psm)
+                text = ocr.detect_text_from_image()
+                st.session_state[cfg.streamlit.ocr_cache_key] = text
+            display_ocr_output(text)
+        elif is_ocr_cache_present(cfg.streamlit.ocr_cache_key) and not performed_ocr:
+            st.info("Using cached OCR output. Rerun OCR to update.")
 
 
 def get_rescale_factor() -> float:

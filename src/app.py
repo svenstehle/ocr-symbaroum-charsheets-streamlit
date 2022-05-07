@@ -4,12 +4,10 @@ import hydra
 import streamlit as st
 from omegaconf import DictConfig
 
-from ocr import perform_ocr
-from process_language import detect_languages, language_mapper_for_tesseract
 from process_text.extract_info import InformationExtractor
 from streamlit_helper import (
-    display_abilities, display_charname_info, display_information_extraction_exception, display_ocr_output,
-    display_tactics, image_handler, is_ocr_cache_present, setup_sidebar
+    display_abilities, display_charname_info, display_information_extraction_exception, display_tactics, image_handler,
+    is_ocr_cache_present, ocr_handler, setup_sidebar
 )
 
 
@@ -35,21 +33,7 @@ def main(cfg: DictConfig) -> None:
     image = image_handler(cfg, image_file, factor)
 
     # OCR part
-    if image is not None:
-        st.subheader("Perform OCR on selected image?")
-        performed_ocr = st.button("Yes, start OCR", key="OCR")
-        if performed_ocr:
-            with st.spinner("Performing OCR on image ..."):
-                lang = "deu+eng"
-                text = perform_ocr(cfg.ocr, lang, psm, image)
-                languages = detect_languages(text)
-                languages = language_mapper_for_tesseract(languages)
-                if len(languages) == 1:
-                    text = perform_ocr(cfg.ocr, languages[0], psm, image)
-                st.session_state[cfg.streamlit.ocr_cache_key] = text
-            display_ocr_output(text)
-        elif is_ocr_cache_present(cfg.streamlit.ocr_cache_key) and not performed_ocr:
-            st.info("Using cached OCR output. Rerun OCR to update.")
+    ocr_handler(cfg, image, psm)
 
     # information extraction part - create roll20 string
     if is_ocr_cache_present(cfg.streamlit.ocr_cache_key):

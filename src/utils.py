@@ -1,3 +1,5 @@
+# License: APACHE LICENSE, VERSION 2.0
+
 import numpy as np
 
 from process_image import ImageProcessor, accepted_image_types

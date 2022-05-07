@@ -3,7 +3,7 @@
 import hydra
 from omegaconf import DictConfig
 
-from ocr import perform_ocr
+from ocr import OCR
 from process_image import ImageProcessor
 
 
@@ -12,7 +12,9 @@ def main(cfg: DictConfig) -> None:
     """loads an image, performs OCR on it and prints the result."""
     IP = ImageProcessor()
     image = IP.get_processed_image(cfg.ocr.pytesseract.image)
-    text = perform_ocr(cfg.ocr, cfg.ocr.pytesseract.debug_lang, cfg.ocr.pytesseract.debug_psm, image)
+    ocr = OCR(cfg, image, cfg.ocr.pytesseract.debug_psm)
+    ocr.lang = cfg.ocr.pytesseract.debug_lang
+    text = ocr.detect_text_from_image()
 
     print("ORIGINAL")
     print("========")

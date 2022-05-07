@@ -5,18 +5,20 @@ from typing import List
 from langdetect import DetectorFactory, detect, detect_langs
 
 
-def detect_language(text: str) -> str:
-    """Detects language of text.
+def get_languages_present_in_text(text: str) -> str:
+    """Gets the languages used in input text.
 
     Args:
-        text (str): input text to detect language of.
+        text (str): the raw OCR'd text.
 
     Returns:
-        str: the detected language of the input text.
+        str: the languages used in the text.
+        Most used language is the first (or only) item in the list.
     """
-    DetectorFactory.seed = 0
-    lang = detect(text)
-    return lang
+    languages = detect_languages(text)
+    languages = language_mapper_for_tesseract(languages)
+    languages = "+".join(languages)
+    return languages
 
 
 def detect_languages(text: str) -> List[str]:
@@ -48,3 +50,17 @@ def language_mapper_for_tesseract(languages: List[str]) -> List[str]:
         if l in mappings:
             languages[i] = mappings[l]
     return languages
+
+
+def detect_language(text: str) -> str:
+    """Detects language of text.
+
+    Args:
+        text (str): input text to detect language of.
+
+    Returns:
+        str: the detected language of the input text.
+    """
+    DetectorFactory.seed = 0
+    lang = detect(text)
+    return lang

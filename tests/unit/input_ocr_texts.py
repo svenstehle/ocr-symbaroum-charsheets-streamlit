@@ -275,3 +275,23 @@ def ocr_text_aeber():
         "jeden Gegner niederzumetzeln."
     )
     return text
+
+
+def ocr_text_mixed_language():
+    text = (
+        "Tactics: Sikander raises a Flame Wall around\n"
+        "himself and his flaming servant. Anyone ente-\n"
+        "ring through the wall of fire encounters Brand in\n"
+        "melee while Sikander maneuvers so he can cast a\n"
+        "chain of Brimstone Cascades at the enemy. He is\n"
+        "prepared to die for his claim and during the fight\n"
+        "he accuses the attackers of wanting to steal his\n"
+        "precious treasure.\n"
+        "Taktik: Der ber setzt fingierte Angriffe ein und\n"
+        "versucht damit. seine Feinde zu verscheuchen.\n"
+        "Sollte das scheitern. verlässt er sich darauf,\n"
+        "dass seine Reflexe, seine widerstandsfähige\n"
+        "Haut und seine brutalen Hauer ausreichen, um\n"
+        "jeden Gegner niederzumetzeln."
+    )
+    return text
