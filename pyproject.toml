@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "symbaroum-adventures"
-version = "0.3.0"
+version = "0.4.0"
 description = "OCR detection app for Symbaroum on Streamlit"
 authors = ["Sven Stehle <svenstehle@web.de>"]
 packages = [
