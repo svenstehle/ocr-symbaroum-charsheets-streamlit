@@ -27,3 +27,11 @@ def test_replace_all_weapon_strings(text, string, expected_result):
     TP = TextProcessor(text)
     TP.replace_all_weapon_strings(string)
     assert TP.text == expected_result
+
+
+def test_replace_all_weapon_strings_exception():
+    TP = TextProcessor("test warmen test")
+    test_string = "testme"
+    with pytest.raises(ValueError) as e:
+        TP.replace_all_weapon_strings(test_string)
+    assert str(e.value) == f"Search string '{test_string}' not supported."
