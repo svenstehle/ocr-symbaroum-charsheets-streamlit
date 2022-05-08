@@ -92,17 +92,15 @@ You can read up on possible fine-tuning options on [this page](https://ai-facets
 
 ## Contributing
 
-Have fun and raise any issues you see. Feel free to contribute and extend.
+Have fun and raise any issues you see. Feel free to contribute and extend. Also see [CONTRIBUTING.md](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit/blob/main/CONTRIBUTING.md).
 Already identified possible improvements:
 
 - Improve the documentation
-- Add more docstrings
 - Improve streamlit tests and test coverage of regression / visual tests
 - Extract more info from the OCR results
 - Use Regex to deal with some OCR inaccuracies in a better way
 - Make more of the extracted information available to the roll20 API in the correct format/way to improve ease of character setup in roll20
 - Add and improve GitHub Actions for automatic tests and continuous integration
-- Add issue / contribution / pull request templates
 
 ### Developing
 
