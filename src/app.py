@@ -3,7 +3,11 @@
 import hydra
 from omegaconf import DictConfig
 
-from streamlit_helper import (image_handler, information_extraction_handler, ocr_handler, setup_sidebar)
+from streamlit_handlers.image_handler import image_handler
+from streamlit_handlers.information_extraction_handler import \
+    information_extraction_handler
+from streamlit_handlers.ocr_handler import ocr_handler
+from streamlit_handlers.sidebar_handler import sidebar_handler
 
 
 @hydra.main(config_path="conf", config_name="config")
@@ -15,7 +19,7 @@ def main(cfg: DictConfig) -> None:
     will be extracted and presented to the user.
     """
     # setup the Streamlit sidebar
-    image_file, factor, psm = setup_sidebar(cfg)
+    image_file, factor, psm = sidebar_handler(cfg)
 
     # handle image processing and display results in Streamlit
     image = image_handler(cfg, image_file, factor)
