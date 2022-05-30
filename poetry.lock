@@ -1872,7 +1872,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "streamlit"
-version = "1.9.0"
+version = "1.9.2"
 description = "The fastest way to build data apps in Python"
 category = "main"
 optional = false
@@ -1890,7 +1890,7 @@ numpy = "*"
 packaging = "*"
 pandas = ">=0.21.0"
 pillow = ">=6.2.0"
-protobuf = ">=3.6.0,<3.11 || >3.11"
+protobuf = ">=3.12,<4"
 pyarrow = "*"
 pydeck = ">=0.1.dev5"
 pympler = ">=0.9"
@@ -1899,6 +1899,7 @@ requests = "*"
 semver = "*"
 toml = "*"
 tornado = ">=5.0"
+typing-extensions = "*"
 tzlocal = "*"
 validators = "*"
 watchdog = {version = "*", markers = "platform_system != \"Darwin\""}
@@ -3386,8 +3387,8 @@ soupsieve = [
     {file = "soupsieve-2.3.2.post1.tar.gz", hash = "sha256:fc53893b3da2c33de295667a0e19f078c14bf86544af307354de5fcf12a3f30d"},
 ]
 streamlit = [
-    {file = "streamlit-1.9.0-py2.py3-none-any.whl", hash = "sha256:dd7718147cfc8eb4c5a18b36b67a36de37454e7fe49ac72470ad2a43771aef13"},
-    {file = "streamlit-1.9.0.tar.gz", hash = "sha256:543c809843b0561f5aa3850af2e90f7a6df17c80906b09ab76bab498846e6797"},
+    {file = "streamlit-1.9.2-py2.py3-none-any.whl", hash = "sha256:5f7fad405fa7fc9097ae88e5a34c4834f3bcfb49d57521d7d1ec7f966a6cf0a4"},
+    {file = "streamlit-1.9.2.tar.gz", hash = "sha256:8c2952b868fe371e42a49dc54d4dc3f52125d7c3c487a9a822ba01df4fbe8bac"},
 ]
 termcolor = [
     {file = "termcolor-1.1.0.tar.gz", hash = "sha256:1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"},
