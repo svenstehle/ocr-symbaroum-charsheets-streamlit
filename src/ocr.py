@@ -4,7 +4,7 @@ import numpy as np
 import pytesseract
 from omegaconf import DictConfig
 
-from process_language import get_languages_present_in_text
+from src.process_language import get_languages_present_in_text
 
 
 class OCR:

@@ -2,7 +2,7 @@
 #
 import streamlit as st
 from omegaconf import DictConfig
-from process_text.extract_info import InformationExtractor
+from src.process_text.extract_info import InformationExtractor
 
 
 def information_extraction_handler(cfg: DictConfig) -> None:

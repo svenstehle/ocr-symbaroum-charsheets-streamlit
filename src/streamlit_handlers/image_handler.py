@@ -3,8 +3,8 @@
 import numpy as np
 import streamlit as st
 from omegaconf import DictConfig
-from process_image import accepted_image_types, processed_image_types
-from utils import get_processed_image_file
+from src.process_image import accepted_image_types, processed_image_types
+from src.utils import get_processed_image_file
 
 
 def image_handler(cfg: DictConfig, image_file: accepted_image_types, factor: float) -> processed_image_types:

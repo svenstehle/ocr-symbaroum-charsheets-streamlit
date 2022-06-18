@@ -3,8 +3,8 @@ from typing import Union
 
 import numpy as np
 import streamlit as st
-from ocr import OCR
 from omegaconf import DictConfig    # pylint: disable=wrong-import-order
+from src.ocr import OCR
 
 
 def ocr_handler(cfg: DictConfig, image: Union[None, np.ndarray], psm: int) -> None:

@@ -3,11 +3,10 @@
 from typing import Dict, List
 
 from omegaconf import DictConfig
-from process_language import detect_language
-
-from process_text.extract_english import EnglishExtractor
-from process_text.extract_german import GermanExtractor
-from process_text.process_ocr import TextProcessor
+from src.process_language import detect_language
+from src.process_text.extract_english import EnglishExtractor
+from src.process_text.extract_german import GermanExtractor
+from src.process_text.process_ocr import TextProcessor
 
 
 class InformationExtractor(TextProcessor):

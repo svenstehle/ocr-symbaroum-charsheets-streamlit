@@ -4,3 +4,7 @@
     entry: trailing-whitespace-fixer
     language: python
     types: [text]
+-   id: no-commit-to-branch
+    name: No Commit to Branch
+    description: This hook prevents commits to branches.
+    entry: no-commit-to-branch

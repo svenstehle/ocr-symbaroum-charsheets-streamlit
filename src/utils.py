@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from process_image import ImageProcessor, accepted_image_types
+from src.process_image import ImageProcessor, accepted_image_types
 
 
 def get_processed_image_file(image_file: accepted_image_types, factor: float) -> np.ndarray:

@@ -4,7 +4,7 @@ from typing import Tuple
 
 import streamlit as st
 from omegaconf import DictConfig
-from process_image import upload_image_types
+from src.process_image import upload_image_types
 
 
 def sidebar_handler(cfg: DictConfig) -> Tuple[upload_image_types, float, int]:
