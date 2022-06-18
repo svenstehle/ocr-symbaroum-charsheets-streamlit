@@ -33,6 +33,7 @@ def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.0
     assert cv2.countNonZero(difference) <= thresh * difference.size
 
 
+#FIXME: DEPRECATED, REMOVE IF CI TESTS PASS
 def replace_ubuntu_specific_characters(text: str) -> str:
     """In the CI, ubuntu VM adds some weird characters to the OCR output instead of normal linebreaks.
     This function removes them.

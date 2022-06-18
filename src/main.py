@@ -3,8 +3,8 @@
 import hydra
 from omegaconf import DictConfig
 
-from ocr import OCR
-from process_image import ImageProcessor
+from src.ocr import OCR
+from src.process_image import ImageProcessor
 
 
 @hydra.main(config_path="conf", config_name="config")

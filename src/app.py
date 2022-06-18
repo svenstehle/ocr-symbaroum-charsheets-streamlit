@@ -3,11 +3,11 @@
 import hydra
 from omegaconf import DictConfig
 
-from streamlit_handlers.image_handler import image_handler
-from streamlit_handlers.information_extraction_handler import \
+from src.streamlit_handlers.image_handler import image_handler
+from src.streamlit_handlers.information_extraction_handler import \
     information_extraction_handler
-from streamlit_handlers.ocr_handler import ocr_handler
-from streamlit_handlers.sidebar_handler import sidebar_handler
+from src.streamlit_handlers.ocr_handler import ocr_handler
+from src.streamlit_handlers.sidebar_handler import sidebar_handler
 
 
 @hydra.main(config_path="conf", config_name="config")
