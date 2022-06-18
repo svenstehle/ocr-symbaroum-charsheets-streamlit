@@ -35,7 +35,7 @@ jobs:
 
     - name: Analysing the code with pylint
       run: |
-        poetry run pylint $(git ls-files 'src/*.py')
+        poetry run pylint $(git ls-files 'src/*.py' 'tests/*.py')
 
     - name: Analysing the code with mypy
       run: |

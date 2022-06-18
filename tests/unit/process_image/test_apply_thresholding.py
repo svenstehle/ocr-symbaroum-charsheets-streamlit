@@ -3,6 +3,7 @@ import pytest
 from src.process_image import ImageProcessor
 
 
+# pylint:disable=duplicate-code
 def test_apply_thresholding(prep_grayscale_img_arr):
     IP = ImageProcessor()
     IP.img = prep_grayscale_img_arr
