@@ -49,6 +49,7 @@ def get_rescale_factor() -> float:
     Returns:
         float: the rescale factor for subsequent image resizing.
     """
+    # TODO make rescale factor of 3.0 standard and go up till 4.0
     with st.sidebar:
         st.header("Image rescale factor selection")
         rescale_factor = st.sidebar.slider(
@@ -87,6 +88,7 @@ def get_ocr_mode_radiobutton_selection() -> Tuple[str, available_options]:
     Returns:
         Tuple[str, available_options]: tuple of the selected option and the available_options.
     """
+    # TODO make single uniform block of text standard
     options = ("Assume a single column of text of variable sizes", "Assume a single uniform block of text")
     selection = st.radio(
         label="Choose one that works best for your image.",

@@ -30,6 +30,26 @@ def main(cfg: DictConfig) -> None:
     # information extraction part - create roll20 string
     information_extraction_handler(cfg)
 
+    # TODO add block of text with everything from weapons till tactics, corrected
+    #  (english only) with blank lines
+
+    # token mod: new output feature
+    # !token-mod {{
+    # --set
+    #     layer|gmlayer
+    #     bar1_link|quick
+    #     bar2_link|toughness
+    #     bar3_link|accurate
+    #     tooltip|Att: XX/Def: XX/Dmg: XX/ Armor: XX
+    #     ABILITIES:
+    #     TRAITS:
+    #     EQUIPMENT:
+    #     show_tooltip|yes
+    #     defaulttoken
+    # }}
+
+    # gm_notes can be filled with everything!?
+
 
 if __name__ == "__main__":
     main()    # pylint: disable=no-value-for-parameter
