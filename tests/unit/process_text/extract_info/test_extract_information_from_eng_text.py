@@ -26,4 +26,5 @@ def test_extract_information_from_ger_text(ocr_text, attribute_names):
     assert isinstance(IE.attributes, Dict)
     assert isinstance(IE.abilities, Dict)
     assert isinstance(IE.tactics, str)
-    assert isinstance(IE.setattr_str, str)
+    assert isinstance(IE.setattr_sel_str, str)
+    assert isinstance(IE.setattr_name_str, str)

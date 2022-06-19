@@ -44,7 +44,10 @@ def extract_and_display_info(cfg: DictConfig, text: str, charname: str) -> None:
     else:
         st.subheader("Roll20 !setattr chat string")
         display_charname_info(charname)
-        st.code(IE.setattr_str)
+        st.write("**Charname string:**")
+        st.code(IE.setattr_name_str)
+        st.write("**Token selection string:**")
+        st.code(IE.setattr_sel_str)
         display_tactics(IE.tactics)
         display_abilities(IE.abilities)
 
