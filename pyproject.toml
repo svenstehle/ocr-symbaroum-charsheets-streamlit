@@ -20,7 +20,7 @@ opencv-python-headless = "^4.5.5"
 watchdog = "^2.1.7"
 langdetect = "^1.0.9"
 scikit-image = "^0.19.2"
-hydra-core = "^1.1.2"
+hydra-core = "1.2.0"
 pylint = "2.14.2"
 
 [tool.poetry.dev-dependencies]
