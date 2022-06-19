@@ -22,7 +22,8 @@ class InformationExtractor(TextProcessor):
         self._abilities = {"Abilities not found in text": "Zero"}
         self._attributes = {"Attributes not found in text": "Zero"}
         self._tactics: str = ""
-        self._setattr_str: str = ""
+        self._setattr_name_str: str = ""
+        self._setattr_sel_str: str = ""
         self._lang: str = ""
 
     @property
@@ -63,13 +64,24 @@ class InformationExtractor(TextProcessor):
         return self._tactics
 
     @property
-    def setattr_str(self) -> str:
-        """Returns the roll20 chat input string for the setattr API script.
+    def setattr_name_str(self) -> str:
+        """Returns the roll20 chat input string for the setattr API script
+        for character name.
 
         Returns:
             str: roll20 chat input string.
         """
-        return self._setattr_str
+        return self._setattr_name_str
+
+    @property
+    def setattr_sel_str(self) -> str:
+        """Returns the roll20 chat input string for the setattr API script
+        for selected tokens.
+
+        Returns:
+            str: roll20 chat input string.
+        """
+        return self._setattr_sel_str
 
     def extract_information_from_text(self, charname: str, cfg: DictConfig) -> None:
         """Extracts information from the text and saves it in the InformationExtractor object.
@@ -101,7 +113,7 @@ class InformationExtractor(TextProcessor):
         self._abilities = GE.extract_all_abilities_from_text_ger()
         self._attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
         self.extract_tactics_from_text("taktik:")
-        self.get_roll20_chat_input_str(charname)
+        self.get_roll20_chat_input_strings(charname)
 
     def extract_information_from_eng_text(self, charname: str, attribute_names: List[str]) -> None:
         """Extracts information from English text and saves it in the InformationExtractor object.
@@ -116,7 +128,7 @@ class InformationExtractor(TextProcessor):
         self._abilities = EE.extract_all_abilities_from_text_eng()
         self._attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
         self.extract_tactics_from_text("tactics:")
-        self.get_roll20_chat_input_str(charname)
+        self.get_roll20_chat_input_strings(charname)
 
     def preprocess_text(self) -> None:
         """_summary_: Removes all the unnecessary characters from the text."""
@@ -147,8 +159,9 @@ class InformationExtractor(TextProcessor):
         tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
         self._tactics = " ".join(tactics)
 
-    def get_roll20_chat_input_str(self, charname: str) -> None:
-        """Creates the roll20 chat input string for the setattr API script.
+    def get_roll20_chat_input_strings(self, charname: str) -> None:
+        """Creates the roll20 chat input string for the setattr API script
+        for input character name.
 
         Args:
             charname (str): name of the roll20 character for which to create the setattr string.
@@ -181,16 +194,16 @@ class InformationExtractor(TextProcessor):
         else:
             raise ValueError(f"Language {self.lang} not supported.")
 
-        basic_string = f"!setattr --name {charname}"
+        basic_name_string = f"!setattr --name {charname}"
+        basic_sel_string = "!setattr --sel"
 
         att_string = ""
         for key, value in mapping.items():
             att_string += f" --{key}|{self.attributes[value]}"
-        # todo set toughness and output selection string as well
-        # TODO !setattr --sel --toughness|12|15 ...
         toughness = self.get_toughness(self.attributes)
         toughness_string = f" --toughness|{toughness}|{toughness}"
-        self._setattr_str = basic_string + att_string + toughness_string
+        self._setattr_name_str = basic_name_string + att_string + toughness_string
+        self._setattr_sel_str = basic_sel_string + att_string + toughness_string
 
     @staticmethod
     def get_lowercase_text(text: str) -> str:

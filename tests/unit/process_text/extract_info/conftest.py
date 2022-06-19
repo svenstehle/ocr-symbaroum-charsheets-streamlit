@@ -110,8 +110,18 @@ def create_input_get_roll20_chat_input_str_draghul(create_expected_result_extrac
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_input_str_draghul():
+def create_expected_result_get_roll20_chat_name_input_str_draghul():
     expected_result = "!setattr --name Gandalf --strong|3 --quick|15" +\
+                        " --vigilant|10 --resolute|13 --persuasive|5" +\
+                        " --cunning|4 --discreet|10 --accurate|9" +\
+                        " --toughness|10|10"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_get_roll20_chat_sel_input_str_draghul():
+    expected_result = "!setattr --sel --strong|3 --quick|15" +\
                         " --vigilant|10 --resolute|13 --persuasive|5" +\
                         " --cunning|4 --discreet|10 --accurate|9" +\
                         " --toughness|10|10"
@@ -125,8 +135,18 @@ def create_input_get_roll20_chat_input_str_baiagorn(create_expected_result_extra
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_input_str_baiagorn():
+def create_expected_result_get_roll20_chat_name_input_str_baiagorn():
     expected_result = "!setattr --name Legolas --strong|15 --quick|7" +\
+                        " --vigilant|11 --resolute|13 --persuasive|5" +\
+                        " --cunning|10 --discreet|9 --accurate|10" +\
+                        " --toughness|15|15"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_get_roll20_chat_sel_input_str_baiagorn():
+    expected_result = "!setattr --sel --strong|15 --quick|7" +\
                         " --vigilant|11 --resolute|13 --persuasive|5" +\
                         " --cunning|10 --discreet|9 --accurate|10" +\
                         " --toughness|15|15"
@@ -140,8 +160,18 @@ def create_input_get_roll20_chat_input_str_fairy(create_expected_result_extract_
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_input_str_fairy():
+def create_expected_result_get_roll20_chat_name_input_str_fairy():
     expected_result = "!setattr --name Captain Marvel --strong|5 --quick|13" +\
+                        " --vigilant|11 --resolute|7 --persuasive|9" +\
+                        " --cunning|10 --discreet|15 --accurate|10" +\
+                        " --toughness|10|10"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_get_roll20_chat_sel_input_str_fairy():
+    expected_result = "!setattr --sel --strong|5 --quick|13" +\
                         " --vigilant|11 --resolute|7 --persuasive|9" +\
                         " --cunning|10 --discreet|15 --accurate|10" +\
                         " --toughness|10|10"
@@ -155,8 +185,18 @@ def create_input_get_roll20_chat_input_str_brand(create_expected_result_extract_
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_input_str_brand():
+def create_expected_result_get_roll20_chat_name_input_str_brand():
     expected_result = "!setattr --name Hulk --strong|15 --quick|11" +\
+                        " --vigilant|10 --resolute|10 --persuasive|5" +\
+                        " --cunning|7 --discreet|9 --accurate|13" +\
+                        " --toughness|15|15"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_get_roll20_chat_sel_input_str_brand():
+    expected_result = "!setattr --sel --strong|15 --quick|11" +\
                         " --vigilant|10 --resolute|10 --persuasive|5" +\
                         " --cunning|7 --discreet|9 --accurate|13" +\
                         " --toughness|15|15"
