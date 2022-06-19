@@ -186,8 +186,10 @@ class InformationExtractor(TextProcessor):
         att_string = ""
         for key, value in mapping.items():
             att_string += f" --{key}|{self.attributes[value]}"
-
-        toughness_string = f" --toughness|{self.get_toughness(self.attributes)}"
+        # todo set toughness and output selection string as well
+        # TODO !setattr --sel --toughness|12|15 ...
+        toughness = self.get_toughness(self.attributes)
+        toughness_string = f" --toughness|{toughness}|{toughness}"
         self._setattr_str = basic_string + att_string + toughness_string
 
     @staticmethod
