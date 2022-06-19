@@ -20,7 +20,7 @@ from src.process_text.extract_info import InformationExtractor
         ),
     ]
 )
-def test_extract_information_from_ger_text(ocr_text, attribute_names):
+def test_extract_information_from_eng_text(ocr_text, attribute_names):
     IE = InformationExtractor(ocr_text)
     IE.extract_information_from_eng_text("dummyname", attribute_names)
     assert isinstance(IE.attributes, Dict)

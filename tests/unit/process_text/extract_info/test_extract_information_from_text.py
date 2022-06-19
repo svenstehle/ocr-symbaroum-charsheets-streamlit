@@ -4,6 +4,7 @@ import pytest
 from src.process_text.extract_info import InformationExtractor
 
 
+# pylint: disable=duplicate-code
 @pytest.mark.parametrize(
     "ocr_text, config, lang", [
         (
