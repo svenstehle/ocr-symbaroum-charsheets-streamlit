@@ -71,27 +71,25 @@ def setup_ocr_mode_selection() -> int:
     """
     with st.sidebar:
         st.header("Mode selection for OCR")
-        mode_selection, mode_options = get_ocr_mode_radiobutton_selection()
-        if mode_selection == mode_options[0]:
+        mode_selection = get_ocr_mode_radiobutton_selection()
+        if mode_selection == "Assume a single column of text of variable sizes":
             psm = 4
-        elif mode_selection == mode_options[1]:
+        elif mode_selection == "Assume a single uniform block of text":
             psm = 6
+        else:
+            raise ValueError("Invalid OCR mode selection")
     return psm
 
 
-available_options = Tuple[str, str]
-
-
-def get_ocr_mode_radiobutton_selection() -> Tuple[str, available_options]:
+def get_ocr_mode_radiobutton_selection() -> str:
     """Gets the user selected OCR mode. Defaults to options[0].
 
     Returns:
-        Tuple[str, available_options]: tuple of the selected option and the available_options.
+        str: the selected option.
     """
-    # TODO make single uniform block of text standard
-    options = ("Assume a single column of text of variable sizes", "Assume a single uniform block of text")
+    options = ("Assume a single uniform block of text", "Assume a single column of text of variable sizes")
     selection = st.radio(
         label="Choose one that works best for your image.",
         options=options,
     )
-    return selection, options
+    return selection

@@ -72,12 +72,12 @@ class StartupTest(BaseCase):
             '/div[1]/div[2]/div/div[1]/div/div[6]/div/label',
         )
         self.assert_text(
-            "Assume a single column of text of variable sizes",
+            "Assume a single uniform block of text",
             '//*[@id="root"]/div[1]/div[1]/div/div/div/section[1]'
             '/div[1]/div[2]/div/div[1]/div/div[6]/div/div/label[1]/div[2]',
         )
         self.assert_text(
-            "Assume a single uniform block of text",
+            "Assume a single column of text of variable sizes",
             '//*[@id="root"]/div[1]/div[1]/div/div/div/section[1]'
             '/div[1]/div[2]/div/div[1]/div/div[6]/div/div/label[2]/div[2]',
         )
