@@ -12,7 +12,7 @@ class FunctionalityTest(BaseCase):
 
         self.open("http://localhost:8501")
 
-        # check radiobutton
+        # check bottom radiobutton option, top one should be selected by default
         # more info on visual testing and selection of elements:
         # https://gitter.im/seleniumbase/SeleniumBase?at=5b889f49d457a1406c87dac9
         # and https://github.com/seleniumbase/SeleniumBase/blob/master/examples/my_first_test.py
@@ -33,6 +33,7 @@ class FunctionalityTest(BaseCase):
 
         self.open("http://localhost:8501")
 
+        # click on "Browse files" button
         self.click(
             '//*[@id="root"]/div[1]/div[1]/div/div/div/section[1]'
             '/div[1]/div[2]/div/div[1]/div/div[2]/div/section/button'
