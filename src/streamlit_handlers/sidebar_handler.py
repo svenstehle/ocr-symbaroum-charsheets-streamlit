@@ -49,15 +49,14 @@ def get_rescale_factor() -> float:
     Returns:
         float: the rescale factor for subsequent image resizing.
     """
-    # TODO make rescale factor of 3.0 standard and go up till 4.0
     with st.sidebar:
         st.header("Image rescale factor selection")
         rescale_factor = st.sidebar.slider(
             label="Change if OCR results are poor.",
             key="slider_rescale_factor",
             min_value=0.5,
-            max_value=3.0,
-            value=1.0,
+            max_value=5.0,
+            value=3.0,
             step=0.25,
         )
     return rescale_factor
