@@ -110,7 +110,7 @@ def create_input_get_roll20_chat_input_str_draghul(create_expected_result_extrac
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_name_input_str_draghul():
+def create_expected_result_setattr_name_str_draghul():
     expected_result = "!setattr --name Gandalf --strong|3 --quick|15" +\
                         " --vigilant|10 --resolute|13 --persuasive|5" +\
                         " --cunning|4 --discreet|10 --accurate|9" +\
@@ -120,11 +120,31 @@ def create_expected_result_get_roll20_chat_name_input_str_draghul():
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_sel_input_str_draghul():
+def create_expected_result_setattr_sel_str_draghul():
     expected_result = "!setattr --sel --strong|3 --quick|15" +\
                         " --vigilant|10 --resolute|13 --persuasive|5" +\
                         " --cunning|4 --discreet|10 --accurate|9" +\
                         " --toughness|10|10"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_create_token_mod_str_draghul():
+    expected_result = "!token-mod {{\n" +\
+                    "--set\n" +\
+                        "\tlayer|gmlayer\n" +\
+                        "\tbar1_link|quick\n" +\
+                        "\tbar2_link|toughness\n" +\
+                        "\tbar3_link|accurate\n" +\
+                        "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
+                        "\tABILITIES: blabla" +\
+                        "\tTRAITS: blablabla" +\
+                        "\tEQUIPMENT: blablabla" +\
+                        "\tshow_tooltip|yes" +\
+                        "\tdefaulttoken" +\
+                        "}}"
+
     yield expected_result
     del expected_result
 
@@ -135,7 +155,7 @@ def create_input_get_roll20_chat_input_str_baiagorn(create_expected_result_extra
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_name_input_str_baiagorn():
+def create_expected_result_setattr_name_str_baiagorn():
     expected_result = "!setattr --name Legolas --strong|15 --quick|7" +\
                         " --vigilant|11 --resolute|13 --persuasive|5" +\
                         " --cunning|10 --discreet|9 --accurate|10" +\
@@ -145,11 +165,31 @@ def create_expected_result_get_roll20_chat_name_input_str_baiagorn():
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_sel_input_str_baiagorn():
+def create_expected_result_setattr_sel_str_baiagorn():
     expected_result = "!setattr --sel --strong|15 --quick|7" +\
                         " --vigilant|11 --resolute|13 --persuasive|5" +\
                         " --cunning|10 --discreet|9 --accurate|10" +\
                         " --toughness|15|15"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_create_token_mod_str_baiagorn():
+    expected_result = "!token-mod {{\n" +\
+                    "--set\n" +\
+                        "\tlayer|gmlayer\n" +\
+                        "\tbar1_link|quick\n" +\
+                        "\tbar2_link|toughness\n" +\
+                        "\tbar3_link|accurate\n" +\
+                        "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
+                        "\tABILITIES: blabla" +\
+                        "\tTRAITS: blablabla" +\
+                        "\tEQUIPMENT: blablabla" +\
+                        "\tshow_tooltip|yes" +\
+                        "\tdefaulttoken" +\
+                        "}}"
+
     yield expected_result
     del expected_result
 
@@ -160,7 +200,7 @@ def create_input_get_roll20_chat_input_str_fairy(create_expected_result_extract_
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_name_input_str_fairy():
+def create_expected_result_setattr_name_str_fairy():
     expected_result = "!setattr --name Captain Marvel --strong|5 --quick|13" +\
                         " --vigilant|11 --resolute|7 --persuasive|9" +\
                         " --cunning|10 --discreet|15 --accurate|10" +\
@@ -170,11 +210,31 @@ def create_expected_result_get_roll20_chat_name_input_str_fairy():
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_sel_input_str_fairy():
+def create_expected_result_setattr_sel_str_fairy():
     expected_result = "!setattr --sel --strong|5 --quick|13" +\
                         " --vigilant|11 --resolute|7 --persuasive|9" +\
                         " --cunning|10 --discreet|15 --accurate|10" +\
                         " --toughness|10|10"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_create_token_mod_str_fairy():
+    expected_result = "!token-mod {{\n" +\
+                    "--set\n" +\
+                        "\tlayer|gmlayer\n" +\
+                        "\tbar1_link|quick\n" +\
+                        "\tbar2_link|toughness\n" +\
+                        "\tbar3_link|accurate\n" +\
+                        "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
+                        "\tABILITIES: blabla" +\
+                        "\tTRAITS: blablabla" +\
+                        "\tEQUIPMENT: blablabla" +\
+                        "\tshow_tooltip|yes" +\
+                        "\tdefaulttoken" +\
+                        "}}"
+
     yield expected_result
     del expected_result
 
@@ -185,7 +245,7 @@ def create_input_get_roll20_chat_input_str_brand(create_expected_result_extract_
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_name_input_str_brand():
+def create_expected_result_setattr_name_str_brand():
     expected_result = "!setattr --name Hulk --strong|15 --quick|11" +\
                         " --vigilant|10 --resolute|10 --persuasive|5" +\
                         " --cunning|7 --discreet|9 --accurate|13" +\
@@ -195,11 +255,31 @@ def create_expected_result_get_roll20_chat_name_input_str_brand():
 
 
 @pytest.fixture
-def create_expected_result_get_roll20_chat_sel_input_str_brand():
+def create_expected_result_setattr_sel_str_brand():
     expected_result = "!setattr --sel --strong|15 --quick|11" +\
                         " --vigilant|10 --resolute|10 --persuasive|5" +\
                         " --cunning|7 --discreet|9 --accurate|13" +\
                         " --toughness|15|15"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_create_token_mod_str_brand():
+    expected_result = "!token-mod {{\n" +\
+                    "--set\n" +\
+                        "\tlayer|gmlayer\n" +\
+                        "\tbar1_link|quick\n" +\
+                        "\tbar2_link|toughness\n" +\
+                        "\tbar3_link|accurate\n" +\
+                        "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
+                        "\tABILITIES: blabla" +\
+                        "\tTRAITS: blablabla" +\
+                        "\tEQUIPMENT: blablabla" +\
+                        "\tshow_tooltip|yes" +\
+                        "\tdefaulttoken" +\
+                        "}}"
+
     yield expected_result
     del expected_result
 
@@ -248,3 +328,37 @@ def prep_get_toughness(request):
     expected_result = request.param[1]
     yield attributes, expected_result
     del attributes, expected_result
+
+
+@pytest.fixture
+def create_expected_result_get_attribute_mapping_for_language_ger():
+    # pylint: disable=duplicate-code
+    mapping = {
+        "strong": "stärke",
+        "quick": "gewandtheit",
+        "vigilant": "aufmerksamkeit",
+        "resolute": "willenskraft",
+        "persuasive": "ausstrahlung",
+        "cunning": "scharfsinn",
+        "discreet": "heimlichkeit",
+        "accurate": "präzision"
+    }
+    yield mapping
+    del mapping
+
+
+@pytest.fixture
+def create_expected_result_get_attribute_mapping_for_language_eng():
+    # pylint: disable=duplicate-code
+    mapping = {
+        "strong": "str",
+        "quick": "qui",
+        "vigilant": "vig",
+        "resolute": "res",
+        "persuasive": "per",
+        "cunning": "cun",
+        "discreet": "dis",
+        "accurate": "acc"
+    }
+    yield mapping
+    del mapping

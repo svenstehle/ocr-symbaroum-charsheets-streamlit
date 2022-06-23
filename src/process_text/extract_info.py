@@ -9,7 +9,7 @@ from src.process_text.extract_german import GermanExtractor
 from src.process_text.process_ocr import TextProcessor
 
 
-class InformationExtractor(TextProcessor):
+class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instance-attributes
     """Extracts all Information from OCR'd text."""
     def __init__(self, text: str, **kwargs):
         """Constructs all the necessary attributes for the InformationExtractor object.
@@ -24,6 +24,7 @@ class InformationExtractor(TextProcessor):
         self._tactics: str = ""
         self._setattr_name_str: str = ""
         self._setattr_sel_str: str = ""
+        self._token_mod_str: str = ""
         self._lang: str = ""
 
     @property
@@ -82,6 +83,16 @@ class InformationExtractor(TextProcessor):
             str: roll20 chat input string.
         """
         return self._setattr_sel_str
+
+    @property
+    def token_mod_str(self) -> str:
+        """Returns the roll20 chat input string for the token-mod API script
+        for selected tokens.
+
+        Returns:
+            str: roll20 chat input string.
+        """
+        return self._token_mod_str
 
     def extract_information_from_text(self, charname: str, cfg: DictConfig) -> None:
         """Extracts information from the text and saves it in the InformationExtractor object.
@@ -160,14 +171,91 @@ class InformationExtractor(TextProcessor):
         self._tactics = " ".join(tactics)
 
     def get_roll20_chat_input_strings(self, charname: str) -> None:
-        """Creates the roll20 chat input string for the setattr API script
+        """Creates the roll20 chat input strings for the setattr and token-mod API scripts
         for input character name.
 
         Args:
             charname (str): name of the roll20 character for which to create the setattr string.
+                token-mod does not depend on charname.
 
         Raises:
             ValueError: raised if the detected language of the input text is not supported.
+        """
+        self.create_setattr_str(charname)
+        self.create_token_mod_str()
+
+    def create_setattr_str(self, charname: str) -> None:
+        """Creates and sets the roll20 setattr API script string
+         as attribute to the InformationExtractor object.
+
+        Args:
+            charname (str): name of the roll20 character for which to create the setattr string.
+                token-mod does not depend on charname.
+        """
+        setattr_name_beginning = f"!setattr --name {charname}"
+        setattr_sel_beginning = "!setattr --sel"
+        setattr_attributes = ""
+
+        mapping = self.get_attribute_mapping_for_language()
+
+        # build the attribute string from attributes
+        for key, value in mapping.items():
+            setattr_attributes += f" --{key}|{self.attributes[value]}"
+
+        # build toughness string
+        toughness = self.get_toughness(self.attributes)
+        setattr_toughness = f" --toughness|{toughness}|{toughness}"
+
+        # store in object
+        self._setattr_name_str = setattr_name_beginning + setattr_attributes + setattr_toughness
+        self._setattr_sel_str = setattr_sel_beginning + setattr_attributes + setattr_toughness
+
+    def create_token_mod_str(self) -> None:
+        """Creates and sets the roll20 token-mod API script string
+        as attribute to the InformationExtractor object.
+        """
+        basic_token_mod_string = "!token-mod {{\n" +\
+                                "--set\n" +\
+                                    "\tlayer|gmlayer\n" +\
+                                    "\tbar1_link|quick\n" +\
+                                    "\tbar2_link|toughness\n" +\
+                                    "\tbar3_link|accurate\n"
+        # TODO we need Attack, Defense and Armor computations here and the extracted Abilities,
+        # Traits and Equipment
+        token_mod_tooltip_string = "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
+                                    "\tABILITIES: blabla" +\
+                                    "\tTRAITS: blablabla" +\
+                                    "\tEQUIPMENT: blablabla"
+
+        token_mod_ending_string = "\tshow_tooltip|yes" +\
+                                    "\tdefaulttoken" +\
+                                    "}}"
+
+        # FIXME update README with token-mod
+        self._token_mod_str = basic_token_mod_string + token_mod_tooltip_string + token_mod_ending_string
+
+    @staticmethod
+    def get_lowercase_text(text: str) -> str:
+        """Returns the text in lowercase.
+
+        Args:
+            text (str): input text with capital letters.
+
+        Returns:
+            str: text with only lowercase letters.
+        """
+        return text.lower()
+
+    def get_attribute_mapping_for_language(self) -> Dict[str, str]:
+        """Returns the mapping of roll20 API script specific values to the
+        extracted attribute names in the original language of the ocr'd text.
+
+        Raises:
+            ValueError: raised if the detected language of the input text is not supported.
+
+        Returns:
+            Dict[str, str]: the mapping from the roll20 API script specific values
+            to the attribute names in the text language
         """
         if self.lang == "de":
             mapping = {
@@ -193,29 +281,7 @@ class InformationExtractor(TextProcessor):
             }
         else:
             raise ValueError(f"Language {self.lang} not supported.")
-
-        basic_name_string = f"!setattr --name {charname}"
-        basic_sel_string = "!setattr --sel"
-
-        att_string = ""
-        for key, value in mapping.items():
-            att_string += f" --{key}|{self.attributes[value]}"
-        toughness = self.get_toughness(self.attributes)
-        toughness_string = f" --toughness|{toughness}|{toughness}"
-        self._setattr_name_str = basic_name_string + att_string + toughness_string
-        self._setattr_sel_str = basic_sel_string + att_string + toughness_string
-
-    @staticmethod
-    def get_lowercase_text(text: str) -> str:
-        """Returns the text in lowercase.
-
-        Args:
-            text (str): input text with capital letters.
-
-        Returns:
-            str: text with only lowercase letters.
-        """
-        return text.lower()
+        return mapping
 
     @staticmethod
     def get_toughness(attributes: Dict[str, str]) -> int:

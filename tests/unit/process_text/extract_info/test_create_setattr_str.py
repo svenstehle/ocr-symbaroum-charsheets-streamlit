@@ -3,15 +3,13 @@ from src.process_text.extract_info import InformationExtractor
 
 
 @pytest.mark.parametrize(
-    "charname, ocr_text, attributes, expected_result_setattr_name, "
-    "expected_result_setattr_sel, expected_result_token_mod", [
+    "charname, ocr_text, attributes, expected_result_name, expected_result_sel", [
         (
             "Gandalf",
             pytest.lazy_fixture("prep_ocr_text_draghul"),
             pytest.lazy_fixture("create_input_get_roll20_chat_input_str_draghul"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_draghul"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_draghul"),
-            pytest.lazy_fixture("create_expected_result_create_token_mod_str_draghul"),
         ),
         (
             "Legolas",
@@ -19,7 +17,6 @@ from src.process_text.extract_info import InformationExtractor
             pytest.lazy_fixture("create_input_get_roll20_chat_input_str_baiagorn"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_baiagorn"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_baiagorn"),
-            pytest.lazy_fixture("create_expected_result_create_token_mod_str_baiagorn"),
         ),
         (
             "Hulk",
@@ -27,7 +24,6 @@ from src.process_text.extract_info import InformationExtractor
             pytest.lazy_fixture("create_input_get_roll20_chat_input_str_brand"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_brand"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_brand"),
-            pytest.lazy_fixture("create_expected_result_create_token_mod_str_brand"),
         ),
         (
             "Captain Marvel",
@@ -35,29 +31,26 @@ from src.process_text.extract_info import InformationExtractor
             pytest.lazy_fixture("create_input_get_roll20_chat_input_str_fairy"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_fairy"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_fairy"),
-            pytest.lazy_fixture("create_expected_result_create_token_mod_str_fairy"),
         ),
     ]
 )
-def test_get_roll20_chat_input_strings(
+def test_create_setattr_str(
     charname,
     ocr_text,
     attributes,
-    expected_result_setattr_name,
-    expected_result_setattr_sel,
-    expected_result_token_mod,
+    expected_result_name,
+    expected_result_sel,
 ):
     IE = InformationExtractor(ocr_text)
+    # set attributes used by create_setattr_str
     IE._attributes = attributes    # pylint: disable=protected-access
-    IE.get_roll20_chat_input_strings(charname)
-    assert expected_result_setattr_name == IE.setattr_name_str
-    assert expected_result_setattr_sel == IE.setattr_sel_str
-    assert expected_result_token_mod == IE.token_mod_str
-
-
-def test_get_roll20_chat_input_strings_not_supported_language(prep_get_roll20_chat_input_str_not_supported_language):
-    text, charname, attributes = prep_get_roll20_chat_input_str_not_supported_language
-    IE = InformationExtractor(text)
-    IE._attributes = attributes    # pylint: disable=protected-access
-    with pytest.raises(ValueError):
-        IE.get_roll20_chat_input_strings(charname)
+    # assert defaults
+    assert IE._setattr_name_str == ""    # pylint: disable=protected-access
+    assert IE._setattr_sel_str == ""    # pylint: disable=protected-access
+    assert IE.setattr_name_str == ""
+    assert IE.setattr_sel_str == ""
+    IE.create_setattr_str(charname)
+    assert IE.setattr_name_str == expected_result_name
+    assert IE._setattr_name_str == expected_result_name    # pylint: disable=protected-access
+    assert IE.setattr_sel_str == expected_result_sel
+    assert IE._setattr_sel_str == expected_result_sel    # pylint: disable=protected-access

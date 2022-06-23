@@ -9,6 +9,8 @@
 
 This repository allows you to read in symbaroum character sheets with tesseract OCR and provides preformatted commands for use in the roll20 API to create character sheets with, e.g. with the `!setattr` script.
 
+# TODO update with !token-mod info
+
 ## Access the App on Streamlit cloud
 
 Visit our site on the [Streamlit Cloud](https://share.streamlit.io/svenstehle/ocr-symbaroum-charsheets-streamlit/main/src/app.py).
