@@ -18,7 +18,7 @@ from src.process_text.extract_info import InformationExtractor
 )
 def test_get_attribute_mapping_for_language(ocr_text, lang, expected_result):
     IE = InformationExtractor(ocr_text)
-    mapping = IE.get_attribute_mapping_for_language()
+    mapping = IE._get_attribute_mapping_for_language()    # pylint: disable=protected-access
     assert IE.lang == lang
     assert mapping == expected_result
 
@@ -26,5 +26,5 @@ def test_get_attribute_mapping_for_language(ocr_text, lang, expected_result):
 def test_get_attribute_mapping_for_language_exception(prep_ocr_text_unknown_language):
     IE = InformationExtractor(prep_ocr_text_unknown_language)
     with pytest.raises(ValueError):
-        IE.get_attribute_mapping_for_language()
+        IE._get_attribute_mapping_for_language()    # pylint: disable=protected-access
     assert IE.lang == "fr"

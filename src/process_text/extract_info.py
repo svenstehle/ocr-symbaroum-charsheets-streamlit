@@ -8,6 +8,9 @@ from src.process_text.extract_english import EnglishExtractor
 from src.process_text.extract_german import GermanExtractor
 from src.process_text.process_ocr import TextProcessor
 
+# TODO change into public and non-public methods in the long run
+# TODO create an API with ABC metaclass and abstractmethod
+
 
 class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instance-attributes
     """Extracts all Information from OCR'd text."""
@@ -156,7 +159,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         for key, rep in replacements:
             self.text = self.text.replace(key, rep)
         self.text = self.text.strip()
-        self.text = self.get_lowercase_text(self.text)
+        self.text = self._get_lowercase_text(self.text)
 
     def transform_attribute_keys_to_english_longhand(self, attributes: Dict[str, str]) -> None:
         """Transforms the attribute keys from the respective supported languages to
@@ -168,7 +171,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
                 with the attribute names (keys) in English longhand.
         """
         attr_new = {}
-        mapping = self.get_attribute_mapping_for_language()
+        mapping = self._get_attribute_mapping_for_language()
 
         for k, v in mapping.items():
             attr_new[k] = attributes[v]
@@ -199,7 +202,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self.create_token_mod_str()
 
     @staticmethod
-    def get_lowercase_text(text: str) -> str:
+    def _get_lowercase_text(text: str) -> str:
         """Returns the text in lowercase.
 
         Args:
@@ -244,9 +247,11 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
                                     "\tbar1_link|quick\n" +\
                                     "\tbar2_link|toughness\n" +\
                                     "\tbar3_link|accurate\n"
-        # TODO we need Defense and Armor computations here and the extracted Abilities,
-        # Traits and Equipment
-        token_mod_tooltip_string = f"\ttooltip|Att: {self.get_attack_value()}/Def: 13337/ Armor: 13337" +\
+        # TODO we need Armor computations here and
+        # the extracted Abilities, Traits and Equipment
+        token_mod_tooltip_string = f"\ttooltip|Att: {self.get_attack_value()}" +\
+                                    f"/Def: {self.get_defense_value()}" +\
+                                    "/Armor: 13337" +\
                                     "\tABILITIES: blabla" +\
                                     "\tTRAITS: blablabla" +\
                                     "\tEQUIPMENT: blablabla"
@@ -258,7 +263,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         # FIXME update README with token-mod
         self._token_mod_str = basic_token_mod_string + token_mod_tooltip_string + token_mod_ending_string
 
-    def get_attribute_mapping_for_language(self) -> Dict[str, str]:
+    def _get_attribute_mapping_for_language(self) -> Dict[str, str]:
         """Returns the mapping of roll20 API script specific values to the
         extracted attribute names in the original language of the ocr'd text.
 
@@ -310,12 +315,26 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         return max((strong, 10))
 
     def get_attack_value(self) -> str:
-        """Returns the value for a physical attack performed by that character.
+        """Returns the value for a physical attack roll performed by that character.
         Usually this is simply calculated by using the value for 'accuracte'.
         If a character has certain abilities, the attack value might be calculated differently,
         e.g. if a character has the ability 'Iron Fist', attack is calculated as the value for 'strong'.
+        No other modifiers are factored into this calculation as of right now.
 
         Returns:
             str: the attack value.
         """
         return self.attributes["accurate"]
+
+    def get_defense_value(self) -> str:
+        """Returns the value for a defense roll performed by that character.
+        Usually this is simply calculated by using the value for 'quick'.
+        If a character has certain abilities, the defense value might be calculated differently,
+        e.g. if a character has the ability 'Iron Fist', defense is calculated as the value for 'strong'.
+        Also, modifiers from e.g. 'berserk' could be factored into this in the future.
+        Currently, they are not.
+
+        Returns:
+            str: the defense value.
+        """
+        return self.attributes["quick"]

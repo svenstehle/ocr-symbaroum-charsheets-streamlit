@@ -117,6 +117,11 @@ def create_input_get_attack_value_draghul(create_expected_result_transform_attri
 
 
 @pytest.fixture
+def create_input_get_defense_value_draghul(create_expected_result_transform_attribute_keys_to_english_longhand_draghul):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_draghul
+
+
+@pytest.fixture
 def create_input_transform_attribute_keys_to_english_longhand_draghul(
     create_expected_result_extract_all_attributes_from_text_draghul
 ):
@@ -172,7 +177,7 @@ def create_expected_result_create_token_mod_str_draghul():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 9/Def: 13337/ Armor: 13337" +\
+                        "\ttooltip|Att: 9/Def: 15/Armor: 13337" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: blablabla" +\
@@ -200,6 +205,13 @@ def create_input_get_roll20_chat_input_str_baiagorn(
 
 @pytest.fixture
 def create_input_get_attack_value_baiagorn(
+    create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
+):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
+
+
+@pytest.fixture
+def create_input_get_defense_value_baiagorn(
     create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
 ):
     yield create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
@@ -261,7 +273,7 @@ def create_expected_result_create_token_mod_str_baiagorn():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 10/Def: 13337/ Armor: 13337" +\
+                        "\ttooltip|Att: 10/Def: 7/Armor: 13337" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: blablabla" +\
@@ -289,6 +301,11 @@ def create_input_get_roll20_chat_input_str_brand(
 
 @pytest.fixture
 def create_input_get_attack_value_brand(create_expected_result_transform_attribute_keys_to_english_longhand_brand):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_brand
+
+
+@pytest.fixture
+def create_input_get_defense_value_brand(create_expected_result_transform_attribute_keys_to_english_longhand_brand):
     yield create_expected_result_transform_attribute_keys_to_english_longhand_brand
 
 
@@ -346,7 +363,7 @@ def create_expected_result_create_token_mod_str_brand():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 13/Def: 13337/ Armor: 13337" +\
+                        "\ttooltip|Att: 13/Def: 11/Armor: 13337" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: blablabla" +\
@@ -372,6 +389,11 @@ def create_input_get_roll20_chat_input_str_fairy(
 
 @pytest.fixture
 def create_input_get_attack_value_fairy(create_expected_result_transform_attribute_keys_to_english_longhand_fairy):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy
+
+
+@pytest.fixture
+def create_input_get_defense_value_fairy(create_expected_result_transform_attribute_keys_to_english_longhand_fairy):
     yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy
 
 
@@ -434,7 +456,7 @@ def create_expected_result_create_token_mod_str_fairy():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 10/Def: 13337/ Armor: 13337" +\
+                        "\ttooltip|Att: 10/Def: 13/Armor: 13337" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: blablabla" +\
