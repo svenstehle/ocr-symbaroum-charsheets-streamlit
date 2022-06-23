@@ -122,7 +122,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self.replace_all_weapon_strings("waffen")
         GE = GermanExtractor(self.text)
         self._abilities = GE.extract_all_abilities_from_text_ger()
-        self._attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
+        self.transform_attribute_keys_to_english_longhand(GE.extract_all_attributes_from_text_ger(attribute_names))
         self.extract_tactics_from_text("taktik:")
         self.get_roll20_chat_input_strings(charname)
 
@@ -137,7 +137,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self.replace_all_weapon_strings("weapons")
         EE = EnglishExtractor(self.text)
         self._abilities = EE.extract_all_abilities_from_text_eng()
-        self._attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
+        self.transform_attribute_keys_to_english_longhand(EE.extract_all_attributes_from_text_eng(attribute_names))
         self.extract_tactics_from_text("tactics:")
         self.get_roll20_chat_input_strings(charname)
 
@@ -158,6 +158,23 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self.text = self.text.strip()
         self.text = self.get_lowercase_text(self.text)
 
+    def transform_attribute_keys_to_english_longhand(self, attributes: Dict[str, str]) -> None:
+        """Transforms the attribute keys from the respective supported languages to
+        English longhand. E.g. both 'acc' and 'präzision' will be transformed to 'accurate',
+        to allow for easier unified handling of these attributes downstream.
+
+        Args:
+            attributes (Dict[str, str]): the transformed attribute dictionary
+                with the attribute names (keys) in English longhand.
+        """
+        attr_new = {}
+        mapping = self.get_attribute_mapping_for_language()
+
+        for k, v in mapping.items():
+            attr_new[k] = attributes[v]
+
+        self._attributes = attr_new
+
     def extract_tactics_from_text(self, tactics_str: str) -> None:
         """Extracts the tactics from the text.
 
@@ -177,12 +194,21 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         Args:
             charname (str): name of the roll20 character for which to create the setattr string.
                 token-mod does not depend on charname.
-
-        Raises:
-            ValueError: raised if the detected language of the input text is not supported.
         """
         self.create_setattr_str(charname)
         self.create_token_mod_str()
+
+    @staticmethod
+    def get_lowercase_text(text: str) -> str:
+        """Returns the text in lowercase.
+
+        Args:
+            text (str): input text with capital letters.
+
+        Returns:
+            str: text with only lowercase letters.
+        """
+        return text.lower()
 
     def create_setattr_str(self, charname: str) -> None:
         """Creates and sets the roll20 setattr API script string
@@ -196,11 +222,9 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         setattr_sel_beginning = "!setattr --sel"
         setattr_attributes = ""
 
-        mapping = self.get_attribute_mapping_for_language()
-
         # build the attribute string from attributes
-        for key, value in mapping.items():
-            setattr_attributes += f" --{key}|{self.attributes[value]}"
+        for att_name, value in self.attributes.items():
+            setattr_attributes += f" --{att_name}|{value}"
 
         # build toughness string
         toughness = self.get_toughness(self.attributes)
@@ -220,9 +244,9 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
                                     "\tbar1_link|quick\n" +\
                                     "\tbar2_link|toughness\n" +\
                                     "\tbar3_link|accurate\n"
-        # TODO we need Attack, Defense and Armor computations here and the extracted Abilities,
+        # TODO we need Defense and Armor computations here and the extracted Abilities,
         # Traits and Equipment
-        token_mod_tooltip_string = "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
+        token_mod_tooltip_string = f"\ttooltip|Att: {self.get_attack_value()}/Def: 13337/ Armor: 13337" +\
                                     "\tABILITIES: blabla" +\
                                     "\tTRAITS: blablabla" +\
                                     "\tEQUIPMENT: blablabla"
@@ -233,18 +257,6 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
 
         # FIXME update README with token-mod
         self._token_mod_str = basic_token_mod_string + token_mod_tooltip_string + token_mod_ending_string
-
-    @staticmethod
-    def get_lowercase_text(text: str) -> str:
-        """Returns the text in lowercase.
-
-        Args:
-            text (str): input text with capital letters.
-
-        Returns:
-            str: text with only lowercase letters.
-        """
-        return text.lower()
 
     def get_attribute_mapping_for_language(self) -> Dict[str, str]:
         """Returns the mapping of roll20 API script specific values to the
@@ -293,6 +305,17 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         Returns:
             int: roll20 symbaroum character toughness value.
         """
-        strength_key = "str" if "str" in attributes else "stärke"
+        strength_key = "strong"
         strong = int(attributes[strength_key])
         return max((strong, 10))
+
+    def get_attack_value(self) -> str:
+        """Returns the value for a physical attack performed by that character.
+        Usually this is simply calculated by using the value for 'accuracte'.
+        If a character has certain abilities, the attack value might be calculated differently,
+        e.g. if a character has the ability 'Iron Fist', attack is calculated as the value for 'strong'.
+
+        Returns:
+            str: the attack value.
+        """
+        return self.attributes["accurate"]

@@ -53,11 +53,3 @@ def test_get_roll20_chat_input_strings(
     assert expected_result_setattr_name == IE.setattr_name_str
     assert expected_result_setattr_sel == IE.setattr_sel_str
     assert expected_result_token_mod == IE.token_mod_str
-
-
-def test_get_roll20_chat_input_strings_not_supported_language(prep_get_roll20_chat_input_str_not_supported_language):
-    text, charname, attributes = prep_get_roll20_chat_input_str_not_supported_language
-    IE = InformationExtractor(text)
-    IE._attributes = attributes    # pylint: disable=protected-access
-    with pytest.raises(ValueError):
-        IE.get_roll20_chat_input_strings(charname)

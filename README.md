@@ -7,9 +7,7 @@
 [![PythonVersion](https://img.shields.io/badge/python-3.8%20%7C%203.9%20-blue)](https://github.com/svenstehle/ocr-symbaroum-charsheets-streamlit)
 [![yapf](https://img.shields.io/badge/code%20style-YAPF-lightgrey)](https://github.com/google/yapf)
 
-This repository allows you to read in symbaroum character sheets with tesseract OCR and provides preformatted commands for use in the roll20 API to create character sheets with, e.g. with the `!setattr` script.
-
-# TODO update with !token-mod info
+This repository allows you to read in symbaroum character sheets with tesseract OCR and provides preformatted commands for use in the roll20 API to create character sheets with, e.g. with the `!setattr` and `!token-mod` scripts.
 
 ## Access the App on Streamlit cloud
 

@@ -105,8 +105,43 @@ def create_expected_result_extract_tactics_from_text_sikander():
 
 
 @pytest.fixture
-def create_input_get_roll20_chat_input_str_draghul(create_expected_result_extract_all_attributes_from_text_draghul):
+def create_input_get_roll20_chat_input_str_draghul(
+    create_expected_result_transform_attribute_keys_to_english_longhand_draghul
+):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_draghul
+
+
+@pytest.fixture
+def create_input_get_attack_value_draghul(create_expected_result_transform_attribute_keys_to_english_longhand_draghul):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_draghul
+
+
+@pytest.fixture
+def create_input_transform_attribute_keys_to_english_longhand_draghul(
+    create_expected_result_extract_all_attributes_from_text_draghul
+):
     yield create_expected_result_extract_all_attributes_from_text_draghul
+
+
+@pytest.fixture
+def create_expected_result_transform_attribute_keys_to_english_longhand_draghul():
+    yield {
+        "strong": "3",
+        "quick": "15",
+        "vigilant": "10",
+        "resolute": "13",
+        "persuasive": "5",
+        "cunning": "4",
+        "discreet": "10",
+        "accurate": "9",
+    }
+
+
+@pytest.fixture
+def create_input_create_setattr_str_draghul(
+    create_expected_result_transform_attribute_keys_to_english_longhand_draghul
+):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_draghul
 
 
 @pytest.fixture
@@ -137,7 +172,7 @@ def create_expected_result_create_token_mod_str_draghul():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
+                        "\ttooltip|Att: 9/Def: 13337/ Armor: 13337" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: blablabla" +\
@@ -150,8 +185,52 @@ def create_expected_result_create_token_mod_str_draghul():
 
 
 @pytest.fixture
-def create_input_get_roll20_chat_input_str_baiagorn(create_expected_result_extract_all_attributes_from_text_baiagorn):
+def create_input_create_token_mod_str_draghul(
+    create_expected_result_transform_attribute_keys_to_english_longhand_draghul
+):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_draghul
+
+
+@pytest.fixture
+def create_input_get_roll20_chat_input_str_baiagorn(
+    create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
+):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
+
+
+@pytest.fixture
+def create_input_get_attack_value_baiagorn(
+    create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
+):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
+
+
+@pytest.fixture
+def create_input_transform_attribute_keys_to_english_longhand_baiagorn(
+    create_expected_result_extract_all_attributes_from_text_baiagorn
+):
     yield create_expected_result_extract_all_attributes_from_text_baiagorn
+
+
+@pytest.fixture
+def create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn():
+    yield {
+        "strong": "15",
+        "quick": "7",
+        "vigilant": "11",
+        "resolute": "13",
+        "persuasive": "5",
+        "cunning": "10",
+        "discreet": "9",
+        "accurate": "10",
+    }
+
+
+@pytest.fixture
+def create_input_create_setattr_str_baiagorn(
+    create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
+):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
 
 
 @pytest.fixture
@@ -182,7 +261,7 @@ def create_expected_result_create_token_mod_str_baiagorn():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
+                        "\ttooltip|Att: 10/Def: 13337/ Armor: 13337" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: blablabla" +\
@@ -195,53 +274,48 @@ def create_expected_result_create_token_mod_str_baiagorn():
 
 
 @pytest.fixture
-def create_input_get_roll20_chat_input_str_fairy(create_expected_result_extract_all_attributes_from_text_eng_fairy):
-    yield create_expected_result_extract_all_attributes_from_text_eng_fairy
+def create_input_create_token_mod_str_baiagorn(
+    create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
+):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
 
 
 @pytest.fixture
-def create_expected_result_setattr_name_str_fairy():
-    expected_result = "!setattr --name Captain Marvel --strong|5 --quick|13" +\
-                        " --vigilant|11 --resolute|7 --persuasive|9" +\
-                        " --cunning|10 --discreet|15 --accurate|10" +\
-                        " --toughness|10|10"
-    yield expected_result
-    del expected_result
+def create_input_get_roll20_chat_input_str_brand(
+    create_expected_result_transform_attribute_keys_to_english_longhand_brand
+):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_brand
 
 
 @pytest.fixture
-def create_expected_result_setattr_sel_str_fairy():
-    expected_result = "!setattr --sel --strong|5 --quick|13" +\
-                        " --vigilant|11 --resolute|7 --persuasive|9" +\
-                        " --cunning|10 --discreet|15 --accurate|10" +\
-                        " --toughness|10|10"
-    yield expected_result
-    del expected_result
+def create_input_get_attack_value_brand(create_expected_result_transform_attribute_keys_to_english_longhand_brand):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_brand
 
 
 @pytest.fixture
-def create_expected_result_create_token_mod_str_fairy():
-    expected_result = "!token-mod {{\n" +\
-                    "--set\n" +\
-                        "\tlayer|gmlayer\n" +\
-                        "\tbar1_link|quick\n" +\
-                        "\tbar2_link|toughness\n" +\
-                        "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
-                        "\tABILITIES: blabla" +\
-                        "\tTRAITS: blablabla" +\
-                        "\tEQUIPMENT: blablabla" +\
-                        "\tshow_tooltip|yes" +\
-                        "\tdefaulttoken" +\
-                        "}}"
-
-    yield expected_result
-    del expected_result
-
-
-@pytest.fixture
-def create_input_get_roll20_chat_input_str_brand(create_expected_result_extract_all_attributes_from_text_eng_brand):
+def create_input_transform_attribute_keys_to_english_longhand_brand(
+    create_expected_result_extract_all_attributes_from_text_eng_brand
+):
     yield create_expected_result_extract_all_attributes_from_text_eng_brand
+
+
+@pytest.fixture
+def create_expected_result_transform_attribute_keys_to_english_longhand_brand():
+    yield {
+        "strong": "15",
+        "quick": "11",
+        "vigilant": "10",
+        "resolute": "10",
+        "persuasive": "5",
+        "cunning": "7",
+        "discreet": "9",
+        "accurate": "13",
+    }
+
+
+@pytest.fixture
+def create_input_create_setattr_str_brand(create_expected_result_transform_attribute_keys_to_english_longhand_brand):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_brand
 
 
 @pytest.fixture
@@ -272,7 +346,7 @@ def create_expected_result_create_token_mod_str_brand():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 13337/Def: 13337/ Armor: 13337" +\
+                        "\ttooltip|Att: 13/Def: 13337/ Armor: 13337" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: blablabla" +\
@@ -285,39 +359,140 @@ def create_expected_result_create_token_mod_str_brand():
 
 
 @pytest.fixture
-def prep_get_roll20_chat_input_str_not_supported_language(
-    prep_ocr_text_unknown_language, create_expected_result_extract_all_attributes_from_text_eng_fairy
+def create_input_create_token_mod_str_brand(create_expected_result_transform_attribute_keys_to_english_longhand_brand):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_brand
+
+
+@pytest.fixture
+def create_input_get_roll20_chat_input_str_fairy(
+    create_expected_result_transform_attribute_keys_to_english_longhand_fairy
 ):
-    charname = "Julie"
-    attributes = create_expected_result_extract_all_attributes_from_text_eng_fairy
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy
+
+
+@pytest.fixture
+def create_input_get_attack_value_fairy(create_expected_result_transform_attribute_keys_to_english_longhand_fairy):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy
+
+
+@pytest.fixture
+def create_input_transform_attribute_keys_to_english_longhand_fairy(
+    create_expected_result_extract_all_attributes_from_text_eng_fairy
+):
+    yield create_expected_result_extract_all_attributes_from_text_eng_fairy
+
+
+@pytest.fixture
+def create_expected_result_attributes_fairy(create_expected_result_transform_attribute_keys_to_english_longhand_fairy):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy
+
+
+@pytest.fixture
+def create_expected_result_transform_attribute_keys_to_english_longhand_fairy():
+    yield {
+        "strong": "5",
+        "quick": "13",
+        "vigilant": "11",
+        "resolute": "7",
+        "persuasive": "9",
+        "cunning": "10",
+        "discreet": "15",
+        "accurate": "10",
+    }
+
+
+@pytest.fixture
+def create_input_create_setattr_str_fairy(create_expected_result_transform_attribute_keys_to_english_longhand_fairy):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy
+
+
+@pytest.fixture
+def create_expected_result_setattr_name_str_fairy():
+    expected_result = "!setattr --name Captain Marvel --strong|5 --quick|13" +\
+                        " --vigilant|11 --resolute|7 --persuasive|9" +\
+                        " --cunning|10 --discreet|15 --accurate|10" +\
+                        " --toughness|10|10"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_setattr_sel_str_fairy():
+    expected_result = "!setattr --sel --strong|5 --quick|13" +\
+                        " --vigilant|11 --resolute|7 --persuasive|9" +\
+                        " --cunning|10 --discreet|15 --accurate|10" +\
+                        " --toughness|10|10"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_create_token_mod_str_fairy():
+    expected_result = "!token-mod {{\n" +\
+                    "--set\n" +\
+                        "\tlayer|gmlayer\n" +\
+                        "\tbar1_link|quick\n" +\
+                        "\tbar2_link|toughness\n" +\
+                        "\tbar3_link|accurate\n" +\
+                        "\ttooltip|Att: 10/Def: 13337/ Armor: 13337" +\
+                        "\tABILITIES: blabla" +\
+                        "\tTRAITS: blablabla" +\
+                        "\tEQUIPMENT: blablabla" +\
+                        "\tshow_tooltip|yes" +\
+                        "\tdefaulttoken" +\
+                        "}}"
+
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_input_create_token_mod_str_fairy(create_expected_result_transform_attribute_keys_to_english_longhand_fairy):
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy
+
+
+@pytest.fixture
+def prep_transform_attribute_keys_to_english_longhand_not_supported_language(
+    prep_ocr_text_unknown_language, create_expected_result_transform_attribute_keys_to_english_longhand_fairy
+):
+    attributes = create_expected_result_transform_attribute_keys_to_english_longhand_fairy
     text = prep_ocr_text_unknown_language
-    yield text, charname, attributes
-    del text, charname, attributes
+    yield text, attributes
+    del text, attributes
 
 
 def create_input_result_pairs_get_toughness():
     input_result_pairs = [
-        ({
-            "stärke": "15"
-        }, 15), ({
-            "stärke": "11"
-        }, 11), ({
-            "stärke": "10"
-        }, 10), ({
-            "stärke": "9"
-        }, 10), ({
-            "stärke": "3"
-        }, 10), ({
-            "str": "15"
-        }, 15), ({
-            "str": "11"
-        }, 11), ({
-            "str": "10"
-        }, 10), ({
-            "str": "9"
-        }, 10), ({
-            "str": "3"
-        }, 10)
+        (
+            {
+                "strong": "15"
+            },
+            15,
+        ),
+        (
+            {
+                "strong": "11"
+            },
+            11,
+        ),
+        (
+            {
+                "strong": "10"
+            },
+            10,
+        ),
+        (
+            {
+                "strong": "9"
+            },
+            10,
+        ),
+        (
+            {
+                "strong": "3"
+            },
+            10,
+        ),
     ]
     return input_result_pairs
 
