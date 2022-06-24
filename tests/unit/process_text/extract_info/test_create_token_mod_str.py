@@ -1,6 +1,8 @@
 import pytest
 from src.process_text.extract_info import InformationExtractor
 
+# pylint: disable=protected-access
+
 
 @pytest.mark.parametrize(
     "ocr_text, prep_create_token_mod_str", [
@@ -27,13 +29,14 @@ def test_create_token_mod_str(
     prep_create_token_mod_str,
 ):
     IE = InformationExtractor(ocr_text)
-    attributes, equipment, armor, expected_result = prep_create_token_mod_str
-    IE._attributes = attributes    # pylint: disable=protected-access
-    IE._equipment = equipment    # pylint: disable=protected-access
-    IE._armor = armor    # pylint: disable=protected-access
+    attributes, equipment, armor, abilities, expected_result = prep_create_token_mod_str
+    IE._attributes = attributes
+    IE._abilities = abilities
+    IE._equipment = equipment
+    IE._armor = armor
     # assert defaults
-    assert IE._token_mod_str == ""    # pylint: disable=protected-access
+    assert IE._token_mod_str == ""
     assert IE.token_mod_str == ""
     IE.create_token_mod_str()
-    assert IE._token_mod_str == expected_result    # pylint: disable=protected-access
+    assert IE._token_mod_str == expected_result
     assert IE.token_mod_str == expected_result

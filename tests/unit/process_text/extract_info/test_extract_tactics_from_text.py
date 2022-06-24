@@ -1,6 +1,8 @@
 import pytest
 from src.process_text.extract_info import InformationExtractor
 
+# pylint: disable=protected-access
+
 
 @pytest.mark.parametrize(
     "ocr_text, tactics_str, expected_result", [
@@ -48,7 +50,7 @@ from src.process_text.extract_info import InformationExtractor
 )
 def test_extract_tactics_from_text(ocr_text, tactics_str, expected_result):
     IE = InformationExtractor(ocr_text)
-    assert IE._tactics == ""    # pylint: disable=protected-access
+    assert IE._tactics == ""
     assert IE.tactics == ""
     IE.extract_tactics_from_text(tactics_str)
-    assert expected_result == IE.tactics == IE._tactics    # pylint: disable=protected-access
+    assert expected_result == IE.tactics == IE._tactics

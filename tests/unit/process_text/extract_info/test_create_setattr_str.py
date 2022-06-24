@@ -1,6 +1,8 @@
 import pytest
 from src.process_text.extract_info import InformationExtractor
 
+# pylint: disable=protected-access
+
 
 @pytest.mark.parametrize(
     "charname, ocr_text, attributes, expected_result_name, expected_result_sel", [
@@ -43,14 +45,14 @@ def test_create_setattr_str(
 ):
     IE = InformationExtractor(ocr_text)
     # set attributes used by create_setattr_str
-    IE._attributes = attributes    # pylint: disable=protected-access
+    IE._attributes = attributes
     # assert defaults
-    assert IE._setattr_name_str == ""    # pylint: disable=protected-access
-    assert IE._setattr_sel_str == ""    # pylint: disable=protected-access
+    assert IE._setattr_name_str == ""
+    assert IE._setattr_sel_str == ""
     assert IE.setattr_name_str == ""
     assert IE.setattr_sel_str == ""
     IE.create_setattr_str(charname)
     assert IE.setattr_name_str == expected_result_name
-    assert IE._setattr_name_str == expected_result_name    # pylint: disable=protected-access
+    assert IE._setattr_name_str == expected_result_name
     assert IE.setattr_sel_str == expected_result_sel
-    assert IE._setattr_sel_str == expected_result_sel    # pylint: disable=protected-access
+    assert IE._setattr_sel_str == expected_result_sel

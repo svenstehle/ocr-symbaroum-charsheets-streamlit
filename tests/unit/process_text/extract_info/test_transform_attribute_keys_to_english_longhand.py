@@ -1,6 +1,8 @@
 import pytest
 from src.process_text.extract_info import InformationExtractor
 
+# pylint: disable=protected-access
+
 
 @pytest.mark.parametrize(
     "ocr_text, attributes, expected_result", [
@@ -33,9 +35,9 @@ def test_transform_attribute_keys_to_english_longhand(
 ):
     IE = InformationExtractor(ocr_text)
     # set attributes used by get_attack_value
-    assert IE._attributes == {"Attributes not found in text": "Zero"}    # pylint: disable=protected-access
+    assert IE._attributes == {"Attributes not found in text": "Zero"}
     IE.transform_attribute_keys_to_english_longhand(attributes)
-    assert expected_result == IE._attributes == IE.attributes    # pylint: disable=protected-access
+    assert expected_result == IE._attributes == IE.attributes
 
 
 def test_transform_attribute_keys_to_english_longhand_not_supported_language(

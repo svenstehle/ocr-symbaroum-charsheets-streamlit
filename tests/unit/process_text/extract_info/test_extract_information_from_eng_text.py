@@ -24,7 +24,6 @@ from src.process_text.extract_info import InformationExtractor
 )
 def test_extract_information_from_eng_text(ocr_text, attribute_names):
     IE = InformationExtractor(ocr_text)
-    assert IE._equipment == ""    # pylint: disable=protected-access # TODO move to equipment function test
     IE.extract_information_from_eng_text("dummyname", attribute_names)
     assert isinstance(IE.attributes, Dict)
     assert isinstance(IE.abilities, Dict)

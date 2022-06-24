@@ -266,11 +266,16 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
                                     "\tbar2_link|toughness\n" +\
                                     "\tbar3_link|accurate\n"
         # TODO we need Armor computations here and
-        # the extracted Abilities and Traits
+        # the extracted Traits
+
+        # convert abilities for tooltip
+        abilities_token = tuple(f"{a}:{v}" for a, v in self.abilities.items())
+        abilities_token = ", ".join(abilities_token)
+
         token_mod_tooltip_string = f"\ttooltip|Att: {self.get_attack_value()}" +\
                                     f"/Def: {self.get_defense_value()}" +\
                                     f"/Armor: {self._armor}" +\
-                                    "\tABILITIES: blabla" +\
+                                    f"\tABILITIES: {abilities_token}" +\
                                     "\tTRAITS: blablabla" +\
                                     f"\tEQUIPMENT: {self.equipment}"
 
