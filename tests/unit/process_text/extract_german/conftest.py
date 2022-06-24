@@ -108,3 +108,31 @@ def prep_input_result_get_attribute_value_from_text_aeber(request):
     expected_result = request.param[1]
     yield target_attribute, expected_result
     del target_attribute, expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_equipment_from_text_ger_draghul():
+    expected_result = "1w10 orteg"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_equipment_from_text_ger_baiagorn():
+    expected_result = "keine"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_equipment_from_text_ger_guard():
+    expected_result = "1w10 schillinge, kautabak"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_equipment_from_text_ger_aeber():
+    expected_result = "keine"
+    yield expected_result
+    del expected_result

@@ -3,6 +3,8 @@
 import re
 from typing import Dict, List
 
+from src.process_text.process_ocr import TextProcessor
+
 
 class EnglishExtractor:
     """Extracts all attributes from English text."""
@@ -151,6 +153,45 @@ class EnglishExtractor:
             for a in all_abilities
         }
         return all_abilities
+
+    def extract_equipment_from_text_eng(self) -> str:
+        """Extracts all roll20 character equipment from English text.
+
+        Returns:
+            str: string with the equipment.
+        """
+        equipment_str = "equipment"
+        length = len(equipment_str)
+        equipment_start_loc = self.text.find(equipment_str) + length + 1
+
+        shadow_str = "shadow"
+        equipment_end_loc = self.text.find(shadow_str, equipment_start_loc)
+        equipment = self.text[equipment_start_loc:equipment_end_loc].strip()
+        # process misrecognized ocr'd characters, i.e. dice rolls like '1w10'
+        search_pattern = re.compile(
+            r"""
+            [i1-9]          # matches a single character, either i or a digit from 1 to 9
+            [wd]            # matches the character 'w' literally (case sensitive)
+            [i]?            # matches the single character 'i' zero or one time
+            [io0-9]{1,2}    # matches a single character, either i, o or a digit from 0 to 9
+                            # {1, 2} matches the previous token between 1 and 2 times
+            """,
+            re.X,
+        )
+        match = re.search(search_pattern, equipment)
+        if match:
+            # usually just one roll here, let's start with that base case
+            dice_rolls = equipment[match.start():].split()[0]
+            dice_rolls = dice_rolls.replace("i1", "1").replace("ii", "1").replace("1i", "1").replace("o", "0") + " "
+            # refactor this to Textprocessor and replace all matching misrecognized dice rolls in original ocr'd text
+            TP = TextProcessor(equipment)
+            beginning = match.start()
+            end = match.start() + len(dice_rolls)
+            # insert cleaned rolls and remove redundant whitespaces
+            equipment = TP.insert_str_between_indices(dice_rolls, beginning, end)
+            equipment = " ".join(equipment.split())
+
+        return equipment
 
     @staticmethod
     def capitalize_ability_name(ability_name: str) -> str:

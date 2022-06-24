@@ -5,12 +5,14 @@ from tests.unit.input_ocr_texts import (
     ocr_text_hunter, ocr_text_mixed_language, ocr_text_sikander, ocr_text_unknown_language
 )
 
+# pylint: disable=protected-access
+
 
 @pytest.fixture(params=[ocr_text_draghul()])
 def prep_ocr_text_draghul(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE
 
@@ -19,7 +21,7 @@ def prep_ocr_text_draghul(request):
 def prep_ocr_text_baiagorn(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE
 
@@ -28,7 +30,7 @@ def prep_ocr_text_baiagorn(request):
 def prep_ocr_text_guard(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE
 
@@ -37,7 +39,7 @@ def prep_ocr_text_guard(request):
 def prep_ocr_text_fairy(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE
 
@@ -46,7 +48,7 @@ def prep_ocr_text_fairy(request):
 def prep_ocr_text_brand(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE
 
@@ -55,7 +57,7 @@ def prep_ocr_text_brand(request):
 def prep_ocr_text_hunter(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE
 
@@ -64,7 +66,7 @@ def prep_ocr_text_hunter(request):
 def prep_ocr_text_sikander(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE
 
@@ -73,7 +75,7 @@ def prep_ocr_text_sikander(request):
 def prep_ocr_text_unknown_language(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE
 
@@ -82,7 +84,7 @@ def prep_ocr_text_unknown_language(request):
 def prep_ocr_text_aeber(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE
 
@@ -91,6 +93,6 @@ def prep_ocr_text_aeber(request):
 def prep_ocr_text_mixed_language(request):
     text = request.param
     IE = InformationExtractor(text)
-    IE.preprocess_text()
+    IE._preprocess_text()
     yield IE.text
     del IE

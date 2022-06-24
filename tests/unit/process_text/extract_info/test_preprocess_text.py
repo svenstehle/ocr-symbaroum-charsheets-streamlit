@@ -24,5 +24,5 @@ from src.process_text.extract_info import InformationExtractor
 )
 def test_preprocess_text(unprocessed_ocr_text, expected_result):
     IE = InformationExtractor(unprocessed_ocr_text)
-    IE.preprocess_text()
+    IE._preprocess_text()    # pylint: disable=protected-access
     assert IE.text == expected_result

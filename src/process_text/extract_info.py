@@ -21,9 +21,11 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             text (str): raw text from pytesseract OCR.
         """
         super().__init__(text, **kwargs)
-        self.text = text
-        self._abilities = {"Abilities not found in text": "Zero"}
-        self._attributes = {"Attributes not found in text": "Zero"}
+        self.text: str = text
+        self._abilities: Dict[str, str] = {"Abilities not found in text": "Zero"}
+        self._attributes: Dict[str, str] = {"Attributes not found in text": "Zero"}
+        self._equipment: str = ""
+        self._armor: str = ""
         self._tactics: str = ""
         self._setattr_name_str: str = ""
         self._setattr_sel_str: str = ""
@@ -57,6 +59,15 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             Dict[str, str]: the attributes that were extracted from the text.
         """
         return self._attributes
+
+    @property
+    def equipment(self) -> str:
+        """Returns the equipment extracted from the text.
+
+        Returns:
+            str: the equipment and its features that were extracted from the text.
+        """
+        return self._equipment
 
     @property
     def tactics(self) -> str:
@@ -107,6 +118,9 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         Raises:
             ValueError: raised if the detected language of the input text is not supported.
         """
+        # TODO think about using duck typing here and have just one extract info method
+        # with setup outside of the method
+        # while doing that, think about defining the interface with abstractclass and -method
         if self.lang == "de":
             self.extract_information_from_ger_text(charname, cfg.extraction.attribute_names_ger)
         elif self.lang == "en":
@@ -121,11 +135,13 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             charname (str): name of the roll20 character for which to create the setattr string.
             attribute_names (List[str]): list of the attribute names in German language.
         """
-        self.preprocess_text()
+        self._preprocess_text()
         self.replace_all_weapon_strings("waffen")
         GE = GermanExtractor(self.text)
         self._abilities = GE.extract_all_abilities_from_text_ger()
         self.transform_attribute_keys_to_english_longhand(GE.extract_all_attributes_from_text_ger(attribute_names))
+        self._equipment = GE.extract_equipment_from_text_ger()
+        # self._armor = GE.extract_armor_from_text_ger()
         self.extract_tactics_from_text("taktik:")
         self.get_roll20_chat_input_strings(charname)
 
@@ -136,15 +152,16 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             charname (str): name of the roll20 character for which to create the setattr string.
             attribute_names (List[str]): list of the attribute names in English language.
         """
-        self.preprocess_text()
+        self._preprocess_text()
         self.replace_all_weapon_strings("weapons")
         EE = EnglishExtractor(self.text)
         self._abilities = EE.extract_all_abilities_from_text_eng()
         self.transform_attribute_keys_to_english_longhand(EE.extract_all_attributes_from_text_eng(attribute_names))
+        self._equipment = EE.extract_equipment_from_text_eng()
         self.extract_tactics_from_text("tactics:")
         self.get_roll20_chat_input_strings(charname)
 
-    def preprocess_text(self) -> None:
+    def _preprocess_text(self) -> None:
         """_summary_: Removes all the unnecessary characters from the text."""
         replacements = [
             ("=", "-"),    # replace equal sign with dash
@@ -248,13 +265,13 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
                                     "\tbar2_link|toughness\n" +\
                                     "\tbar3_link|accurate\n"
         # TODO we need Armor computations here and
-        # the extracted Abilities, Traits and Equipment
+        # the extracted Abilities and Traits
         token_mod_tooltip_string = f"\ttooltip|Att: {self.get_attack_value()}" +\
                                     f"/Def: {self.get_defense_value()}" +\
                                     "/Armor: 13337" +\
                                     "\tABILITIES: blabla" +\
                                     "\tTRAITS: blablabla" +\
-                                    "\tEQUIPMENT: blablabla"
+                                    f"\tEQUIPMENT: {self.equipment}"
 
         token_mod_ending_string = "\tshow_tooltip|yes" +\
                                     "\tdefaulttoken" +\
@@ -338,3 +355,15 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             str: the defense value.
         """
         return self.attributes["quick"]
+
+    def get_armor_value(self) -> str:
+        """Returns the value for an armor roll performed by that character.
+        Armor is only rolled, after a previous defense roll was unsuccessful
+        and the attack hits the character.
+        This value is the sum of traits like 'robust' and currently worn equipment.
+        Currently, this function is not implemented.
+
+        Returns:
+            str: the armor value.
+        """
+        raise NotImplementedError("this function has not been implemented")

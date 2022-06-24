@@ -3,7 +3,7 @@ from src.process_text.extract_info import InformationExtractor
 
 
 @pytest.mark.parametrize(
-    "charname, ocr_text, attributes, expected_result_setattr_name, "
+    "charname, ocr_text, inputs, expected_result_setattr_name, "
     "expected_result_setattr_sel, expected_result_token_mod", [
         (
             "Gandalf",
@@ -42,13 +42,15 @@ from src.process_text.extract_info import InformationExtractor
 def test_get_roll20_chat_input_strings(
     charname,
     ocr_text,
-    attributes,
+    inputs,
     expected_result_setattr_name,
     expected_result_setattr_sel,
     expected_result_token_mod,
 ):
     IE = InformationExtractor(ocr_text)
+    attributes, equipment = inputs
     IE._attributes = attributes    # pylint: disable=protected-access
+    IE._equipment = equipment    # pylint: disable=protected-access
     IE.get_roll20_chat_input_strings(charname)
     assert expected_result_setattr_name == IE.setattr_name_str
     assert expected_result_setattr_sel == IE.setattr_sel_str

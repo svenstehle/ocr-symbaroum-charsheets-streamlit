@@ -48,3 +48,31 @@ def create_expected_result_get_all_attribute_values_from_text_eng_sikander():
     expected_result = ["9", "11", "5", "10", "13", "15", "7", "10"]
     yield expected_result
     del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_equipment_from_text_eng_fairy():
+    expected_result = "none"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_equipment_from_text_eng_brand():
+    expected_result = "glowing, oozing full plate"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_equipment_from_text_eng_hunter():
+    expected_result = "none"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_equipment_from_text_eng_sikander():
+    expected_result = "order cloak, 1d10 thaler"
+    yield expected_result
+    del expected_result

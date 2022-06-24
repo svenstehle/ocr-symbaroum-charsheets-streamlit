@@ -33,6 +33,9 @@ def test_extract_information_from_ger_text(ocr_text, attribute_names):
     assert isinstance(IE.abilities, Dict)
     assert isinstance(IE.tactics, str)
 
+    assert isinstance(IE.equipment, str)
+    assert len(IE.equipment) > 3
+
     assert isinstance(IE.setattr_name_str, str)
     assert len(IE.setattr_name_str) > 30
 

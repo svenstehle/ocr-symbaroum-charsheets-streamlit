@@ -53,6 +53,9 @@ def test_extract_information_from_text(ocr_text, config, lang):
     assert isinstance(IE.abilities, Dict)
     assert isinstance(IE.tactics, str)
 
+    assert isinstance(IE.equipment, str)
+    assert len(IE.equipment) > 3
+
     assert isinstance(IE.setattr_name_str, str)
     assert len(IE.setattr_name_str) > 30
 
