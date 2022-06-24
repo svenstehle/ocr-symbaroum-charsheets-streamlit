@@ -277,10 +277,10 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
                                     f"/Armor: {self._armor}" +\
                                     f"\tABILITIES: {abilities_token}" +\
                                     "\tTRAITS: blablabla" +\
-                                    f"\tEQUIPMENT: {self.equipment}"
+                                    f"\tEQUIPMENT: {self.equipment}\n"
 
-        token_mod_ending_string = "\tshow_tooltip|yes" +\
-                                    "\tdefaulttoken" +\
+        token_mod_ending_string = "\tshow_tooltip|yes\n" +\
+                                    "\tdefaulttoken\n" +\
                                     "}}"
 
         # FIXME update README with token-mod

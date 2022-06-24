@@ -42,12 +42,14 @@ def extract_and_display_info(cfg: DictConfig, text: str, charname: str) -> None:
     except (IndexError, ValueError, KeyError) as e:
         display_information_extraction_exception(e)
     else:
-        st.subheader("Roll20 !setattr chat string")
+        st.subheader("Roll20 chat strings")
         display_charname_info(charname)
-        st.write("**Charname string:**")
+        st.write("**!setattr charname string:**")
         st.code(IE.setattr_name_str)
-        st.write("**Token selection string:**")
+        st.write("**!setattr token selection string:**")
         st.code(IE.setattr_sel_str)
+        st.write("**!token-mod string**")
+        st.code(IE.token_mod_str)
         display_tactics(IE.tactics)
         display_abilities(IE.abilities)
 

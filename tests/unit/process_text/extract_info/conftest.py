@@ -184,9 +184,9 @@ def create_expected_result_create_token_mod_str_draghul():
                         "\ttooltip|Att: 9/Def: 15/Armor: 2" +\
                         "\tABILITIES: Eisenfaust:Adept, Schildkampf:Novize, Testskill:Meister" +\
                         "\tTRAITS: blablabla" +\
-                        "\tEQUIPMENT: 1w10 orteg" +\
-                        "\tshow_tooltip|yes" +\
-                        "\tdefaulttoken" +\
+                        "\tEQUIPMENT: 1w10 orteg\n" +\
+                        "\tshow_tooltip|yes\n" +\
+                        "\tdefaulttoken\n" +\
                         "}}"
 
     yield expected_result
@@ -294,9 +294,9 @@ def create_expected_result_create_token_mod_str_baiagorn():
                         "\ttooltip|Att: 10/Def: 7/Armor: 4" +\
                         "\tABILITIES: Berserkerrausch:Adept" +\
                         "\tTRAITS: blablabla" +\
-                        "\tEQUIPMENT: keine" +\
-                        "\tshow_tooltip|yes" +\
-                        "\tdefaulttoken" +\
+                        "\tEQUIPMENT: keine\n" +\
+                        "\tshow_tooltip|yes\n" +\
+                        "\tdefaulttoken\n" +\
                         "}}"
 
     yield expected_result
@@ -397,9 +397,9 @@ def create_expected_result_create_token_mod_str_brand():
                         "\ttooltip|Att: 13/Def: 11/Armor: UNKNOWN" +\
                         "\tABILITIES: Bodyguard:master, Iron Fist:master, Two-handed Force:adept" +\
                         "\tTRAITS: blablabla" +\
-                        "\tEQUIPMENT: glowing, oozing full plate" +\
-                        "\tshow_tooltip|yes" +\
-                        "\tdefaulttoken" +\
+                        "\tEQUIPMENT: glowing, oozing full plate\n" +\
+                        "\tshow_tooltip|yes\n" +\
+                        "\tdefaulttoken\n" +\
                         "}}"
 
     yield expected_result
@@ -505,9 +505,9 @@ def create_expected_result_create_token_mod_str_fairy():
                         "\ttooltip|Att: 10/Def: 13/Armor: UNKNOWN" +\
                         "\tABILITIES: Abilities found in text:Zero" +\
                         "\tTRAITS: blablabla" +\
-                        "\tEQUIPMENT: none" +\
-                        "\tshow_tooltip|yes" +\
-                        "\tdefaulttoken" +\
+                        "\tEQUIPMENT: none\n" +\
+                        "\tshow_tooltip|yes\n" +\
+                        "\tdefaulttoken\n" +\
                         "}}"
 
     yield expected_result
