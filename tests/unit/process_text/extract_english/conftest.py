@@ -76,3 +76,10 @@ def create_expected_result_extract_equipment_from_text_eng_sikander():
     expected_result = "order cloak, 1d10 thaler"
     yield expected_result
     del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_armor_from_text_eng_fairy():
+    expected_result = "UNKNOWN"
+    yield expected_result
+    del expected_result

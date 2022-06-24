@@ -109,7 +109,8 @@ def create_input_get_roll20_chat_input_str_draghul(
     create_expected_result_transform_attribute_keys_to_english_longhand_draghul
 ):
     equipment = "1w10 orteg"
-    yield create_expected_result_transform_attribute_keys_to_english_longhand_draghul, equipment
+    armor = "2"
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_draghul, equipment, armor
 
 
 @pytest.fixture
@@ -178,7 +179,7 @@ def create_expected_result_create_token_mod_str_draghul():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 9/Def: 15/Armor: 13337" +\
+                        "\ttooltip|Att: 9/Def: 15/Armor: 2" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: 1w10 orteg" +\
@@ -196,9 +197,11 @@ def prep_create_token_mod_str_draghul(
     create_expected_result_create_token_mod_str_draghul,
 ):
     equipment = "1w10 orteg"
+    armor = "2"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_draghul,
         equipment,
+        armor,
         create_expected_result_create_token_mod_str_draghul,
     )
 
@@ -208,7 +211,8 @@ def create_input_get_roll20_chat_input_str_baiagorn(
     create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn
 ):
     equipment = "keine"
-    yield create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn, equipment
+    armor = "4"
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn, equipment, armor
 
 
 @pytest.fixture
@@ -281,7 +285,7 @@ def create_expected_result_create_token_mod_str_baiagorn():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 10/Def: 7/Armor: 13337" +\
+                        "\ttooltip|Att: 10/Def: 7/Armor: 4" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: keine" +\
@@ -299,9 +303,11 @@ def prep_create_token_mod_str_baiagorn(
     create_expected_result_create_token_mod_str_baiagorn,
 ):
     equipment = "keine"
+    armor = "4"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn,
         equipment,
+        armor,
         create_expected_result_create_token_mod_str_baiagorn,
     )
 
@@ -311,7 +317,8 @@ def create_input_get_roll20_chat_input_str_brand(
     create_expected_result_transform_attribute_keys_to_english_longhand_brand
 ):
     equipment = "glowing, oozing full plate"
-    yield create_expected_result_transform_attribute_keys_to_english_longhand_brand, equipment
+    armor = "UNKNOWN"
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_brand, equipment, armor
 
 
 @pytest.fixture
@@ -378,7 +385,7 @@ def create_expected_result_create_token_mod_str_brand():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 13/Def: 11/Armor: 13337" +\
+                        "\ttooltip|Att: 13/Def: 11/Armor: UNKNOWN" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: glowing, oozing full plate" +\
@@ -396,9 +403,11 @@ def prep_create_token_mod_str_brand(
     create_expected_result_create_token_mod_str_brand,
 ):
     equipment = "glowing, oozing full plate"
+    armor = "UNKNOWN"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_brand,
         equipment,
+        armor,
         create_expected_result_create_token_mod_str_brand,
     )
 
@@ -408,7 +417,8 @@ def create_input_get_roll20_chat_input_str_fairy(
     create_expected_result_transform_attribute_keys_to_english_longhand_fairy
 ):
     equipment = "none"
-    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy, equipment
+    armor = "UNKNOWN"
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy, equipment, armor
 
 
 @pytest.fixture
@@ -480,7 +490,7 @@ def create_expected_result_create_token_mod_str_fairy():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 10/Def: 13/Armor: 13337" +\
+                        "\ttooltip|Att: 10/Def: 13/Armor: UNKNOWN" +\
                         "\tABILITIES: blabla" +\
                         "\tTRAITS: blablabla" +\
                         "\tEQUIPMENT: none" +\
@@ -498,9 +508,11 @@ def prep_create_token_mod_str_fairy(
     create_expected_result_create_token_mod_str_fairy,
 ):
     equipment = "none"
+    armor = "UNKNOWN"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_fairy,
         equipment,
+        armor,
         create_expected_result_create_token_mod_str_fairy,
     )
 

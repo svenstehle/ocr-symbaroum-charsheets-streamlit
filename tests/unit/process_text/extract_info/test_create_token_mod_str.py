@@ -27,9 +27,10 @@ def test_create_token_mod_str(
     prep_create_token_mod_str,
 ):
     IE = InformationExtractor(ocr_text)
-    attributes, equipment, expected_result = prep_create_token_mod_str
+    attributes, equipment, armor, expected_result = prep_create_token_mod_str
     IE._attributes = attributes    # pylint: disable=protected-access
     IE._equipment = equipment    # pylint: disable=protected-access
+    IE._armor = armor    # pylint: disable=protected-access
     # assert defaults
     assert IE._token_mod_str == ""    # pylint: disable=protected-access
     assert IE.token_mod_str == ""

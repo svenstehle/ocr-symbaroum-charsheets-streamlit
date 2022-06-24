@@ -85,7 +85,7 @@ def ocr_text_guard():
         "Waffen Schwert4\n\n"
         "Rüstung. Schuppenpanzer 3\n"
         "(Behinderung)\n"
-        "+2(Schild)\n"
+        "Verteidigung +2(Schild)\n"
         "Schmerzgrenze 8\n"
         "Ausrüstung 1WI10 Schillinge,\n\n"
         "Kautabak\n"

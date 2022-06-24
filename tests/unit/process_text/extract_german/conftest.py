@@ -136,3 +136,31 @@ def create_expected_result_extract_equipment_from_text_ger_aeber():
     expected_result = "keine"
     yield expected_result
     del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_armor_from_text_ger_draghul():
+    expected_result = "2"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_armor_from_text_ger_baiagorn():
+    expected_result = "4"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_armor_from_text_ger_guard():
+    expected_result = "3"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_armor_from_text_ger_aeber():
+    expected_result = "7"
+    yield expected_result
+    del expected_result

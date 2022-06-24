@@ -104,45 +104,24 @@ class GermanExtractor:
 
         return equipment
 
-    # def extract_armor_from_text_ger(self) -> str:
-    #     """Extracts, if possible, the roll20 character armor value from German text.
-    #     Usually this is based on equipment and sometimes additional traits.
-    #     Just using the equipment, this works well for German texts. However, applying
-    #     values from traits has not been implemented. English texts are non-standard
-    #     in this regard and armor is difficult to extract from them.
+    def extract_armor_from_text_ger(self) -> str:
+        """Extracts, if possible, the roll20 character armor value from German text.
+        Usually this is based on equipment and sometimes additional traits.
+        Just using the equipment, this works well for German texts. However, applying
+        values from traits has not been implemented. English texts are non-standard
+        in this regard and armor is difficult to extract from them.
 
-    #     Returns:
-    #         str: string with the armor type and value.
-    #     """
-    #     equipment_str = "ausrüstung"
-    #     length = len(equipment_str)
-    #     equipment_start_loc = self.text.find(equipment_str) + length + 1
+        Returns:
+            str: string with the armor value.
+        """
+        armor_str = "rüstung"
+        length = len(armor_str)
+        armor_start_loc = self.text.find(armor_str) + length + 1
 
-    #     shadow_str = "schatten"
-    #     equipment_end_loc = self.text.find(shadow_str, equipment_start_loc)
-    #     equipment = self.text[equipment_start_loc:equipment_end_loc].strip()
-    #     # process misrecognized ocr'd characters, i.e. dice rolls like '1w10'
-    #     search_pattern = re.compile(
-    #         r"""
-    #         [i1-9]          # matches a single character, either i or a digit from 1 to 9
-    #         [wd]            # matches a single character, 'w' or 'd', literally (case sensitive)
-    #         [i]?            # matches the single character 'i' zero or one time
-    #         [io0-9]{1,2}    # matches a single character, either i, o or a digit from 0 to 9
-    #                         # {1, 2} matches the previous token between 1 and 2 times
-    #         """,
-    #         re.X,
-    #     )
-    #     match = re.search(search_pattern, equipment)
-    #     if match:
-    #         # usually just one roll here, let's start with that base case
-    #         dice_rolls = equipment[match.start():].split()[0]
-    #         dice_rolls = dice_rolls.replace("i1", "1").replace("ii", "1").replace("1i", "1").replace("o", "0") + " "
-    #         # refactor this to Textprocessor and replace all matching misrecognized dice rolls in original ocr'd text
-    #         TP = TextProcessor(equipment)
-    #         beginning = match.start()
-    #         end = match.start() + len(dice_rolls)
-    #         # insert cleaned rolls and remove redundant whitespaces
-    #         equipment = TP.insert_str_between_indices(dice_rolls, beginning, end)
-    #         equipment = " ".join(equipment.split())
+        shadow_str = "verteidigung"
+        armor_end_loc = self.text.find(shadow_str, armor_start_loc)
+        armor = self.text[armor_start_loc:armor_end_loc].strip()
 
-    #     return equipment
+        # filter digits from string and return armor value
+        armor = ''.join(filter(lambda i: i.isdigit(), armor))
+        return armor

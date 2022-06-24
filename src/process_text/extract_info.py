@@ -141,7 +141,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self._abilities = GE.extract_all_abilities_from_text_ger()
         self.transform_attribute_keys_to_english_longhand(GE.extract_all_attributes_from_text_ger(attribute_names))
         self._equipment = GE.extract_equipment_from_text_ger()
-        # self._armor = GE.extract_armor_from_text_ger()
+        self._armor = GE.extract_armor_from_text_ger()
         self.extract_tactics_from_text("taktik:")
         self.get_roll20_chat_input_strings(charname)
 
@@ -158,6 +158,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self._abilities = EE.extract_all_abilities_from_text_eng()
         self.transform_attribute_keys_to_english_longhand(EE.extract_all_attributes_from_text_eng(attribute_names))
         self._equipment = EE.extract_equipment_from_text_eng()
+        self._armor = EE.extract_armor_from_text_eng()
         self.extract_tactics_from_text("tactics:")
         self.get_roll20_chat_input_strings(charname)
 
@@ -268,7 +269,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         # the extracted Abilities and Traits
         token_mod_tooltip_string = f"\ttooltip|Att: {self.get_attack_value()}" +\
                                     f"/Def: {self.get_defense_value()}" +\
-                                    "/Armor: 13337" +\
+                                    f"/Armor: {self._armor}" +\
                                     "\tABILITIES: blabla" +\
                                     "\tTRAITS: blablabla" +\
                                     f"\tEQUIPMENT: {self.equipment}"
@@ -355,15 +356,3 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             str: the defense value.
         """
         return self.attributes["quick"]
-
-    def get_armor_value(self) -> str:
-        """Returns the value for an armor roll performed by that character.
-        Armor is only rolled, after a previous defense roll was unsuccessful
-        and the attack hits the character.
-        This value is the sum of traits like 'robust' and currently worn equipment.
-        Currently, this function is not implemented.
-
-        Returns:
-            str: the armor value.
-        """
-        raise NotImplementedError("this function has not been implemented")

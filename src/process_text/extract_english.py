@@ -193,6 +193,20 @@ class EnglishExtractor:
 
         return equipment
 
+    def extract_armor_from_text_eng(self) -> str:
+        """Extracts, if possible, the roll20 character armor value from English text.
+        Usually this is based on equipment and sometimes additional traits.
+        Just using the equipment, this works well for German texts. However, applying
+        values from traits has not been implemented. English texts are non-standard
+        in this regard and armor is difficult to extract from them.
+        Alas this is just a dummy, because so far we have not found a way to reliably
+        extract armor from English text.
+
+        Returns:
+            str: dummy string with the armor value of 'UNKNOWN'.
+        """
+        return "UNKNOWN"
+
     @staticmethod
     def capitalize_ability_name(ability_name: str) -> str:
         """Capitalizes the ability name. Leaves hyphens or dashes etc
