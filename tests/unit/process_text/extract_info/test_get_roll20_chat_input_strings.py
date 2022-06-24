@@ -49,10 +49,11 @@ def test_get_roll20_chat_input_strings(
     expected_result_token_mod,
 ):
     IE = InformationExtractor(ocr_text)
-    attributes, equipment, armor, abilities = inputs
+    attributes, equipment, armor, abilities, traits = inputs
     IE._attributes = attributes
     IE._equipment = equipment
     IE._armor = armor
+    IE._traits = traits
     IE._abilities = abilities
     IE.get_roll20_chat_input_strings(charname)
     assert expected_result_setattr_name == IE.setattr_name_str

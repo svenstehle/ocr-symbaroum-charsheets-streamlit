@@ -112,7 +112,14 @@ def create_input_get_roll20_chat_input_str_draghul(
     equipment = "1w10 orteg"
     armor = "2"
     abilities = create_expected_result_extract_all_abilities_from_text_draghul
-    yield create_expected_result_transform_attribute_keys_to_english_longhand_draghul, equipment, armor, abilities
+    traits = "untot (I, siehe seite 231), robust (II, siehe seite 312)"
+    yield (
+        create_expected_result_transform_attribute_keys_to_english_longhand_draghul,
+        equipment,
+        armor,
+        abilities,
+        traits,
+    )
 
 
 @pytest.fixture
@@ -183,7 +190,7 @@ def create_expected_result_create_token_mod_str_draghul():
                         "\tbar3_link|accurate\n" +\
                         "\ttooltip|Att: 9/Def: 15/Armor: 2" +\
                         "\tABILITIES: Eisenfaust:Adept, Schildkampf:Novize, Testskill:Meister" +\
-                        "\tTRAITS: blablabla" +\
+                        "\tTRAITS: untot (I, siehe seite 231), robust (II, siehe seite 312)" +\
                         "\tEQUIPMENT: 1w10 orteg\n" +\
                         "\tshow_tooltip|yes\n" +\
                         "\tdefaulttoken\n" +\
@@ -202,11 +209,13 @@ def prep_create_token_mod_str_draghul(
     equipment = "1w10 orteg"
     armor = "2"
     abilities = create_expected_result_extract_all_abilities_from_text_draghul
+    traits = "untot (I, siehe seite 231), robust (II, siehe seite 312)"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_draghul,
         equipment,
         armor,
         abilities,
+        traits,
         create_expected_result_create_token_mod_str_draghul,
     )
 
@@ -218,7 +227,14 @@ def create_input_get_roll20_chat_input_str_baiagorn(
     equipment = "keine"
     armor = "4"
     abilities = {"Berserkerrausch": "Adept"}
-    yield create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn, equipment, armor, abilities
+    traits = "natürliche waffen (I), robust (I), test1 (III), test2 (III), test3 (II)"
+    yield (
+        create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn,
+        equipment,
+        armor,
+        abilities,
+        traits,
+    )
 
 
 @pytest.fixture
@@ -293,7 +309,8 @@ def create_expected_result_create_token_mod_str_baiagorn():
                         "\tbar3_link|accurate\n" +\
                         "\ttooltip|Att: 10/Def: 7/Armor: 4" +\
                         "\tABILITIES: Berserkerrausch:Adept" +\
-                        "\tTRAITS: blablabla" +\
+                        "\tTRAITS: natürliche waffen (I), robust (I), " +\
+                        "test1 (III), test2 (III), test3 (II)" +\
                         "\tEQUIPMENT: keine\n" +\
                         "\tshow_tooltip|yes\n" +\
                         "\tdefaulttoken\n" +\
@@ -311,11 +328,13 @@ def prep_create_token_mod_str_baiagorn(
     equipment = "keine"
     armor = "4"
     abilities = {"Berserkerrausch": "Adept"}
+    traits = "natürliche waffen (I), robust (I), test1 (III), test2 (III), test3 (II)"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_baiagorn,
         equipment,
         armor,
         abilities,
+        traits,
         create_expected_result_create_token_mod_str_baiagorn,
     )
 
@@ -327,7 +346,8 @@ def create_input_get_roll20_chat_input_str_brand(
     equipment = "glowing, oozing full plate"
     armor = "UNKNOWN"
     abilities = {"Bodyguard": "master", "Iron Fist": "master", "Two-handed Force": "adept"}
-    yield create_expected_result_transform_attribute_keys_to_english_longhand_brand, equipment, armor, abilities
+    traits = "-"
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_brand, equipment, armor, abilities, traits
 
 
 @pytest.fixture
@@ -396,7 +416,7 @@ def create_expected_result_create_token_mod_str_brand():
                         "\tbar3_link|accurate\n" +\
                         "\ttooltip|Att: 13/Def: 11/Armor: UNKNOWN" +\
                         "\tABILITIES: Bodyguard:master, Iron Fist:master, Two-handed Force:adept" +\
-                        "\tTRAITS: blablabla" +\
+                        "\tTRAITS: -" +\
                         "\tEQUIPMENT: glowing, oozing full plate\n" +\
                         "\tshow_tooltip|yes\n" +\
                         "\tdefaulttoken\n" +\
@@ -414,11 +434,13 @@ def prep_create_token_mod_str_brand(
     equipment = "glowing, oozing full plate"
     armor = "UNKNOWN"
     abilities = {"Bodyguard": "master", "Iron Fist": "master", "Two-handed Force": "adept"}
+    traits = "-"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_brand,
         equipment,
         armor,
         abilities,
+        traits,
         create_expected_result_create_token_mod_str_brand,
     )
 
@@ -430,7 +452,8 @@ def create_input_get_roll20_chat_input_str_fairy(
     equipment = "none"
     armor = "UNKNOWN"
     abilities = {"Abilities found in text": "Zero"}
-    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy, equipment, armor, abilities
+    traits = "-"
+    yield create_expected_result_transform_attribute_keys_to_english_longhand_fairy, equipment, armor, abilities, traits
 
 
 @pytest.fixture
@@ -504,7 +527,7 @@ def create_expected_result_create_token_mod_str_fairy():
                         "\tbar3_link|accurate\n" +\
                         "\ttooltip|Att: 10/Def: 13/Armor: UNKNOWN" +\
                         "\tABILITIES: Abilities found in text:Zero" +\
-                        "\tTRAITS: blablabla" +\
+                        "\tTRAITS: -" +\
                         "\tEQUIPMENT: none\n" +\
                         "\tshow_tooltip|yes\n" +\
                         "\tdefaulttoken\n" +\
@@ -522,11 +545,13 @@ def prep_create_token_mod_str_fairy(
     equipment = "none"
     armor = "UNKNOWN"
     abilities = {"Abilities found in text": "Zero"}
+    traits = "-"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_fairy,
         equipment,
         armor,
         abilities,
+        traits,
         create_expected_result_create_token_mod_str_fairy,
     )
 

@@ -164,3 +164,31 @@ def create_expected_result_extract_armor_from_text_ger_aeber():
     expected_result = "7"
     yield expected_result
     del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_traits_from_text_ger_draghul():
+    expected_result = "untot (I, siehe seite 231), robust (II, siehe seite 312)"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_traits_from_text_ger_baiagorn():
+    expected_result = "natürliche waffen (I), robust (I), test1 (III), test2 (III), test3 (II)"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_traits_from_text_ger_guard():
+    expected_result = "kontakte (karawanerwächter)"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_traits_from_text_ger_aeber():
+    expected_result = "natürlicher panzer (II), natürliche waffen (II), robust (III, siehe seite 13)"
+    yield expected_result
+    del expected_result

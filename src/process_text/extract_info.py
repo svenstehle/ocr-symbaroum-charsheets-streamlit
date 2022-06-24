@@ -26,6 +26,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self._attributes: Dict[str, str] = {"Attributes not found in text": "Zero"}
         self._equipment: str = ""
         self._armor: str = ""
+        self._traits: str = ""
         self._tactics: str = ""
         self._setattr_name_str: str = ""
         self._setattr_sel_str: str = ""
@@ -142,6 +143,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self.transform_attribute_keys_to_english_longhand(GE.extract_all_attributes_from_text_ger(attribute_names))
         self._equipment = GE.extract_equipment_from_text_ger()
         self._armor = GE.extract_armor_from_text_ger()
+        self._traits = GE.extract_traits_from_text_ger()
         self.extract_tactics_from_text("taktik:")
         self.get_roll20_chat_input_strings(charname)
 
@@ -159,6 +161,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self.transform_attribute_keys_to_english_longhand(EE.extract_all_attributes_from_text_eng(attribute_names))
         self._equipment = EE.extract_equipment_from_text_eng()
         self._armor = EE.extract_armor_from_text_eng()
+        self._traits = EE.extract_traits_from_text_eng()
         self.extract_tactics_from_text("tactics:")
         self.get_roll20_chat_input_strings(charname)
 
@@ -265,8 +268,8 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
                                     "\tbar1_link|quick\n" +\
                                     "\tbar2_link|toughness\n" +\
                                     "\tbar3_link|accurate\n"
-        # TODO we need Armor computations here and
-        # the extracted Traits
+        # TODO we need Armor & Defense computations after/during extraction if possible
+        # English charsheets dont have infos on that though
 
         # convert abilities for tooltip
         abilities_token = tuple(f"{a}:{v}" for a, v in self.abilities.items())
@@ -276,7 +279,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
                                     f"/Def: {self.get_defense_value()}" +\
                                     f"/Armor: {self._armor}" +\
                                     f"\tABILITIES: {abilities_token}" +\
-                                    "\tTRAITS: blablabla" +\
+                                    f"\tTRAITS: {self._traits}" +\
                                     f"\tEQUIPMENT: {self.equipment}\n"
 
         token_mod_ending_string = "\tshow_tooltip|yes\n" +\

@@ -29,11 +29,12 @@ def test_create_token_mod_str(
     prep_create_token_mod_str,
 ):
     IE = InformationExtractor(ocr_text)
-    attributes, equipment, armor, abilities, expected_result = prep_create_token_mod_str
+    attributes, equipment, armor, abilities, traits, expected_result = prep_create_token_mod_str
     IE._attributes = attributes
     IE._abilities = abilities
     IE._equipment = equipment
     IE._armor = armor
+    IE._traits = traits
     # assert defaults
     assert IE._token_mod_str == ""
     assert IE.token_mod_str == ""

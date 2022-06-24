@@ -125,3 +125,19 @@ class GermanExtractor:
         # filter digits from string and return armor value
         armor = ''.join(filter(lambda i: i.isdigit(), armor))
         return armor
+
+    def extract_traits_from_text_ger(self) -> str:
+        """Extracts, the roll20 character traits from German text.
+
+        Returns:
+            str: string with the traits.
+        """
+        traits_start_str = "merkmale"
+        length = len(traits_start_str)
+        traits_start_loc = self.text.find(traits_start_str) + length + 1
+
+        traits_end_str = "aufmerksamkeit"
+        traits_end_loc = self.text.find(traits_end_str, traits_start_loc)
+        traits = self.text[traits_start_loc:traits_end_loc].strip()
+
+        return TextProcessor.clean_roman_numerals(traits)

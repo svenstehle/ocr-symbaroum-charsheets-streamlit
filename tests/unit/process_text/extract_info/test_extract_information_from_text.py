@@ -54,6 +54,7 @@ def test_extract_information_from_text(ocr_text, config, lang):
     assert IE._attributes == {"Attributes not found in text": "Zero"}
     assert IE._equipment == ""
     assert IE._armor == ""
+    assert IE._traits == ""
     assert IE._tactics == ""
     assert IE._setattr_name_str == ""
     assert IE._setattr_sel_str == ""

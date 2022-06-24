@@ -60,3 +60,62 @@ class TextProcessor:
             str: text with the inserted string.
         """
         return self.text[:start] + string + self.text[end:]
+
+    @staticmethod
+    def clean_roman_numerals(traits: str) -> str:
+        # process traits with regex because ocr has so much trouble
+        # with '(I)', '(II)' and '(III)' expressions
+
+        # first, we replace '(III)'
+        # TODO test
+        # TODO Docstring
+        # TODO find a more concise but correct regex for this. The two ORs are horrible to read
+        traits = re.sub(
+            r"""
+            (?x)        # Use free-spacing mode.
+            \(          # Match a literal '('
+            [i1l|]{3}   # Match one of the tokens in the brackets, three times
+            |           # OR operator, match the first or the second regex option
+            \(          # Match a literal '('
+            n           # Match a literal 'n'
+            [i1l|]{1}   # Match one of the tokens in the brackets, two times
+            |           # OR operator, match the first or the second regex option
+            \(          # Match a literal '('
+            [i1l|]{1}   # Match one of the tokens in the brackets, two times
+            n           # Match a literal 'n'
+            """, "(III", traits
+        )
+        # second, replace '(II)'
+        traits = re.sub(
+            r"""
+            (?x)        # Use free-spacing mode.
+            \(          # Match a literal '('
+            [^I]?       # Exclude a literal 'I' from the match, which means we replaced before
+                        # '?' means to match this greedy from 0 times to 1, however many found
+            [i1l|]{2}   # Match one of the tokens in the brackets, two times
+            |           # OR operator, match the first or the second regex option
+            \(          # Match a literal '('
+            n           # Match a literal 'n'
+            """, "(II", traits
+        )
+
+        # third, replace '(I)'
+        traits = re.sub(
+            r"""
+            (?x)        # Use free-spacing mode.
+            \(          # Match a literal '('
+            [^I]?       # Exclude a literal 'I' from the match, which means we replaced before
+                        # '?' means to match this greedy from 0 times to 1, however many found
+            [i1l|]{1}   # Match one of the tokens in the brackets, zero or one times
+            """, "(I", traits
+        )
+
+        # last, replace '()'
+        traits = re.sub(
+            r"""
+            (?x)        # Use free-spacing mode.
+            \(          # Match a literal '('
+            \)          # Match a literal ')'
+            """, "(I)", traits
+        )
+        return traits

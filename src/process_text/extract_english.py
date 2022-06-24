@@ -221,3 +221,19 @@ class EnglishExtractor:
         ability_name = ability_name.split()
         ability_name = " ".join([a.capitalize() for a in ability_name])
         return ability_name
+
+    def extract_traits_from_text_eng(self) -> str:
+        """Extracts, the roll20 character traits from German text.
+
+        Returns:
+            str: string with the traits.
+        """
+        traits_start_str = "traits"
+        length = len(traits_start_str)
+        traits_start_loc = self.text.find(traits_start_str) + length + 1
+
+        traits_end_str = "integrated"
+        traits_end_loc = self.text.find(traits_end_str, traits_start_loc)
+        traits = self.text[traits_start_loc:traits_end_loc].strip()
+
+        return TextProcessor.clean_roman_numerals(traits)

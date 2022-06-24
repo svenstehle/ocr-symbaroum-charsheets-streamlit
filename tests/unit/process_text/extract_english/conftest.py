@@ -83,3 +83,31 @@ def create_expected_result_extract_armor_from_text_eng_fairy():
     expected_result = "UNKNOWN"
     yield expected_result
     del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_traits_from_text_eng_fairy():
+    expected_result = "-"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_traits_from_text_eng_brand():
+    expected_result = "-"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_traits_from_text_eng_hunter():
+    expected_result = "bloodlust (III. see p. 54), manifestation (III), spirit form (III)"
+    yield expected_result
+    del expected_result
+
+
+@pytest.fixture
+def create_expected_result_extract_traits_from_text_eng_sikander():
+    expected_result = "test1 (II), test2 (III), test3 (III), test4 (II), test5 (III)"
+    yield expected_result
+    del expected_result
