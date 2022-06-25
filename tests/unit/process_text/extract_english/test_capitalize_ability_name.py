@@ -12,6 +12,7 @@ from src.process_text.extract_english import EnglishExtractor
     ]
 )
 def test_capitalize_ability_name(ability_name, expected_result):
+    # pylint: disable=protected-access
     EE = EnglishExtractor("dummy_text")
-    result = EE.capitalize_ability_name(ability_name)
+    result = EE._capitalize_ability_name(ability_name)
     assert expected_result == result

@@ -26,7 +26,7 @@ from src.process_text.extract_german import GermanExtractor
         ),
     ]
 )
-def test_extract_all_attributes_from_text_ger(ocr_text, attribute_names, expected_result):
+def test_extract_all_attributes_from_text(ocr_text, attribute_names, expected_result):
     GE = GermanExtractor(ocr_text)
-    result = GE.extract_all_attributes_from_text_ger(attribute_names)
+    result = GE.extract_all_attributes_from_text(attribute_names)
     assert result == expected_result

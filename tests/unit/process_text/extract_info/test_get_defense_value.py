@@ -1,6 +1,8 @@
 import pytest
 from src.process_text.extract_info import InformationExtractor
 
+# pylint: disable=protected-access
+
 
 @pytest.mark.parametrize(
     "ocr_text, attributes, expected_result", [
@@ -33,6 +35,6 @@ def test_get_defense_value(
 ):
     IE = InformationExtractor(ocr_text)
     # set attributes used by get_defense_value
-    IE._attributes = attributes    # pylint: disable=protected-access
-    defense_value = IE.get_defense_value()
+    IE._attributes = attributes
+    defense_value = IE._get_defense_value()
     assert defense_value == expected_result

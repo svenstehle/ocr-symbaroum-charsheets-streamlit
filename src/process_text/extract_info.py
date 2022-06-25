@@ -1,12 +1,11 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from omegaconf import DictConfig
-from src.process_language import detect_language
 from src.process_text.extract_english import EnglishExtractor
 from src.process_text.extract_german import GermanExtractor
-from src.process_text.process_ocr import TextProcessor
+from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 
 # TODO change into public and non-public methods in the long run
 # TODO create an API with ABC metaclass and abstractmethod
@@ -14,13 +13,13 @@ from src.process_text.process_ocr import TextProcessor
 
 class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instance-attributes
     """Extracts all Information from OCR'd text."""
-    def __init__(self, text: str, **kwargs):
+    def __init__(self, text: str, *args, **kwargs):
         """Constructs all the necessary attributes for the InformationExtractor object.
 
         Args:
             text (str): raw text from pytesseract OCR.
         """
-        super().__init__(text, **kwargs)
+        super().__init__(text, *args, **kwargs)
         self.text: str = text
         self._abilities: Dict[str, str] = {"Abilities not found in text": "Zero"}
         self._attributes: Dict[str, str] = {"Attributes not found in text": "Zero"}
@@ -31,17 +30,6 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self._setattr_name_str: str = ""
         self._setattr_sel_str: str = ""
         self._token_mod_str: str = ""
-        self._lang: str = ""
-
-    @property
-    def lang(self) -> str:
-        """Detects the language used in the text.
-
-        Returns:
-            str: language used in the text.
-        """
-        self._lang = detect_language(self.text)
-        return self._lang
 
     @property
     def abilities(self) -> Dict[str, str]:
@@ -123,47 +111,37 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         # with setup outside of the method
         # while doing that, think about defining the interface with abstractclass and -method
         if self.lang == "de":
-            self.extract_information_from_ger_text(charname, cfg.extraction.attribute_names_ger)
+            GE = GermanExtractor(self.text)
+            self._apply_extractor_to_text(GE, charname, cfg.extraction.attribute_names_ger)
         elif self.lang == "en":
-            self.extract_information_from_eng_text(charname, cfg.extraction.attribute_names_eng)
+            EE = EnglishExtractor(self.text)
+            self._apply_extractor_to_text(EE, charname, cfg.extraction.attribute_names_eng)
         else:
-            raise ValueError(f"Detected language {self.lang} not supported")
+            raise LanguageNotSupported(f"Detected language {self.lang} not supported")
 
-    def extract_information_from_ger_text(self, charname: str, attribute_names: List[str]) -> None:
-        """Extracts information from German text and saves it in the InformationExtractor object.
+    def _apply_extractor_to_text(
+        self,
+        extractor: Union[GermanExtractor, EnglishExtractor],
+        charname: str,
+        attribute_names: List[str],
+    ) -> None:
+        """Extracts information from German or English text and saves it in the InformationExtractor
+        object.
 
         Args:
             charname (str): name of the roll20 character for which to create the setattr string.
             attribute_names (List[str]): list of the attribute names in German language.
         """
         self._preprocess_text()
-        self.replace_all_weapon_strings("waffen")
-        GE = GermanExtractor(self.text)
-        self._abilities = GE.extract_all_abilities_from_text_ger()
-        self.transform_attribute_keys_to_english_longhand(GE.extract_all_attributes_from_text_ger(attribute_names))
-        self._equipment = GE.extract_equipment_from_text_ger()
-        self._armor = GE.extract_armor_from_text_ger()
-        self._traits = GE.extract_traits_from_text_ger()
-        self.extract_tactics_from_text("taktik:")
-        self.get_roll20_chat_input_strings(charname)
-
-    def extract_information_from_eng_text(self, charname: str, attribute_names: List[str]) -> None:
-        """Extracts information from English text and saves it in the InformationExtractor object.
-
-        Args:
-            charname (str): name of the roll20 character for which to create the setattr string.
-            attribute_names (List[str]): list of the attribute names in English language.
-        """
-        self._preprocess_text()
-        self.replace_all_weapon_strings("weapons")
-        EE = EnglishExtractor(self.text)
-        self._abilities = EE.extract_all_abilities_from_text_eng()
-        self.transform_attribute_keys_to_english_longhand(EE.extract_all_attributes_from_text_eng(attribute_names))
-        self._equipment = EE.extract_equipment_from_text_eng()
-        self._armor = EE.extract_armor_from_text_eng()
-        self._traits = EE.extract_traits_from_text_eng()
-        self.extract_tactics_from_text("tactics:")
-        self.get_roll20_chat_input_strings(charname)
+        self.replace_all_weapon_strings()
+        self._abilities = extractor.extract_all_abilities_from_text()
+        # TODO move attribute names to extractor attribute
+        self._transform_attribute_keys_to_english_longhand(extractor.extract_all_attributes_from_text(attribute_names))
+        self._equipment = extractor.extract_equipment_from_text()
+        self._armor = extractor.extract_armor_from_text()
+        self._traits = extractor.extract_traits_from_text()
+        self._tactics = extractor.extract_tactics_from_text()
+        self._get_roll20_chat_input_strings(charname)
 
     def _preprocess_text(self) -> None:
         """_summary_: Removes all the unnecessary characters from the text."""
@@ -182,7 +160,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self.text = self.text.strip()
         self.text = self._get_lowercase_text(self.text)
 
-    def transform_attribute_keys_to_english_longhand(self, attributes: Dict[str, str]) -> None:
+    def _transform_attribute_keys_to_english_longhand(self, attributes: Dict[str, str]) -> None:
         """Transforms the attribute keys from the respective supported languages to
         English longhand. E.g. both 'acc' and 'präzision' will be transformed to 'accurate',
         to allow for easier unified handling of these attributes downstream.
@@ -199,19 +177,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
 
         self._attributes = attr_new
 
-    def extract_tactics_from_text(self, tactics_str: str) -> None:
-        """Extracts the tactics from the text.
-
-        Args:
-            tactics_str (str): tactics search keyword in the relevant language.
-        """
-        length = len(tactics_str)
-        tactics_start_loc = self.text.find(tactics_str) + length + 1
-        tactics = self.text[tactics_start_loc:]
-        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
-        self._tactics = " ".join(tactics)
-
-    def get_roll20_chat_input_strings(self, charname: str) -> None:
+    def _get_roll20_chat_input_strings(self, charname: str) -> None:
         """Creates the roll20 chat input strings for the setattr and token-mod API scripts
         for input character name.
 
@@ -219,8 +185,8 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             charname (str): name of the roll20 character for which to create the setattr string.
                 token-mod does not depend on charname.
         """
-        self.create_setattr_str(charname)
-        self.create_token_mod_str()
+        self._create_setattr_str(charname)
+        self._create_token_mod_str()
 
     @staticmethod
     def _get_lowercase_text(text: str) -> str:
@@ -234,7 +200,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         """
         return text.lower()
 
-    def create_setattr_str(self, charname: str) -> None:
+    def _create_setattr_str(self, charname: str) -> None:
         """Creates and sets the roll20 setattr API script string
          as attribute to the InformationExtractor object.
 
@@ -251,14 +217,14 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             setattr_attributes += f" --{att_name}|{value}"
 
         # build toughness string
-        toughness = self.get_toughness(self.attributes)
+        toughness = self._get_toughness(self.attributes)
         setattr_toughness = f" --toughness|{toughness}|{toughness}"
 
         # store in object
         self._setattr_name_str = setattr_name_beginning + setattr_attributes + setattr_toughness
         self._setattr_sel_str = setattr_sel_beginning + setattr_attributes + setattr_toughness
 
-    def create_token_mod_str(self) -> None:
+    def _create_token_mod_str(self) -> None:
         """Creates and sets the roll20 token-mod API script string
         as attribute to the InformationExtractor object.
         """
@@ -275,8 +241,8 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         abilities_token = tuple(f"{a}:{v}" for a, v in self.abilities.items())
         abilities_token = ", ".join(abilities_token)
 
-        token_mod_tooltip_string = f"\ttooltip|Att: {self.get_attack_value()}" +\
-                                    f"/Def: {self.get_defense_value()}" +\
+        token_mod_tooltip_string = f"\ttooltip|Att: {self._get_attack_value()}" +\
+                                    f"/Def: {self._get_defense_value()}" +\
                                     f"/Armor: {self._armor}" +\
                                     f"\tABILITIES: {abilities_token}" +\
                                     f"\tTRAITS: {self._traits}" +\
@@ -323,11 +289,11 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
                 "accurate": "acc"
             }
         else:
-            raise ValueError(f"Language {self.lang} not supported.")
+            raise LanguageNotSupported(f"Detected language {self.lang} not supported")
         return mapping
 
     @staticmethod
-    def get_toughness(attributes: Dict[str, str]) -> int:
+    def _get_toughness(attributes: Dict[str, str]) -> int:
         """Calculates the toughness from the strong attribute in the relevant language.
 
         Args:
@@ -340,7 +306,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         strong = int(attributes[strength_key])
         return max((strong, 10))
 
-    def get_attack_value(self) -> str:
+    def _get_attack_value(self) -> str:
         """Returns the value for a physical attack roll performed by that character.
         Usually this is simply calculated by using the value for 'accuracte'.
         If a character has certain abilities, the attack value might be calculated differently,
@@ -352,7 +318,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         """
         return self.attributes["accurate"]
 
-    def get_defense_value(self) -> str:
+    def _get_defense_value(self) -> str:
         """Returns the value for a defense roll performed by that character.
         Usually this is simply calculated by using the value for 'quick'.
         If a character has certain abilities, the defense value might be calculated differently,

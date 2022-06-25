@@ -1,8 +1,9 @@
 import pytest
 from src.process_text.extract_info import InformationExtractor
 
-
 # pylint: disable=protected-access
+
+
 @pytest.mark.parametrize(
     "charname, ocr_text, inputs, expected_result_setattr_name, "
     "expected_result_setattr_sel, expected_result_token_mod", [
@@ -55,7 +56,7 @@ def test_get_roll20_chat_input_strings(
     IE._armor = armor
     IE._traits = traits
     IE._abilities = abilities
-    IE.get_roll20_chat_input_strings(charname)
+    IE._get_roll20_chat_input_strings(charname)
     assert expected_result_setattr_name == IE.setattr_name_str
     assert expected_result_setattr_sel == IE.setattr_sel_str
     assert expected_result_token_mod == IE.token_mod_str

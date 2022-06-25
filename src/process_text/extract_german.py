@@ -16,7 +16,7 @@ class GermanExtractor:
         """
         self.text = text
 
-    def extract_all_attributes_from_text_ger(self, attribute_names: List[str]) -> Dict[str, str]:
+    def extract_all_attributes_from_text(self, attribute_names: List[str]) -> Dict[str, str]:
         """Extracts all roll20 character attributes from German text.
 
         Args:
@@ -25,9 +25,9 @@ class GermanExtractor:
         Returns:
             Dict[str, str]: dictionary of the attribute names and their values.
         """
-        return {a: self.get_attribute_value_from_text_ger(a) for a in attribute_names}
+        return {a: self._get_attribute_value_from_text(a) for a in attribute_names}
 
-    def get_attribute_value_from_text_ger(self, attribute_name: str) -> str:
+    def _get_attribute_value_from_text(self, attribute_name: str) -> str:
         """Extracts the attribute value from German text.
 
         Args:
@@ -47,7 +47,7 @@ class GermanExtractor:
             att_val = att_val.replace(k, v)
         return att_val
 
-    def extract_all_abilities_from_text_ger(self) -> Dict[str, str]:
+    def extract_all_abilities_from_text(self) -> Dict[str, str]:
         """Extracts all roll20 character abilities from German text.
 
         Returns:
@@ -65,7 +65,7 @@ class GermanExtractor:
         all_abilities = {a.split(" ")[0].title(): a.split(" ")[1][1:-1].title() for a in all_abilities}
         return all_abilities
 
-    def extract_equipment_from_text_ger(self) -> str:
+    def extract_equipment_from_text(self) -> str:
         """Extracts all roll20 character equipment from German text.
 
         Returns:
@@ -78,6 +78,8 @@ class GermanExtractor:
         shadow_str = "schatten"
         equipment_end_loc = self.text.find(shadow_str, equipment_start_loc)
         equipment = self.text[equipment_start_loc:equipment_end_loc].strip()
+
+        # TODO factor this out into it's own function
         # process misrecognized ocr'd characters, i.e. dice rolls like '1w10'
         search_pattern = re.compile(
             r"""
@@ -104,7 +106,7 @@ class GermanExtractor:
 
         return equipment
 
-    def extract_armor_from_text_ger(self) -> str:
+    def extract_armor_from_text(self) -> str:
         """Extracts, if possible, the roll20 character armor value from German text.
         Usually this is based on equipment and sometimes additional traits.
         Just using the equipment, this works well for German texts. However, applying
@@ -126,7 +128,7 @@ class GermanExtractor:
         armor = ''.join(filter(lambda i: i.isdigit(), armor))
         return armor
 
-    def extract_traits_from_text_ger(self) -> str:
+    def extract_traits_from_text(self) -> str:
         """Extracts, the roll20 character traits from German text.
 
         Returns:
@@ -141,3 +143,16 @@ class GermanExtractor:
         traits = self.text[traits_start_loc:traits_end_loc].strip()
 
         return TextProcessor.clean_roman_numerals(traits)
+
+    def extract_tactics_from_text(self) -> str:
+        """Extracts the tactics from the German text.
+
+        Returns:
+            str: the extracted tactics string.
+        """
+        tactics_str = "taktik:"
+        length = len(tactics_str)
+        tactics_start_loc = self.text.find(tactics_str) + length + 1
+        tactics = self.text[tactics_start_loc:]
+        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
+        return " ".join(tactics)

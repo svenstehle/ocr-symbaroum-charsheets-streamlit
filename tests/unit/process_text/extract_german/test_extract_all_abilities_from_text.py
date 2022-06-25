@@ -6,23 +6,23 @@ from src.process_text.extract_german import GermanExtractor
     "ocr_text, expected_result", [
         (
             pytest.lazy_fixture("prep_ocr_text_draghul"),
-            pytest.lazy_fixture("create_expected_result_extract_equipment_from_text_ger_draghul")
+            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_draghul")
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_baiagorn"),
-            pytest.lazy_fixture("create_expected_result_extract_equipment_from_text_ger_baiagorn")
+            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_baiagorn")
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_guard"),
-            pytest.lazy_fixture("create_expected_result_extract_equipment_from_text_ger_guard")
+            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_guard")
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_aeber"),
-            pytest.lazy_fixture("create_expected_result_extract_equipment_from_text_ger_aeber")
+            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_aeber")
         ),
     ]
 )
-def test_extract_equipment_from_text_ger(ocr_text, expected_result):
+def test_extract_all_abilities_from_text(ocr_text, expected_result):
     GE = GermanExtractor(ocr_text)
-    result = GE.extract_equipment_from_text_ger()
+    result = GE.extract_all_abilities_from_text()
     assert expected_result == result

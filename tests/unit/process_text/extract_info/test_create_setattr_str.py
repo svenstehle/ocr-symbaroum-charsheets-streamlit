@@ -51,7 +51,8 @@ def test_create_setattr_str(
     assert IE._setattr_sel_str == ""
     assert IE.setattr_name_str == ""
     assert IE.setattr_sel_str == ""
-    IE.create_setattr_str(charname)
+
+    IE._create_setattr_str(charname)
     assert IE.setattr_name_str == expected_result_name
     assert IE._setattr_name_str == expected_result_name
     assert IE.setattr_sel_str == expected_result_sel

@@ -3,6 +3,8 @@
 import re
 from typing import List, Tuple
 
+from src.process_language import detect_language
+
 
 # TODO watch out for refactoring inheritance of TextProcessor
 # Depending on future features, mb move to English/GermanExtractor
@@ -15,22 +17,33 @@ class TextProcessor:
             text (str): text from pytesseract OCR.
         """
         self.text = text
+        self._lang: str = ""
 
-    def replace_all_weapon_strings(self, string: str) -> None:
-        """Replaces all weapon strings with the corresponding weapon name.
+    @property
+    def lang(self) -> str:
+        """Detects the language used in the text.
 
-        Args:
-            string (str): the string to replace the found matching 'weapon' strings with.
+        Returns:
+            str: language used in the text.
+        """
+        self._lang = detect_language(self.text)
+        return self._lang
+
+    def replace_all_weapon_strings(self) -> None:
+        """Replaces all weapon strings in text with the correct corresponding
+        weapon name, based on the detected language.
 
         Raises:
             ValueError: raises if the string is not a valid weapon name.
         """
-        if string == "waffen":
+        if self.lang == "de":
+            string = "waffen"
             pattern = r"w[ä-üabdeft]{3}en"
-        elif string == "weapons":
+        elif self.lang == "en":
+            string = "weapons"
             pattern = r"w[aeop]{3}ons"
         else:
-            raise ValueError(f"Search string '{string}' not supported.")
+            raise LanguageNotSupported(f"Detected language {self.lang} not supported")
 
         indices = self.get_indices_of_weapon_strings(pattern)
         for (start, end) in indices:
@@ -119,3 +132,9 @@ class TextProcessor:
             """, "(I)", traits
         )
         return traits
+
+
+class LanguageNotSupported(ValueError):
+    """Raised when the detected language of the ocr'd
+    input text is not German or English
+    """

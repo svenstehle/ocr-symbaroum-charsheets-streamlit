@@ -22,6 +22,7 @@ from src.process_text.extract_english import EnglishExtractor
         ),
     ]
 )
-def test_get_all_attribute_values_from_text_eng(ocr_text, expected_result):
+def test_get_all_attribute_values_from_text(ocr_text, expected_result):
+    # pylint: disable=protected-access
     EE = EnglishExtractor(ocr_text)
-    assert EE.get_all_attribute_values_from_text_eng() == expected_result
+    assert EE._get_all_attribute_values_from_text() == expected_result

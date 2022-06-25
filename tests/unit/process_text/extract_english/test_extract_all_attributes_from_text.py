@@ -26,7 +26,7 @@ from src.process_text.extract_english import EnglishExtractor
         ),
     ]
 )
-def test_extract_all_attributes_from_text_eng(ocr_text, attribute_names, expected_result):
+def test_extract_all_attributes_from_text(ocr_text, attribute_names, expected_result):
     EE = EnglishExtractor(ocr_text)
-    result = EE.extract_all_attributes_from_text_eng(attribute_names)
+    result = EE.extract_all_attributes_from_text(attribute_names)
     assert result == expected_result

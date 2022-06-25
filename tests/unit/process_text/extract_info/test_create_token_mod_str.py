@@ -35,9 +35,11 @@ def test_create_token_mod_str(
     IE._equipment = equipment
     IE._armor = armor
     IE._traits = traits
+
     # assert defaults
     assert IE._token_mod_str == ""
     assert IE.token_mod_str == ""
-    IE.create_token_mod_str()
+
+    IE._create_token_mod_str()
     assert IE._token_mod_str == expected_result
     assert IE.token_mod_str == expected_result

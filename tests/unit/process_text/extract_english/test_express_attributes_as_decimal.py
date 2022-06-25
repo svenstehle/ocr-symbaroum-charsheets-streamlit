@@ -27,6 +27,7 @@ from src.process_text.extract_english import EnglishExtractor
     ]
 )
 def test_express_attributes_as_decimal(attribute_values, expected_result):
+    # pylint: disable=protected-access
     EE = EnglishExtractor("dummy_text")
-    result = EE.express_attributes_as_decimal(attribute_values)
+    result = EE._express_attributes_as_decimal(attribute_values)
     assert expected_result == result

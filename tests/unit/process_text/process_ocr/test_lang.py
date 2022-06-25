@@ -1,5 +1,7 @@
 import pytest
-from src.process_text.extract_info import InformationExtractor
+from src.process_text.process_ocr import TextProcessor
+
+# pylint: disable=protected-access
 
 
 @pytest.mark.parametrize(
@@ -23,7 +25,7 @@ from src.process_text.extract_info import InformationExtractor
     ]
 )
 def test_lang(ocr_text, lang):
-    IE = InformationExtractor(ocr_text)
-    assert IE._lang == ""    # pylint: disable=protected-access
+    IE = TextProcessor(ocr_text)
+    assert IE._lang == ""
     assert IE.lang == lang
-    assert IE._lang == lang    # pylint: disable=protected-access
+    assert IE._lang == lang
