@@ -14,6 +14,6 @@ from src.process_text.extract_info import TextProcessor
     ]
 )
 def test_insert_str_between_indices(text, string, start, end, expected_result):
-    TP = TextProcessor(text)
-    result = TP.insert_str_between_indices(string, start, end)
+    # pylint: disable=protected-access
+    result = TextProcessor._insert_str_between_indices(text, string, start, end)
     assert result == expected_result

@@ -1,6 +1,8 @@
 import pytest
 from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 
+# pylint: disable=protected-access
+
 
 @pytest.mark.parametrize(
     "text, expected_result", [
@@ -25,7 +27,7 @@ from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 )
 def test_replace_all_weapon_strings(text, expected_result):
     TP = TextProcessor(text)
-    TP.replace_all_weapon_strings()
+    TP._replace_all_weapon_strings()
     assert TP.text == expected_result
 
 
@@ -33,5 +35,5 @@ def test_replace_all_weapon_strings_exception():
     TP = TextProcessor("Je parle francais mon amour. Tu aime la souris?")
     lang = "fr"
     with pytest.raises(LanguageNotSupported) as e:
-        TP.replace_all_weapon_strings()
+        TP._replace_all_weapon_strings()
     assert str(e.value) == f"Detected language {lang} not supported"

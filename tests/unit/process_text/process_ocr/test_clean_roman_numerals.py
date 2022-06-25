@@ -3,6 +3,7 @@ from src.process_text.extract_info import InformationExtractor
 from src.process_text.process_ocr import TextProcessor
 
 # TODO really think about cleaning TextProcessor / InformationExtractor etc interactions
+# pylint: disable=protected-access
 
 
 @pytest.mark.parametrize(
@@ -39,7 +40,7 @@ from src.process_text.process_ocr import TextProcessor
 )
 def test_clean_roman_numerals(string, expected_result):
     IE = InformationExtractor(string)
-    IE._preprocess_text()    # pylint: disable=protected-access
+    IE._preprocess_text()
     TP = TextProcessor(IE.text)
-    result = TP.clean_roman_numerals(IE.text)
+    result = TP._clean_roman_numerals(IE.text)
     assert result == expected_result

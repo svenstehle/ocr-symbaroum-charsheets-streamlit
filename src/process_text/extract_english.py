@@ -5,15 +5,19 @@ from typing import Dict, List
 
 from src.process_text.process_ocr import TextProcessor
 
+# TODO think about all the code duplications in the two extractors... can we merge that and just
+# supply the language if/else blocks?
 
-class EnglishExtractor:
+
+class EnglishExtractor(TextProcessor):
     """Extracts all attributes from English text."""
-    def __init__(self, text: str):
+    def __init__(self, text: str, *args, **kwargs):
         """Constructs all the necessary attributes for the EnglishExtractor object.
 
         Args:
             text (str): the preprocessed text to extract attributes from.
         """
+        super().__init__(text, *args, **kwargs)
         self.text = text
 
     def extract_all_attributes_from_text(self, attribute_names_eng: List[str]) -> Dict[str, str]:
@@ -28,6 +32,87 @@ class EnglishExtractor:
         att_values = self._get_all_attribute_values_from_text()
         return {a: v for a, v in zip(attribute_names_eng, att_values)}
 
+    def extract_all_abilities_from_text(self) -> Dict[str, str]:
+        """Extracts all roll20 character abilities from English text.
+
+        Returns:
+            Dict[str, str]: dictionary of the ability names and their rank.
+        """
+        abilities_str = "abilities"
+        length = len(abilities_str)
+        abilities_start_loc = self.text.find(abilities_str) + length + 1
+        traits_str = "traits"
+        abilities_end_loc = self.text.find(traits_str, abilities_start_loc)
+        all_abilities = self.text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
+        if all_abilities in ["-", None, "", " "]:
+            return {"Abilities found in text": "Zero"}
+        all_abilities = [a.strip() for a in all_abilities.split(",")]
+        all_abilities = {
+            self._capitalize_ability_name(a.split("(")[0].strip()): a.split("(")[1].strip(") ")
+            for a in all_abilities
+        }
+        return all_abilities
+
+    def extract_equipment_from_text(self) -> str:
+        """Extracts all roll20 character equipment from English text.
+
+        Returns:
+            str: string with the equipment.
+        """
+        equipment_str = "equipment"
+        length = len(equipment_str)
+        equipment_start_loc = self.text.find(equipment_str) + length + 1
+
+        shadow_str = "shadow"
+        equipment_end_loc = self.text.find(shadow_str, equipment_start_loc)
+        equipment = self.text[equipment_start_loc:equipment_end_loc].strip()
+
+        equipment = self._cleanup_dice_rolls(equipment)
+        return equipment
+
+    def extract_armor_from_text(self) -> str:
+        """Extracts, if possible, the roll20 character armor value from English text.
+        Usually this is based on equipment and sometimes additional traits.
+        Just using the equipment, this works well for German texts. However, applying
+        values from traits has not been implemented. English texts are non-standard
+        in this regard and armor is difficult to extract from them.
+        Alas this is just a dummy, because so far we have not found a way to reliably
+        extract armor from English text.
+
+        Returns:
+            str: dummy string with the armor value of 'UNKNOWN'.
+        """
+        return "UNKNOWN"
+
+    def extract_traits_from_text(self) -> str:
+        """Extracts, the roll20 character traits from German text.
+
+        Returns:
+            str: string with the traits.
+        """
+        traits_start_str = "traits"
+        length = len(traits_start_str)
+        traits_start_loc = self.text.find(traits_start_str) + length + 1
+
+        traits_end_str = "integrated"
+        traits_end_loc = self.text.find(traits_end_str, traits_start_loc)
+        traits = self.text[traits_start_loc:traits_end_loc].strip()
+        return self._clean_roman_numerals(traits)
+
+    def extract_tactics_from_text(self) -> str:
+        # pylint: disable=duplicate-code
+        """Extracts the tactics from the English text.
+
+        Returns:
+            str: the extracted tactics string.
+        """
+        tactics_str = "tactics:"
+        length = len(tactics_str)
+        tactics_start_loc = self.text.find(tactics_str) + length + 1
+        tactics = self.text[tactics_start_loc:]
+        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
+        return " ".join(tactics)
+
     def _get_all_attribute_values_from_text(self) -> List[str]:
         """Returns all the attribute values from English text.
 
@@ -39,6 +124,21 @@ class EnglishExtractor:
         att_values_clean = self._clean_misrecognized_plus_characters(att_values_clean)
         att_values_clean = self._express_attributes_as_decimal(att_values_clean)
         return att_values_clean
+
+    @staticmethod
+    def _capitalize_ability_name(ability_name: str) -> str:
+        """Capitalizes the ability name. Leaves hyphens or dashes etc
+        untouched and only capitalizes words separated by whitespaces.
+
+        Args:
+            ability_name (str): the roll20 ability name extracted from the text.
+
+        Returns:
+            str: the capitalized ability name.
+        """
+        ability_name = ability_name.split()
+        ability_name = " ".join([a.capitalize() for a in ability_name])
+        return ability_name
 
     def _extract_raw_attribute_values(self) -> str:
         """Extracts the raw attribute values from preprocessed English text.
@@ -132,124 +232,3 @@ class EnglishExtractor:
         """
         att_values_clean = [str((10 - int(v))) for v in att_values_clean]
         return att_values_clean
-
-    def extract_all_abilities_from_text(self) -> Dict[str, str]:
-        """Extracts all roll20 character abilities from English text.
-
-        Returns:
-            Dict[str, str]: dictionary of the ability names and their rank.
-        """
-        abilities_str = "abilities"
-        length = len(abilities_str)
-        abilities_start_loc = self.text.find(abilities_str) + length + 1
-        traits_str = "traits"
-        abilities_end_loc = self.text.find(traits_str, abilities_start_loc)
-        all_abilities = self.text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
-        if all_abilities in ["-", None, "", " "]:
-            return {"Abilities found in text": "Zero"}
-        all_abilities = [a.strip() for a in all_abilities.split(",")]
-        all_abilities = {
-            self._capitalize_ability_name(a.split("(")[0].strip()): a.split("(")[1].strip(") ")
-            for a in all_abilities
-        }
-        return all_abilities
-
-    def extract_equipment_from_text(self) -> str:
-        """Extracts all roll20 character equipment from English text.
-
-        Returns:
-            str: string with the equipment.
-        """
-        equipment_str = "equipment"
-        length = len(equipment_str)
-        equipment_start_loc = self.text.find(equipment_str) + length + 1
-
-        shadow_str = "shadow"
-        equipment_end_loc = self.text.find(shadow_str, equipment_start_loc)
-        equipment = self.text[equipment_start_loc:equipment_end_loc].strip()
-
-        # TODO factor this out into it's own function and replace in all extractors
-        # process misrecognized ocr'd characters, i.e. dice rolls like '1w10'
-        # process misrecognized ocr'd characters, i.e. dice rolls like '1w10'
-        search_pattern = re.compile(
-            r"""
-            [i1-9]          # matches a single character, either i or a digit from 1 to 9
-            [wd]            # matches the character 'w' literally (case sensitive)
-            [i]?            # matches the single character 'i' zero or one time
-            [io0-9]{1,2}    # matches a single character, either i, o or a digit from 0 to 9
-                            # {1, 2} matches the previous token between 1 and 2 times
-            """,
-            re.X,
-        )
-        match = re.search(search_pattern, equipment)
-        if match:
-            # usually just one roll here, let's start with that base case
-            dice_rolls = equipment[match.start():].split()[0]
-            dice_rolls = dice_rolls.replace("i1", "1").replace("ii", "1").replace("1i", "1").replace("o", "0") + " "
-            # refactor this to Textprocessor and replace all matching misrecognized dice rolls in original ocr'd text
-            TP = TextProcessor(equipment)
-            beginning = match.start()
-            end = match.start() + len(dice_rolls)
-            # insert cleaned rolls and remove redundant whitespaces
-            equipment = TP.insert_str_between_indices(dice_rolls, beginning, end)
-            equipment = " ".join(equipment.split())
-
-        return equipment
-
-    def extract_armor_from_text(self) -> str:
-        """Extracts, if possible, the roll20 character armor value from English text.
-        Usually this is based on equipment and sometimes additional traits.
-        Just using the equipment, this works well for German texts. However, applying
-        values from traits has not been implemented. English texts are non-standard
-        in this regard and armor is difficult to extract from them.
-        Alas this is just a dummy, because so far we have not found a way to reliably
-        extract armor from English text.
-
-        Returns:
-            str: dummy string with the armor value of 'UNKNOWN'.
-        """
-        return "UNKNOWN"
-
-    @staticmethod
-    def _capitalize_ability_name(ability_name: str) -> str:
-        """Capitalizes the ability name. Leaves hyphens or dashes etc
-        untouched and only capitalizes words separated by whitespaces.
-
-        Args:
-            ability_name (str): the roll20 ability name extracted from the text.
-
-        Returns:
-            str: the capitalized ability name.
-        """
-        ability_name = ability_name.split()
-        ability_name = " ".join([a.capitalize() for a in ability_name])
-        return ability_name
-
-    def extract_traits_from_text(self) -> str:
-        """Extracts, the roll20 character traits from German text.
-
-        Returns:
-            str: string with the traits.
-        """
-        traits_start_str = "traits"
-        length = len(traits_start_str)
-        traits_start_loc = self.text.find(traits_start_str) + length + 1
-
-        traits_end_str = "integrated"
-        traits_end_loc = self.text.find(traits_end_str, traits_start_loc)
-        traits = self.text[traits_start_loc:traits_end_loc].strip()
-
-        return TextProcessor.clean_roman_numerals(traits)
-
-    def extract_tactics_from_text(self) -> str:
-        """Extracts the tactics from the English text.
-
-        Returns:
-            str: the extracted tactics string.
-        """
-        tactics_str = "tactics:"
-        length = len(tactics_str)
-        tactics_start_loc = self.text.find(tactics_str) + length + 1
-        tactics = self.text[tactics_start_loc:]
-        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
-        return " ".join(tactics)

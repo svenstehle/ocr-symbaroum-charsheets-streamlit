@@ -1,19 +1,20 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
-import re
+
 from typing import Dict, List
 
 from src.process_text.process_ocr import TextProcessor
 
 
-class GermanExtractor:
+class GermanExtractor(TextProcessor):
     """Extracts all attributes from German text."""
-    def __init__(self, text: str):
+    def __init__(self, text: str, *args, **kwargs):
         """Constructs all the necessary attributes for the GermanExtractor object.
 
         Args:
             text (str): the preprocessed text to extract attributes from.
         """
+        super().__init__(text, *args, **kwargs)
         self.text = text
 
     def extract_all_attributes_from_text(self, attribute_names: List[str]) -> Dict[str, str]:
@@ -26,26 +27,6 @@ class GermanExtractor:
             Dict[str, str]: dictionary of the attribute names and their values.
         """
         return {a: self._get_attribute_value_from_text(a) for a in attribute_names}
-
-    def _get_attribute_value_from_text(self, attribute_name: str) -> str:
-        """Extracts the attribute value from German text.
-
-        Args:
-            attribute_name (str): the attribute name to extract the value for.
-
-        Returns:
-            str: the attribute value for the given attribute name.
-        """
-        attribute_name_len = len(attribute_name)
-        att_start_loc = self.text.find(attribute_name) + attribute_name_len
-        att_end_loc = self.text.find("(", att_start_loc)
-        att_val = self.text[att_start_loc:att_end_loc].strip(" ")
-        mapping = [
-            ("/", "7"),
-        ]
-        for k, v in mapping:
-            att_val = att_val.replace(k, v)
-        return att_val
 
     def extract_all_abilities_from_text(self) -> Dict[str, str]:
         """Extracts all roll20 character abilities from German text.
@@ -79,31 +60,7 @@ class GermanExtractor:
         equipment_end_loc = self.text.find(shadow_str, equipment_start_loc)
         equipment = self.text[equipment_start_loc:equipment_end_loc].strip()
 
-        # TODO factor this out into it's own function
-        # process misrecognized ocr'd characters, i.e. dice rolls like '1w10'
-        search_pattern = re.compile(
-            r"""
-            [i1-9]          # matches a single character, either i or a digit from 1 to 9
-            [wd]            # matches a single character, 'w' or 'd', literally (case sensitive)
-            [i]?            # matches the single character 'i' zero or one time
-            [io0-9]{1,2}    # matches a single character, either i, o or a digit from 0 to 9
-                            # {1, 2} matches the previous token between 1 and 2 times
-            """,
-            re.X,
-        )
-        match = re.search(search_pattern, equipment)
-        if match:
-            # usually just one roll here, let's start with that base case
-            dice_rolls = equipment[match.start():].split()[0]
-            dice_rolls = dice_rolls.replace("i1", "1").replace("ii", "1").replace("1i", "1").replace("o", "0") + " "
-            # refactor this to Textprocessor and replace all matching misrecognized dice rolls in original ocr'd text
-            TP = TextProcessor(equipment)
-            beginning = match.start()
-            end = match.start() + len(dice_rolls)
-            # insert cleaned rolls and remove redundant whitespaces
-            equipment = TP.insert_str_between_indices(dice_rolls, beginning, end)
-            equipment = " ".join(equipment.split())
-
+        equipment = self._cleanup_dice_rolls(equipment)
         return equipment
 
     def extract_armor_from_text(self) -> str:
@@ -141,8 +98,7 @@ class GermanExtractor:
         traits_end_str = "aufmerksamkeit"
         traits_end_loc = self.text.find(traits_end_str, traits_start_loc)
         traits = self.text[traits_start_loc:traits_end_loc].strip()
-
-        return TextProcessor.clean_roman_numerals(traits)
+        return self._clean_roman_numerals(traits)
 
     def extract_tactics_from_text(self) -> str:
         """Extracts the tactics from the German text.
@@ -156,3 +112,23 @@ class GermanExtractor:
         tactics = self.text[tactics_start_loc:]
         tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
         return " ".join(tactics)
+
+    def _get_attribute_value_from_text(self, attribute_name: str) -> str:
+        """Extracts the attribute value from German text.
+
+        Args:
+            attribute_name (str): the attribute name to extract the value for.
+
+        Returns:
+            str: the attribute value for the given attribute name.
+        """
+        attribute_name_len = len(attribute_name)
+        att_start_loc = self.text.find(attribute_name) + attribute_name_len
+        att_end_loc = self.text.find("(", att_start_loc)
+        att_val = self.text[att_start_loc:att_end_loc].strip(" ")
+        mapping = [
+            ("/", "7"),
+        ]
+        for k, v in mapping:
+            att_val = att_val.replace(k, v)
+        return att_val

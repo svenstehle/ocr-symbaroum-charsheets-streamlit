@@ -113,5 +113,6 @@ from src.process_text.extract_info import TextProcessor
 )
 def test_get_indices_of_weapon_strings(text, pattern, expected_result):
     TP = TextProcessor(text)
-    all_results = TP.get_indices_of_weapon_strings(pattern)
+    # pylint: disable=protected-access
+    all_results = TP._get_indices_of_weapon_strings(pattern)
     assert all_results == expected_result

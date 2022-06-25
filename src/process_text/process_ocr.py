@@ -6,8 +6,6 @@ from typing import List, Tuple
 from src.process_language import detect_language
 
 
-# TODO watch out for refactoring inheritance of TextProcessor
-# Depending on future features, mb move to English/GermanExtractor
 class TextProcessor:
     """Processes the text from OCR'd images."""
     def __init__(self, text: str):
@@ -29,7 +27,7 @@ class TextProcessor:
         self._lang = detect_language(self.text)
         return self._lang
 
-    def replace_all_weapon_strings(self) -> None:
+    def _replace_all_weapon_strings(self) -> None:
         """Replaces all weapon strings in text with the correct corresponding
         weapon name, based on the detected language.
 
@@ -45,11 +43,11 @@ class TextProcessor:
         else:
             raise LanguageNotSupported(f"Detected language {self.lang} not supported")
 
-        indices = self.get_indices_of_weapon_strings(pattern)
+        indices = self._get_indices_of_weapon_strings(pattern)
         for (start, end) in indices:
-            self.text = self.insert_str_between_indices(string, start, end)
+            self.text = self._insert_str_between_indices(self.text, string, start, end)
 
-    def get_indices_of_weapon_strings(self, pattern: str) -> List[Tuple[int, int]]:
+    def _get_indices_of_weapon_strings(self, pattern: str) -> List[Tuple[int, int]]:
         """Returns the indices of all matching weapon strings in the text. Using regex.
 
         Args:
@@ -61,7 +59,8 @@ class TextProcessor:
         all_matches = [(m.start(0), m.end(0)) for m in re.finditer(pattern, self.text)]
         return all_matches
 
-    def insert_str_between_indices(self, string: str, start: int, end: int) -> str:
+    @staticmethod
+    def _insert_str_between_indices(original_text: str, string: str, start: int, end: int) -> str:
         """Inserts a string between two indices of another string, called text.
 
         Args:
@@ -72,17 +71,25 @@ class TextProcessor:
         Returns:
             str: text with the inserted string.
         """
-        return self.text[:start] + string + self.text[end:]
+        return original_text[:start] + string + original_text[end:]
 
     @staticmethod
-    def clean_roman_numerals(traits: str) -> str:
-        # process traits with regex because ocr has so much trouble
-        # with '(I)', '(II)' and '(III)' expressions
+    def _clean_roman_numerals(traits: str) -> str:
+        """Cleans the present characters in the 'traits'-str and replaces them with their actual
+        roman numerals. We use regex here because ocr has so much trouble in correctly recognizing
+        characters like '(I)', '(II)' and '(III)'. Very often, the output will be an '(1ln)' or
+        something else incorrect.
+
+        Args:
+            traits (str): string containing the traits information.
+
+        Returns:
+            str: the cleaned traits-string with the restored roman numerals.
+        """
+        # TODO find a more concise but correct regex for this. The two ORs are horrible to read.
+        # E.g. use regex just to find string and use replace to replace parts iteratively.
 
         # first, we replace '(III)'
-        # TODO test
-        # TODO Docstring
-        # TODO find a more concise but correct regex for this. The two ORs are horrible to read
         traits = re.sub(
             r"""
             (?x)        # Use free-spacing mode.
@@ -132,6 +139,42 @@ class TextProcessor:
             """, "(I)", traits
         )
         return traits
+
+    def _cleanup_dice_rolls(self, string: str) -> str:
+        """Cleanup misrecognized ocr'd characters in string,
+        i.e. dice rolls like '1w10' or '2d6'.
+
+        Args:
+            string (str): the string with possible dice rolls in it.
+
+        Returns:
+            str: the cleaned string.
+        """
+        search_pattern = re.compile(
+            r"""
+            [i1-9]          # matches a single character, either i or a digit from 1 to 9
+            [wd]            # matches the character 'w' literally (case sensitive)
+            [i]?            # matches the single character 'i' zero or one time
+            [io0-9]{1,2}    # matches a single character, either i, o or a digit from 0 to 9
+                            # {1, 2} matches the previous token between 1 and 2 times
+            """,
+            re.X,
+        )
+        match = re.search(search_pattern, string)
+        if match:
+            # usually just one roll here, let's start with that base case
+            dice_rolls = string[match.start():].split()[0]
+            dice_rolls = (
+                dice_rolls.replace("i1", "1").replace("ii", "1").replace("1i", "1").replace("o", "0").replace("i", "1")
+            )
+            dice_rolls += " "
+
+            # insert cleaned rolls and remove redundant whitespaces
+            beginning = match.start()
+            end = match.start() + len(dice_rolls)
+            string = self._insert_str_between_indices(string, dice_rolls, beginning, end)
+            string = " ".join(string.split())
+        return string
 
 
 class LanguageNotSupported(ValueError):

@@ -10,6 +10,8 @@ from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 # TODO change into public and non-public methods in the long run
 # TODO create an API with ABC metaclass and abstractmethod
 
+# TODO reorder functions
+
 
 class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instance-attributes
     """Extracts all Information from OCR'd text."""
@@ -107,9 +109,6 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         Raises:
             ValueError: raised if the detected language of the input text is not supported.
         """
-        # TODO think about using duck typing here and have just one extract info method
-        # with setup outside of the method
-        # while doing that, think about defining the interface with abstractclass and -method
         if self.lang == "de":
             GE = GermanExtractor(self.text)
             self._apply_extractor_to_text(GE, charname, cfg.extraction.attribute_names_ger)
@@ -133,7 +132,7 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             attribute_names (List[str]): list of the attribute names in German language.
         """
         self._preprocess_text()
-        self.replace_all_weapon_strings()
+        self._replace_all_weapon_strings()
         self._abilities = extractor.extract_all_abilities_from_text()
         # TODO move attribute names to extractor attribute
         self._transform_attribute_keys_to_english_longhand(extractor.extract_all_attributes_from_text(attribute_names))
