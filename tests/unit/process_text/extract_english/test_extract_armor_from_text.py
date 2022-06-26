@@ -10,7 +10,11 @@ from src.process_text.extract_english import EnglishExtractor
         ),
     ]
 )
-def test_extract_armor_from_text(ocr_text, expected_result):
-    EE = EnglishExtractor(ocr_text)
+def test_extract_armor_from_text(
+    ocr_text,
+    expected_result,
+    create_input_extract_all_attributes_from_text_eng_general,
+):
+    EE = EnglishExtractor(ocr_text, create_input_extract_all_attributes_from_text_eng_general)
     result = EE.extract_armor_from_text()
     assert expected_result == result

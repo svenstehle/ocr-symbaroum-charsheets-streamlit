@@ -52,13 +52,13 @@ def test_apply_extractor_to_text(ocr_text, lang, attribute_names):
     IE = InformationExtractor(ocr_text)
     assert IE._lang == ""
     if lang == "en":
-        extractor = EnglishExtractor(IE.text)
+        extractor = EnglishExtractor(IE.text, attribute_names)
     elif lang == "de":
-        extractor = GermanExtractor(IE.text)
+        extractor = GermanExtractor(IE.text, attribute_names)
     else:
         raise ValueError("Wrong test setup")
 
-    IE._apply_extractor_to_text(extractor, "dummyname", attribute_names)
+    IE._apply_extractor_to_text(extractor, "dummyname")
     assert isinstance(IE.attributes, Dict)
     assert IE.attributes == IE._attributes
     assert isinstance(IE.abilities, Dict)

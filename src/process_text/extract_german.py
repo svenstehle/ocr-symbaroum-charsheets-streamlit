@@ -8,25 +8,24 @@ from src.process_text.process_ocr import TextProcessor
 
 class GermanExtractor(TextProcessor):
     """Extracts all attributes from German text."""
-    def __init__(self, text: str, *args, **kwargs):
+    def __init__(self, text: str, attribute_names: List[str], *args, **kwargs):
         """Constructs all the necessary attributes for the GermanExtractor object.
 
         Args:
             text (str): the preprocessed text to extract attributes from.
+            attribute_names (List[str]): list of the attribute names in German language.
         """
         super().__init__(text, *args, **kwargs)
         self.text = text
+        self.attribute_names = attribute_names
 
-    def extract_all_attributes_from_text(self, attribute_names: List[str]) -> Dict[str, str]:
+    def extract_all_attributes_from_text(self) -> Dict[str, str]:
         """Extracts all roll20 character attributes from German text.
-
-        Args:
-            attribute_names (List[str]): list of the attribute names in German.
 
         Returns:
             Dict[str, str]: dictionary of the attribute names and their values.
         """
-        return {a: self._get_attribute_value_from_text(a) for a in attribute_names}
+        return {a: self._get_attribute_value_from_text(a) for a in self.attribute_names}
 
     def extract_all_abilities_from_text(self) -> Dict[str, str]:
         """Extracts all roll20 character abilities from German text.

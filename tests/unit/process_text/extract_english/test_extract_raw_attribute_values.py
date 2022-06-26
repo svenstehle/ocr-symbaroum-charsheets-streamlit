@@ -25,8 +25,10 @@ from src.process_text.extract_english import EnglishExtractor
         ),
     ]
 )
-def test_extract_raw_attribute_values(ocr_text, expected_result):
+def test_extract_raw_attribute_values(
+    ocr_text, expected_result, create_input_extract_all_attributes_from_text_eng_general
+):
     # pylint: disable=protected-access
-    EE = EnglishExtractor(ocr_text)
+    EE = EnglishExtractor(ocr_text, create_input_extract_all_attributes_from_text_eng_general)
     result = EE._extract_raw_attribute_values()
     assert expected_result == result

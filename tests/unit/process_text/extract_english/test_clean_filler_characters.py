@@ -22,8 +22,12 @@ from src.process_text.extract_english import EnglishExtractor
         ),
     ]
 )
-def test_clean_filler_characters(attribute_values, expected_result):
+def test_clean_filler_characters(
+    attribute_values,
+    expected_result,
+    create_input_extract_all_attributes_from_text_eng_general,
+):
     # pylint: disable=protected-access
-    EE = EnglishExtractor("dummy_text")
+    EE = EnglishExtractor("dummy_text", create_input_extract_all_attributes_from_text_eng_general)
     result = EE._clean_filler_characters(attribute_values)
     assert expected_result == result

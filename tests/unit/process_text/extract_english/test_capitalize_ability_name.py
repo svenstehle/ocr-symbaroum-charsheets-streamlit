@@ -11,8 +11,13 @@ from src.process_text.extract_english import EnglishExtractor
         ("brimstone cascade", "Brimstone Cascade"),
     ]
 )
-def test_capitalize_ability_name(ability_name, expected_result):
+def test_capitalize_ability_name(
+    ability_name,
+    expected_result,
+    create_input_extract_all_attributes_from_text_eng_general,
+):
     # pylint: disable=protected-access
-    EE = EnglishExtractor("dummy_text")
+    attribute_names = create_input_extract_all_attributes_from_text_eng_general
+    EE = EnglishExtractor("dummy_text", attribute_names)
     result = EE._capitalize_ability_name(ability_name)
     assert expected_result == result

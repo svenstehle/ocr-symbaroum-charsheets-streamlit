@@ -26,8 +26,12 @@ from src.process_text.extract_english import EnglishExtractor
         ),
     ]
 )
-def test_express_attributes_as_decimal(attribute_values, expected_result):
+def test_express_attributes_as_decimal(
+    attribute_values,
+    expected_result,
+    create_input_extract_all_attributes_from_text_eng_general,
+):
     # pylint: disable=protected-access
-    EE = EnglishExtractor("dummy_text")
+    EE = EnglishExtractor("dummy_text", create_input_extract_all_attributes_from_text_eng_general)
     result = EE._express_attributes_as_decimal(attribute_values)
     assert expected_result == result

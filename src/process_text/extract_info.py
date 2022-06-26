@@ -1,19 +1,20 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
-from typing import Dict, List, Union
+from typing import Dict, Union
 
 from omegaconf import DictConfig
 from src.process_text.extract_english import EnglishExtractor
 from src.process_text.extract_german import GermanExtractor
 from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 
-# TODO change into public and non-public methods in the long run
+# TODO change all methods in all classes into public and non-public methods in the long run
 # TODO create an API with ABC metaclass and abstractmethod
 
 # TODO reorder functions
 
 
-class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instance-attributes
+class InformationExtractor(TextProcessor):
+    # pylint: disable=too-many-instance-attributes
     """Extracts all Information from OCR'd text."""
     def __init__(self, text: str, *args, **kwargs):
         """Constructs all the necessary attributes for the InformationExtractor object.
@@ -110,11 +111,11 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
             ValueError: raised if the detected language of the input text is not supported.
         """
         if self.lang == "de":
-            GE = GermanExtractor(self.text)
-            self._apply_extractor_to_text(GE, charname, cfg.extraction.attribute_names_ger)
+            GE = GermanExtractor(self.text, cfg.extraction.attribute_names_ger)
+            self._apply_extractor_to_text(GE, charname)
         elif self.lang == "en":
-            EE = EnglishExtractor(self.text)
-            self._apply_extractor_to_text(EE, charname, cfg.extraction.attribute_names_eng)
+            EE = EnglishExtractor(self.text, cfg.extraction.attribute_names_eng)
+            self._apply_extractor_to_text(EE, charname)
         else:
             raise LanguageNotSupported(f"Detected language {self.lang} not supported")
 
@@ -122,20 +123,19 @@ class InformationExtractor(TextProcessor):    # pylint: disable=too-many-instanc
         self,
         extractor: Union[GermanExtractor, EnglishExtractor],
         charname: str,
-        attribute_names: List[str],
     ) -> None:
         """Extracts information from German or English text and saves it in the InformationExtractor
         object.
 
         Args:
+            extractor (Union[GermanExtractor, EnglishExtractor]): the Extractor object for the
+                extraction part of the respective language.
             charname (str): name of the roll20 character for which to create the setattr string.
-            attribute_names (List[str]): list of the attribute names in German language.
         """
         self._preprocess_text()
         self._replace_all_weapon_strings()
         self._abilities = extractor.extract_all_abilities_from_text()
-        # TODO move attribute names to extractor attribute
-        self._transform_attribute_keys_to_english_longhand(extractor.extract_all_attributes_from_text(attribute_names))
+        self._transform_attribute_keys_to_english_longhand(extractor.extract_all_attributes_from_text())
         self._equipment = extractor.extract_equipment_from_text()
         self._armor = extractor.extract_armor_from_text()
         self._traits = extractor.extract_traits_from_text()

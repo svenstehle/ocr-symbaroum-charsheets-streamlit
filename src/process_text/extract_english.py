@@ -8,26 +8,25 @@ from src.process_text.process_ocr import TextProcessor
 
 class EnglishExtractor(TextProcessor):
     """Extracts all attributes from English text."""
-    def __init__(self, text: str, *args, **kwargs):
+    def __init__(self, text: str, attribute_names: List[str], *args, **kwargs):
         """Constructs all the necessary attributes for the EnglishExtractor object.
 
         Args:
             text (str): the preprocessed text to extract attributes from.
+            attribute_names (List[str]): list of the attribute names in German language.
         """
         super().__init__(text, *args, **kwargs)
         self.text = text
+        self.attribute_names = attribute_names
 
-    def extract_all_attributes_from_text(self, attribute_names_eng: List[str]) -> Dict[str, str]:
+    def extract_all_attributes_from_text(self) -> Dict[str, str]:
         """Extracts all roll20 character attributes from English text.
-
-        Args:
-            attribute_names_eng (List[str]): list of the attribute names in English.
 
         Returns:
             Dict[str, str]: dictionary of the attribute names and their values.
         """
         att_values = self._get_all_attribute_values_from_text()
-        return {a: v for a, v in zip(attribute_names_eng, att_values)}
+        return {a: v for a, v in zip(self.attribute_names, att_values)}
 
     def extract_all_abilities_from_text(self) -> Dict[str, str]:
         """Extracts all roll20 character abilities from English text.
