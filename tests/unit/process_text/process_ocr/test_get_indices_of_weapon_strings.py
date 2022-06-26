@@ -1,5 +1,5 @@
 import pytest
-from src.process_text.extract_info import TextProcessor
+from src.process_text.process_ocr import TextProcessor
 
 
 @pytest.mark.parametrize(

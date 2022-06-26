@@ -3,10 +3,10 @@
 
 from typing import Dict, List
 
-from src.process_text.process_ocr import TextProcessor
+from src.process_text.base_extractor import BaseExtractor
 
 
-class GermanExtractor(TextProcessor):
+class GermanExtractor(BaseExtractor):
     """Extracts all attributes from German text."""
     def __init__(self, text: str, attribute_names: List[str], *args, **kwargs):
         """Constructs all the necessary attributes for the GermanExtractor object.
@@ -15,7 +15,7 @@ class GermanExtractor(TextProcessor):
             text (str): the preprocessed text to extract attributes from.
             attribute_names (List[str]): list of the attribute names in German language.
         """
-        super().__init__(text, *args, **kwargs)
+        super().__init__(text, attribute_names, *args, **kwargs)
         self.text = text
         self.attribute_names = attribute_names
 

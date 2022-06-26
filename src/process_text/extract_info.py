@@ -8,7 +8,6 @@ from src.process_text.extract_german import GermanExtractor
 from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 
 # TODO change all methods in all classes into public and non-public methods in the long run
-# TODO create an API with ABC metaclass and abstractmethod
 
 # TODO reorder functions
 

@@ -3,19 +3,19 @@
 import re
 from typing import Dict, List
 
-from src.process_text.process_ocr import TextProcessor
+from src.process_text.base_extractor import BaseExtractor
 
 
-class EnglishExtractor(TextProcessor):
+class EnglishExtractor(BaseExtractor):
     """Extracts all attributes from English text."""
     def __init__(self, text: str, attribute_names: List[str], *args, **kwargs):
         """Constructs all the necessary attributes for the EnglishExtractor object.
 
         Args:
             text (str): the preprocessed text to extract attributes from.
-            attribute_names (List[str]): list of the attribute names in German language.
+            attribute_names (List[str]): list of the attribute names in English language.
         """
-        super().__init__(text, *args, **kwargs)
+        super().__init__(text, attribute_names, *args, **kwargs)
         self.text = text
         self.attribute_names = attribute_names
 
@@ -69,7 +69,7 @@ class EnglishExtractor(TextProcessor):
         return "UNKNOWN"
 
     def extract_traits_from_text(self) -> str:
-        """Extracts, the roll20 character traits from German text.
+        """Extracts, the roll20 character traits from English text.
 
         Returns:
             str: string with the traits.
