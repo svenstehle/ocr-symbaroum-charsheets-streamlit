@@ -142,23 +142,6 @@ class InformationExtractor(TextProcessor):
         self._tactics = extractor.extract_tactics_from_text()
         self._get_roll20_chat_input_strings(charname)
 
-    def _preprocess_text(self) -> None:
-        """_summary_: Removes all the unnecessary characters from the text."""
-        replacements = [
-            ("=", "-"),    # replace equal sign with dash
-            (" -\n\n", " - "),    # keep single dash that is NOT a line continuation
-            (" -\n", " - "),    # keep single dash that is NOT a line continuation
-            ("-\n\n", ""),    # remove single dash that is a line continuation
-            ("-\n", ""),    # remove single dash that is a line continuation
-            ("\n\n", " "),    # remove line continuation
-            ("\n", " "),    # remove line continuation
-            (" _ ", " - "),    # replace separate underscore with dash
-        ]
-        for key, rep in replacements:
-            self.text = self.text.replace(key, rep)
-        self.text = self.text.strip()
-        self.text = self._get_lowercase_text(self.text)
-
     def _transform_attribute_keys_to_english_longhand(self, attributes: Dict[str, str]) -> None:
         """Transforms the attribute keys from the respective supported languages to
         English longhand. E.g. both 'acc' and 'präzision' will be transformed to 'accurate',
@@ -186,18 +169,6 @@ class InformationExtractor(TextProcessor):
         """
         self._create_setattr_str(charname)
         self._create_token_mod_str()
-
-    @staticmethod
-    def _get_lowercase_text(text: str) -> str:
-        """Returns the text in lowercase.
-
-        Args:
-            text (str): input text with capital letters.
-
-        Returns:
-            str: text with only lowercase letters.
-        """
-        return text.lower()
 
     def _create_setattr_str(self, charname: str) -> None:
         """Creates and sets the roll20 setattr API script string
@@ -233,7 +204,8 @@ class InformationExtractor(TextProcessor):
                                     "\tbar1_link|quick\n" +\
                                     "\tbar2_link|toughness\n" +\
                                     "\tbar3_link|accurate\n"
-        # TODO we need Armor & Defense computations after/during extraction if possible
+
+        # TODO we need Armor & Defense computations after/during extraction if possible,
         # English charsheets dont have infos on that though
 
         # convert abilities for tooltip
@@ -251,7 +223,6 @@ class InformationExtractor(TextProcessor):
                                     "\tdefaulttoken\n" +\
                                     "}}"
 
-        # FIXME update README with token-mod
         self._token_mod_str = basic_token_mod_string + token_mod_tooltip_string + token_mod_ending_string
 
     def _get_attribute_mapping_for_language(self) -> Dict[str, str]:

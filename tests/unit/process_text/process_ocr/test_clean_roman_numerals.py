@@ -1,8 +1,6 @@
 import pytest
-from src.process_text.extract_info import InformationExtractor
 from src.process_text.process_ocr import TextProcessor
 
-# TODO really think about cleaning TextProcessor / InformationExtractor etc interactions
 # pylint: disable=protected-access
 
 
@@ -39,8 +37,7 @@ from src.process_text.process_ocr import TextProcessor
     ]
 )
 def test_clean_roman_numerals(string, expected_result):
-    IE = InformationExtractor(string)
-    IE._preprocess_text()
-    TP = TextProcessor(IE.text)
-    result = TP._clean_roman_numerals(IE.text)
+    TP = TextProcessor(string)
+    TP._preprocess_text()
+    result = TP._clean_roman_numerals(TP.text)
     assert result == expected_result

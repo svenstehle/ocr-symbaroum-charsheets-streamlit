@@ -27,6 +27,23 @@ class TextProcessor:
         self._lang = detect_language(self.text)
         return self._lang
 
+    def _preprocess_text(self) -> None:
+        """_summary_: Removes all the unnecessary characters from the text."""
+        replacements = [
+            ("=", "-"),    # replace equal sign with dash
+            (" -\n\n", " - "),    # keep single dash that is NOT a line continuation
+            (" -\n", " - "),    # keep single dash that is NOT a line continuation
+            ("-\n\n", ""),    # remove single dash that is a line continuation
+            ("-\n", ""),    # remove single dash that is a line continuation
+            ("\n\n", " "),    # remove line continuation
+            ("\n", " "),    # remove line continuation
+            (" _ ", " - "),    # replace separate underscore with dash
+        ]
+        for key, rep in replacements:
+            self.text = self.text.replace(key, rep)
+        self.text = self.text.strip()
+        self.text = self._get_lowercase_text(self.text)
+
     def _replace_all_weapon_strings(self) -> None:
         """Replaces all weapon strings in text with the correct corresponding
         weapon name, based on the detected language.
@@ -46,32 +63,6 @@ class TextProcessor:
         indices = self._get_indices_of_weapon_strings(pattern)
         for (start, end) in indices:
             self.text = self._insert_str_between_indices(self.text, string, start, end)
-
-    def _get_indices_of_weapon_strings(self, pattern: str) -> List[Tuple[int, int]]:
-        """Returns the indices of all matching weapon strings in the text. Using regex.
-
-        Args:
-            pattern (str): the regex pattern to find matching weapon strings in the text with.
-
-        Returns:
-            List[Tuple[int, int]]: List of Tuples with the start and end indices of the weapon strings.
-        """
-        all_matches = [(m.start(0), m.end(0)) for m in re.finditer(pattern, self.text)]
-        return all_matches
-
-    @staticmethod
-    def _insert_str_between_indices(original_text: str, string: str, start: int, end: int) -> str:
-        """Inserts a string between two indices of another string, called text.
-
-        Args:
-            string (str): string to insert.
-            start (int): starting index for insertion into text.
-            end (int): ending index for insertion (excluding, character at index will remain in text).
-
-        Returns:
-            str: text with the inserted string.
-        """
-        return original_text[:start] + string + original_text[end:]
 
     @staticmethod
     def _clean_roman_numerals(traits: str) -> str:
@@ -230,6 +221,44 @@ class TextProcessor:
 
         extract = self.text[start_word_loc:end_word_loc].strip()
         return extract
+
+    @staticmethod
+    def _get_lowercase_text(text: str) -> str:
+        """Returns the text in lowercase.
+
+        Args:
+            text (str): input text with capital letters.
+
+        Returns:
+            str: text with only lowercase letters.
+        """
+        return text.lower()
+
+    def _get_indices_of_weapon_strings(self, pattern: str) -> List[Tuple[int, int]]:
+        """Returns the indices of all matching weapon strings in the text. Using regex.
+
+        Args:
+            pattern (str): the regex pattern to find matching weapon strings in the text with.
+
+        Returns:
+            List[Tuple[int, int]]: List of Tuples with the start and end indices of the weapon strings.
+        """
+        all_matches = [(m.start(0), m.end(0)) for m in re.finditer(pattern, self.text)]
+        return all_matches
+
+    @staticmethod
+    def _insert_str_between_indices(original_text: str, string: str, start: int, end: int) -> str:
+        """Inserts a string between two indices of another string, called text.
+
+        Args:
+            string (str): string to insert.
+            start (int): starting index for insertion into text.
+            end (int): ending index for insertion (excluding, character at index will remain in text).
+
+        Returns:
+            str: text with the inserted string.
+        """
+        return original_text[:start] + string + original_text[end:]
 
 
 class LanguageNotSupported(ValueError):
