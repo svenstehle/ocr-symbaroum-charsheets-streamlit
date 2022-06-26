@@ -34,12 +34,7 @@ class GermanExtractor(TextProcessor):
         Returns:
             Dict[str, str]: dictionary of the ability names and their values.
         """
-        abilities_str = "fähigkeiten"
-        length = len(abilities_str)
-        abilities_start_loc = self.text.find(abilities_str) + length + 1
-        weapon_str = "waffen"
-        abilities_end_loc = self.text.find(weapon_str, abilities_start_loc)
-        all_abilities = self.text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
+        all_abilities = self._extract_string_between_keywords("fähigkeiten", "waffen").strip("., ").replace(".", ",")
         if all_abilities == "keine":
             return {"Abilities found in text": "Zero"}
         all_abilities = [a.strip() for a in all_abilities.split(",")]
@@ -52,14 +47,7 @@ class GermanExtractor(TextProcessor):
         Returns:
             str: string with the equipment.
         """
-        equipment_str = "ausrüstung"
-        length = len(equipment_str)
-        equipment_start_loc = self.text.find(equipment_str) + length + 1
-
-        shadow_str = "schatten"
-        equipment_end_loc = self.text.find(shadow_str, equipment_start_loc)
-        equipment = self.text[equipment_start_loc:equipment_end_loc].strip()
-
+        equipment = self._extract_string_between_keywords("ausrüstung", "schatten")
         equipment = self._cleanup_dice_rolls(equipment)
         return equipment
 
@@ -73,13 +61,7 @@ class GermanExtractor(TextProcessor):
         Returns:
             str: string with the armor value.
         """
-        armor_str = "rüstung"
-        length = len(armor_str)
-        armor_start_loc = self.text.find(armor_str) + length + 1
-
-        shadow_str = "verteidigung"
-        armor_end_loc = self.text.find(shadow_str, armor_start_loc)
-        armor = self.text[armor_start_loc:armor_end_loc].strip()
+        armor = self._extract_string_between_keywords("rüstung", "verteidigung")
 
         # filter digits from string and return armor value
         armor = ''.join(filter(lambda i: i.isdigit(), armor))
@@ -91,13 +73,7 @@ class GermanExtractor(TextProcessor):
         Returns:
             str: string with the traits.
         """
-        traits_start_str = "merkmale"
-        length = len(traits_start_str)
-        traits_start_loc = self.text.find(traits_start_str) + length + 1
-
-        traits_end_str = "aufmerksamkeit"
-        traits_end_loc = self.text.find(traits_end_str, traits_start_loc)
-        traits = self.text[traits_start_loc:traits_end_loc].strip()
+        traits = self._extract_string_between_keywords("merkmale", "aufmerksamkeit")
         return self._clean_roman_numerals(traits)
 
     def extract_tactics_from_text(self) -> str:
@@ -107,11 +83,7 @@ class GermanExtractor(TextProcessor):
             str: the extracted tactics string.
         """
         tactics_str = "taktik:"
-        length = len(tactics_str)
-        tactics_start_loc = self.text.find(tactics_str) + length + 1
-        tactics = self.text[tactics_start_loc:]
-        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
-        return " ".join(tactics)
+        return self._extract_from_start_token_until_end(tactics_str)
 
     def _get_attribute_value_from_text(self, attribute_name: str) -> str:
         """Extracts the attribute value from German text.
@@ -122,13 +94,6 @@ class GermanExtractor(TextProcessor):
         Returns:
             str: the attribute value for the given attribute name.
         """
-        attribute_name_len = len(attribute_name)
-        att_start_loc = self.text.find(attribute_name) + attribute_name_len
-        att_end_loc = self.text.find("(", att_start_loc)
-        att_val = self.text[att_start_loc:att_end_loc].strip(" ")
-        mapping = [
-            ("/", "7"),
-        ]
-        for k, v in mapping:
-            att_val = att_val.replace(k, v)
+        att_val = self._extract_string_between_keywords(attribute_name, "(", 0).strip(" ")
+        att_val = att_val.replace("/", "7")
         return att_val

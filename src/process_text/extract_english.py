@@ -5,9 +5,6 @@ from typing import Dict, List
 
 from src.process_text.process_ocr import TextProcessor
 
-# TODO think about all the code duplications in the two extractors... can we merge that and just
-# supply the language if/else blocks?
-
 
 class EnglishExtractor(TextProcessor):
     """Extracts all attributes from English text."""
@@ -38,12 +35,7 @@ class EnglishExtractor(TextProcessor):
         Returns:
             Dict[str, str]: dictionary of the ability names and their rank.
         """
-        abilities_str = "abilities"
-        length = len(abilities_str)
-        abilities_start_loc = self.text.find(abilities_str) + length + 1
-        traits_str = "traits"
-        abilities_end_loc = self.text.find(traits_str, abilities_start_loc)
-        all_abilities = self.text[abilities_start_loc:abilities_end_loc].strip("., ").replace(".", ",")
+        all_abilities = self._extract_string_between_keywords("abilities", "traits", 1).strip("., ").replace(".", ",")
         if all_abilities in ["-", None, "", " "]:
             return {"Abilities found in text": "Zero"}
         all_abilities = [a.strip() for a in all_abilities.split(",")]
@@ -59,14 +51,7 @@ class EnglishExtractor(TextProcessor):
         Returns:
             str: string with the equipment.
         """
-        equipment_str = "equipment"
-        length = len(equipment_str)
-        equipment_start_loc = self.text.find(equipment_str) + length + 1
-
-        shadow_str = "shadow"
-        equipment_end_loc = self.text.find(shadow_str, equipment_start_loc)
-        equipment = self.text[equipment_start_loc:equipment_end_loc].strip()
-
+        equipment = self._extract_string_between_keywords("equipment", "shadow", 1)
         equipment = self._cleanup_dice_rolls(equipment)
         return equipment
 
@@ -90,28 +75,17 @@ class EnglishExtractor(TextProcessor):
         Returns:
             str: string with the traits.
         """
-        traits_start_str = "traits"
-        length = len(traits_start_str)
-        traits_start_loc = self.text.find(traits_start_str) + length + 1
-
-        traits_end_str = "integrated"
-        traits_end_loc = self.text.find(traits_end_str, traits_start_loc)
-        traits = self.text[traits_start_loc:traits_end_loc].strip()
+        traits = self._extract_string_between_keywords("traits", "integrated")
         return self._clean_roman_numerals(traits)
 
     def extract_tactics_from_text(self) -> str:
-        # pylint: disable=duplicate-code
         """Extracts the tactics from the English text.
 
         Returns:
             str: the extracted tactics string.
         """
         tactics_str = "tactics:"
-        length = len(tactics_str)
-        tactics_start_loc = self.text.find(tactics_str) + length + 1
-        tactics = self.text[tactics_start_loc:]
-        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
-        return " ".join(tactics)
+        return self._extract_from_start_token_until_end(tactics_str)
 
     def _get_all_attribute_values_from_text(self) -> List[str]:
         """Returns all the attribute values from English text.
@@ -146,11 +120,7 @@ class EnglishExtractor(TextProcessor):
         Returns:
             str: the raw attribute values without any cleaning applied.
         """
-        start_word = "vig"
-        end_word = "defense"
-        att_start_loc = self.text.find(start_word) + 3
-        att_end_loc = self.text.find(end_word, att_start_loc)
-        att_values = self.text[att_start_loc:att_end_loc]
+        att_values = self._extract_string_between_keywords("vig", "defense", 0)
         return att_values
 
     @staticmethod
