@@ -6,19 +6,33 @@ from src.process_text.extract_english import EnglishExtractor
     "ocr_text, expected_result", [
         (
             pytest.lazy_fixture("prep_ocr_text_fairy"),
-            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_fairy")
+            {
+                "Abilities found in text": "Zero"
+            },
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_brand"),
-            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_brand")
+            {
+                "Bodyguard": "master",
+                "Iron Fist": "master",
+                "Two-handed Force": "adept"
+            },
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_hunter"),
-            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_hunter")
+            {
+                "Acrobatics": "master",
+                "Marksman": "master",
+                "Sixth Sense": "master",
+                "Steadfast": "master"
+            },
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_sikander"),
-            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_sikander")
+            {
+                "Brimstone Cascade": "master",
+                "Flame Wall": "master"
+            },
         ),
     ]
 )

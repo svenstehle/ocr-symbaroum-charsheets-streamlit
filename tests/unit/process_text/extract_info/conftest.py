@@ -4,11 +4,10 @@ import pytest
 @pytest.fixture
 def create_input_get_roll20_chat_input_str_draghul(
     create_expected_result_transform_attribute_keys_to_english_longhand_draghul,
-    create_expected_result_extract_all_abilities_from_text_draghul,
 ):
     equipment = "1w10 orteg"
     armor = "2"
-    abilities = create_expected_result_extract_all_abilities_from_text_draghul
+    abilities = {"Eisenfaust": "Adept", "Schildkampf": "Novize", "Testskill": "Meister"}
     traits = "untot (I, siehe seite 231), robust (II, siehe seite 312)"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_draghul,
@@ -101,11 +100,10 @@ def create_expected_result_create_token_mod_str_draghul():
 def prep_create_token_mod_str_draghul(
     create_expected_result_transform_attribute_keys_to_english_longhand_draghul,
     create_expected_result_create_token_mod_str_draghul,
-    create_expected_result_extract_all_abilities_from_text_draghul,
 ):
     equipment = "1w10 orteg"
     armor = "2"
-    abilities = create_expected_result_extract_all_abilities_from_text_draghul
+    abilities = {"Eisenfaust": "Adept", "Schildkampf": "Novize", "Testskill": "Meister"}
     traits = "untot (I, siehe seite 231), robust (II, siehe seite 312)"
     yield (
         create_expected_result_transform_attribute_keys_to_english_longhand_draghul,
@@ -461,50 +459,6 @@ def prep_transform_attribute_keys_to_english_longhand_not_supported_language(
     text = prep_ocr_text_unknown_language
     yield text, attributes
     del text, attributes
-
-
-def create_input_result_pairs_get_toughness():
-    input_result_pairs = [
-        (
-            {
-                "strong": "15"
-            },
-            15,
-        ),
-        (
-            {
-                "strong": "11"
-            },
-            11,
-        ),
-        (
-            {
-                "strong": "10"
-            },
-            10,
-        ),
-        (
-            {
-                "strong": "9"
-            },
-            10,
-        ),
-        (
-            {
-                "strong": "3"
-            },
-            10,
-        ),
-    ]
-    return input_result_pairs
-
-
-@pytest.fixture(params=create_input_result_pairs_get_toughness())
-def prep_get_toughness(request):
-    attributes = request.param[0]
-    expected_result = request.param[1]
-    yield attributes, expected_result
-    del attributes, expected_result
 
 
 @pytest.fixture

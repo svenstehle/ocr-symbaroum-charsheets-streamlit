@@ -6,19 +6,19 @@ from src.process_text.extract_german import GermanExtractor
     "ocr_text, expected_result", [
         (
             pytest.lazy_fixture("prep_ocr_text_draghul"),
-            pytest.lazy_fixture("create_expected_result_extract_traits_from_text_ger_draghul")
+            "untot (I, siehe seite 231), robust (II, siehe seite 312)",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_baiagorn"),
-            pytest.lazy_fixture("create_expected_result_extract_traits_from_text_ger_baiagorn")
+            "natürliche waffen (I), robust (I), test1 (III), test2 (III), test3 (II)",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_guard"),
-            pytest.lazy_fixture("create_expected_result_extract_traits_from_text_ger_guard")
+            "kontakte (karawanerwächter)",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_aeber"),
-            pytest.lazy_fixture("create_expected_result_extract_traits_from_text_ger_aeber")
+            "natürlicher panzer (II), natürliche waffen (II), robust (III, siehe seite 13)",
         ),
     ]
 )

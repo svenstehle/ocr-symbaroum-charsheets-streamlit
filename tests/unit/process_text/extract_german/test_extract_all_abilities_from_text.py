@@ -6,19 +6,29 @@ from src.process_text.extract_german import GermanExtractor
     "ocr_text, expected_result", [
         (
             pytest.lazy_fixture("prep_ocr_text_draghul"),
-            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_draghul")
+            {
+                "Eisenfaust": "Adept",
+                "Schildkampf": "Novize",
+                "Testskill": "Meister",
+            },
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_baiagorn"),
-            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_baiagorn")
+            {
+                "Berserkerrausch": "Adept"
+            },
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_guard"),
-            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_guard")
+            {
+                "Abilities found in text": "Zero"
+            },
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_aeber"),
-            pytest.lazy_fixture("create_expected_result_extract_all_abilities_from_text_aeber")
+            {
+                "Eisenfaust": "Adept"
+            },
         ),
     ]
 )

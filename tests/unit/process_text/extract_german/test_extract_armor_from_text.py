@@ -6,19 +6,19 @@ from src.process_text.extract_german import GermanExtractor
     "ocr_text, expected_result", [
         (
             pytest.lazy_fixture("prep_ocr_text_draghul"),
-            pytest.lazy_fixture("create_expected_result_extract_armor_from_text_ger_draghul")
+            "2",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_baiagorn"),
-            pytest.lazy_fixture("create_expected_result_extract_armor_from_text_ger_baiagorn")
+            "4",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_guard"),
-            pytest.lazy_fixture("create_expected_result_extract_armor_from_text_ger_guard")
+            "3",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_aeber"),
-            pytest.lazy_fixture("create_expected_result_extract_armor_from_text_ger_aeber")
+            "7",
         ),
     ]
 )

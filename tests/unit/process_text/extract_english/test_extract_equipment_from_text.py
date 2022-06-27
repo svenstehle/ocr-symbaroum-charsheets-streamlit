@@ -6,19 +6,19 @@ from src.process_text.extract_english import EnglishExtractor
     "ocr_text, expected_result", [
         (
             pytest.lazy_fixture("prep_ocr_text_fairy"),
-            pytest.lazy_fixture("create_expected_result_extract_equipment_from_text_eng_fairy")
+            "none",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_brand"),
-            pytest.lazy_fixture("create_expected_result_extract_equipment_from_text_eng_brand")
+            "glowing, oozing full plate",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_hunter"),
-            pytest.lazy_fixture("create_expected_result_extract_equipment_from_text_eng_hunter")
+            "none",
         ),
         (
             pytest.lazy_fixture("prep_ocr_text_sikander"),
-            pytest.lazy_fixture("create_expected_result_extract_equipment_from_text_eng_sikander")
+            "order cloak, 1d10 thaler",
         ),
     ]
 )

@@ -11,10 +11,10 @@ def test_abilities_default(prep_ocr_text_sikander):
 def test_abilities_extracted(
     prep_ocr_text_sikander,
     prep_hydra_config,
-    create_expected_result_extract_all_abilities_from_text_sikander,
 ):
+    expected_result = {"Brimstone Cascade": "master", "Flame Wall": "master"}
     IE = InformationExtractor(prep_ocr_text_sikander)
     assert IE._abilities == {"Abilities not found in text": "Zero"}
     IE.extract_information_from_text("dummy", prep_hydra_config)
-    assert IE.abilities == create_expected_result_extract_all_abilities_from_text_sikander
-    assert IE._abilities == create_expected_result_extract_all_abilities_from_text_sikander
+    assert IE.abilities == expected_result
+    assert IE._abilities == expected_result

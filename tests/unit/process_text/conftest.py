@@ -130,24 +130,6 @@ def create_expected_result_extract_all_attributes_from_text_eng_sikander():
 
 
 @pytest.fixture
-def create_expected_result_extract_all_abilities_from_text_draghul():
-    expected_result = {
-        "Eisenfaust": "Adept",
-        "Schildkampf": "Novize",
-        "Testskill": "Meister",
-    }
-    yield expected_result
-    del expected_result
-
-
-@pytest.fixture
-def create_expected_result_extract_all_abilities_from_text_sikander():
-    expected_result = {"Brimstone Cascade": "master", "Flame Wall": "master"}
-    yield expected_result
-    del expected_result
-
-
-@pytest.fixture
 def create_input_extract_all_attributes_from_text_ger_general():
     attribute_names = [
         "stärke",
