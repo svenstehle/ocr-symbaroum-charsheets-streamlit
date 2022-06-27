@@ -7,10 +7,6 @@ from src.process_text.extract_english import EnglishExtractor
 from src.process_text.extract_german import GermanExtractor
 from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 
-# TODO change all methods in all classes into public and non-public methods in the long run
-
-# TODO reorder functions
-
 
 class InformationExtractor(TextProcessor):
     # pylint: disable=too-many-instance-attributes
@@ -169,61 +165,6 @@ class InformationExtractor(TextProcessor):
         self._create_setattr_str(charname)
         self._create_token_mod_str()
 
-    def _create_setattr_str(self, charname: str) -> None:
-        """Creates and sets the roll20 setattr API script string
-         as attribute to the InformationExtractor object.
-
-        Args:
-            charname (str): name of the roll20 character for which to create the setattr string.
-                token-mod does not depend on charname.
-        """
-        setattr_name_beginning = f"!setattr --name {charname}"
-        setattr_sel_beginning = "!setattr --sel"
-        setattr_attributes = ""
-
-        # build the attribute string from attributes
-        for att_name, value in self.attributes.items():
-            setattr_attributes += f" --{att_name}|{value}"
-
-        # build toughness string
-        toughness = self._get_toughness(self.attributes)
-        setattr_toughness = f" --toughness|{toughness}|{toughness}"
-
-        # store in object
-        self._setattr_name_str = setattr_name_beginning + setattr_attributes + setattr_toughness
-        self._setattr_sel_str = setattr_sel_beginning + setattr_attributes + setattr_toughness
-
-    def _create_token_mod_str(self) -> None:
-        """Creates and sets the roll20 token-mod API script string
-        as attribute to the InformationExtractor object.
-        """
-        basic_token_mod_string = "!token-mod {{\n" +\
-                                "--set\n" +\
-                                    "\tlayer|gmlayer\n" +\
-                                    "\tbar1_link|quick\n" +\
-                                    "\tbar2_link|toughness\n" +\
-                                    "\tbar3_link|accurate\n"
-
-        # TODO we need Armor & Defense computations after/during extraction if possible,
-        # English charsheets dont have infos on that though
-
-        # convert abilities for tooltip
-        abilities_token = tuple(f"{a}:{v}" for a, v in self.abilities.items())
-        abilities_token = ", ".join(abilities_token)
-
-        token_mod_tooltip_string = f"\ttooltip|Att: {self._get_attack_value()}" +\
-                                    f"/Def: {self._get_defense_value()}" +\
-                                    f"/Armor: {self._armor}" +\
-                                    f"\tABILITIES: {abilities_token}" +\
-                                    f"\tTRAITS: {self._traits}" +\
-                                    f"\tEQUIPMENT: {self.equipment}\n"
-
-        token_mod_ending_string = "\tshow_tooltip|yes\n" +\
-                                    "\tdefaulttoken\n" +\
-                                    "}}"
-
-        self._token_mod_str = basic_token_mod_string + token_mod_tooltip_string + token_mod_ending_string
-
     def _get_attribute_mapping_for_language(self) -> Dict[str, str]:
         """Returns the mapping of roll20 API script specific values to the
         extracted attribute names in the original language of the ocr'd text.
@@ -260,6 +201,58 @@ class InformationExtractor(TextProcessor):
         else:
             raise LanguageNotSupported(f"Detected language {self.lang} not supported")
         return mapping
+
+    def _create_setattr_str(self, charname: str) -> None:
+        """Creates and sets the roll20 setattr API script string
+         as attribute to the InformationExtractor object.
+
+        Args:
+            charname (str): name of the roll20 character for which to create the setattr string.
+                token-mod does not depend on charname.
+        """
+        setattr_name_beginning = f"!setattr --name {charname}"
+        setattr_sel_beginning = "!setattr --sel"
+        setattr_attributes = ""
+
+        # build the attribute string from attributes
+        for att_name, value in self.attributes.items():
+            setattr_attributes += f" --{att_name}|{value}"
+
+        # build toughness string
+        toughness = self._get_toughness(self.attributes)
+        setattr_toughness = f" --toughness|{toughness}|{toughness}"
+
+        # store in object
+        self._setattr_name_str = setattr_name_beginning + setattr_attributes + setattr_toughness
+        self._setattr_sel_str = setattr_sel_beginning + setattr_attributes + setattr_toughness
+
+    def _create_token_mod_str(self) -> None:
+        """Creates and sets the roll20 token-mod API script string
+        as attribute to the InformationExtractor object.
+        """
+        basic_token_mod_string = "!token-mod {{\n" +\
+                                "--set\n" +\
+                                    "\tlayer|gmlayer\n" +\
+                                    "\tbar1_link|quick\n" +\
+                                    "\tbar2_link|toughness\n" +\
+                                    "\tbar3_link|accurate\n"
+
+        # convert abilities for tooltip
+        abilities_token = tuple(f"{a}:{v}" for a, v in self.abilities.items())
+        abilities_token = ", ".join(abilities_token)
+
+        token_mod_tooltip_string = f"\ttooltip|Att: {self._get_attack_value()}" +\
+                                    f"/Def: {self._get_defense_value()}" +\
+                                    f"/Armor: {self._armor}" +\
+                                    f"\tABILITIES: {abilities_token}" +\
+                                    f"\tTRAITS: {self._traits}" +\
+                                    f"\tEQUIPMENT: {self.equipment}\n"
+
+        token_mod_ending_string = "\tshow_tooltip|yes\n" +\
+                                    "\tdefaulttoken\n" +\
+                                    "}}"
+
+        self._token_mod_str = basic_token_mod_string + token_mod_tooltip_string + token_mod_ending_string
 
     @staticmethod
     def _get_toughness(attributes: Dict[str, str]) -> int:

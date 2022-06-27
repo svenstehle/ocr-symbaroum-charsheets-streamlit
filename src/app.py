@@ -37,22 +37,7 @@ def main(cfg: DictConfig) -> None:
     # https://github.com/ash2shukla/streamlit-bokeh-events
 
     # TODO add block of text with everything from weapons till tactics, corrected
-    #  (english only) with blank lines
-
-    # token mod: new output feature
-    # !token-mod {{
-    # --set
-    #     layer|gmlayer
-    #     bar1_link|quick
-    #     bar2_link|toughness
-    #     bar3_link|accurate
-    #     tooltip|Att: XX/Def: XX/Dmg: XX/ Armor: XX
-    #     ABILITIES:
-    #     TRAITS:
-    #     EQUIPMENT:
-    #     show_tooltip|yes
-    #     defaulttoken
-    # }}
+    # (english only) with blank lines
 
     # gm_notes can be filled with everything!?
 

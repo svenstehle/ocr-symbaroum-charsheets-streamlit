@@ -1,17 +1,20 @@
 import cv2
 
 
-# FIXME standard color lcd works during daylight time
 def compare_baseline_actual(test_group: str, test_name: str, thresh: float = 0.05) -> None:
     """Compares the baseline to the actual screenshot. Loads the baseline and actual screenshot.
     Converts images to grayscale. If the differences in the image are too large, fail the test.
 
     **** NOTE ****
     We need to make visual tests compatible with ubuntu and macos vm in GitHub Actions CI.
-    Thus, for all visual_baseline screenshots taken on macos retina display, the following settings are needed:
-    - True Tone: off
+    Since we set a difference threshold of 5%, 5% of all pixel values in the image can be different.
+    Thus, for all visual_baseline screenshots taken on macos retina display,
+    the following settings are likely needed:
     - Nightshift: off
-    - Colour Profile: sRGB IEC61966-2.1     # still need to double check if standard 'Colour LCD' works
+    - Colour Profile: standard 'Colour LCD' works
+    If you still have issues, add these:
+    - True Tone: off
+    - Colour Profile: sRGB IEC61966-2.1
     **** NOTE ****
 
     Args:
