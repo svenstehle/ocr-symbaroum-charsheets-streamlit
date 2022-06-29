@@ -10,37 +10,37 @@ from src.process_text.extract_info import InformationExtractor
 @pytest.mark.parametrize(
     "ocr_text, config, lang", [
         (
-            pytest.lazy_fixture("prep_ocr_text_draghul"),
+            pytest.lazy_fixture("prep_ocr_text_draghul_raw"),
             pytest.lazy_fixture("prep_hydra_config"),
             "de",
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_baiagorn"),
+            pytest.lazy_fixture("prep_ocr_text_baiagorn_raw"),
             pytest.lazy_fixture("prep_hydra_config"),
             "de",
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_guard"),
+            pytest.lazy_fixture("prep_ocr_text_guard_raw"),
             pytest.lazy_fixture("prep_hydra_config"),
             "de",
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_aeber"),
+            pytest.lazy_fixture("prep_ocr_text_aeber_raw"),
             pytest.lazy_fixture("prep_hydra_config"),
             "de",
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_fairy"),
+            pytest.lazy_fixture("prep_ocr_text_fairy_raw"),
             pytest.lazy_fixture("prep_hydra_config"),
             "en",
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_brand"),
+            pytest.lazy_fixture("prep_ocr_text_brand_raw"),
             pytest.lazy_fixture("prep_hydra_config"),
             "en",
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_sikander"),
+            pytest.lazy_fixture("prep_ocr_text_sikander_raw"),
             pytest.lazy_fixture("prep_hydra_config"),
             "en",
         ),

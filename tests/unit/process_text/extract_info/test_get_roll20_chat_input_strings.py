@@ -5,11 +5,10 @@ from src.process_text.extract_info import InformationExtractor
 
 
 @pytest.mark.parametrize(
-    "charname, ocr_text, inputs, expected_result_setattr_name, "
+    "charname, inputs, expected_result_setattr_name, "
     "expected_result_setattr_sel, expected_result_token_mod", [
         (
             "Gandalf",
-            pytest.lazy_fixture("prep_ocr_text_draghul"),
             pytest.lazy_fixture("create_input_get_roll20_chat_input_str_draghul"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_draghul"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_draghul"),
@@ -17,7 +16,6 @@ from src.process_text.extract_info import InformationExtractor
         ),
         (
             "Legolas",
-            pytest.lazy_fixture("prep_ocr_text_baiagorn"),
             pytest.lazy_fixture("create_input_get_roll20_chat_input_str_baiagorn"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_baiagorn"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_baiagorn"),
@@ -25,7 +23,6 @@ from src.process_text.extract_info import InformationExtractor
         ),
         (
             "Hulk",
-            pytest.lazy_fixture("prep_ocr_text_brand"),
             pytest.lazy_fixture("create_input_get_roll20_chat_input_str_brand"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_brand"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_brand"),
@@ -33,7 +30,6 @@ from src.process_text.extract_info import InformationExtractor
         ),
         (
             "Captain Marvel",
-            pytest.lazy_fixture("prep_ocr_text_fairy"),
             pytest.lazy_fixture("create_input_get_roll20_chat_input_str_fairy"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_fairy"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_fairy"),
@@ -43,13 +39,12 @@ from src.process_text.extract_info import InformationExtractor
 )
 def test_get_roll20_chat_input_strings(
     charname,
-    ocr_text,
     inputs,
     expected_result_setattr_name,
     expected_result_setattr_sel,
     expected_result_token_mod,
 ):
-    IE = InformationExtractor(ocr_text)
+    IE = InformationExtractor("dummy text")
     attributes, equipment, armor, abilities, traits = inputs
     IE._attributes = attributes
     IE._equipment = equipment

@@ -5,31 +5,27 @@ from src.process_text.extract_info import InformationExtractor
 
 
 @pytest.mark.parametrize(
-    "charname, ocr_text, attributes, expected_result_name, expected_result_sel", [
+    "charname, attributes, expected_result_name, expected_result_sel", [
         (
             "Gandalf",
-            pytest.lazy_fixture("prep_ocr_text_draghul"),
             pytest.lazy_fixture("create_input_create_setattr_str_draghul"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_draghul"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_draghul"),
         ),
         (
             "Legolas",
-            pytest.lazy_fixture("prep_ocr_text_baiagorn"),
             pytest.lazy_fixture("create_input_create_setattr_str_baiagorn"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_baiagorn"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_baiagorn"),
         ),
         (
             "Hulk",
-            pytest.lazy_fixture("prep_ocr_text_brand"),
             pytest.lazy_fixture("create_input_create_setattr_str_brand"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_brand"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_brand"),
         ),
         (
             "Captain Marvel",
-            pytest.lazy_fixture("prep_ocr_text_fairy"),
             pytest.lazy_fixture("create_input_create_setattr_str_fairy"),
             pytest.lazy_fixture("create_expected_result_setattr_name_str_fairy"),
             pytest.lazy_fixture("create_expected_result_setattr_sel_str_fairy"),
@@ -38,12 +34,11 @@ from src.process_text.extract_info import InformationExtractor
 )
 def test_create_setattr_str(
     charname,
-    ocr_text,
     attributes,
     expected_result_name,
     expected_result_sel,
 ):
-    IE = InformationExtractor(ocr_text)
+    IE = InformationExtractor("dummy text")
     # set attributes used by create_setattr_str
     IE._attributes = attributes
     # assert defaults

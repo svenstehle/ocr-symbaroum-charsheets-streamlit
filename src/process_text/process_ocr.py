@@ -77,7 +77,7 @@ class TextProcessor:
         Returns:
             str: the cleaned traits-string with the restored roman numerals.
         """
-        # TODO find a more concise but correct regex for this. The two ORs are horrible to read.
+        # TODO ~find a more concise but correct regex for this. The two ORs are horrible to read.
         # E.g. use regex just to find string and use replace to replace parts iteratively.
         # check https://stackoverflow.com/questions/10804732/difference-between-and
 

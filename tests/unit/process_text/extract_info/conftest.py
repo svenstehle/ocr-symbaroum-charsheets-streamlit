@@ -84,10 +84,10 @@ def create_expected_result_create_token_mod_str_draghul():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 9/Def: 15/Armor: 2" +\
-                        "\tABILITIES: Eisenfaust:Adept, Schildkampf:Novize, Testskill:Meister" +\
-                        "\tTRAITS: untot (I, siehe seite 231), robust (II, siehe seite 312)" +\
-                        "\tEQUIPMENT: 1w10 orteg\n" +\
+                        "\ttooltip|\"Att: 9/Def: 15/Armor: 2\n" +\
+                        "\tABILITIES: Eisenfaust:Adept, Schildkampf:Novize, Testskill:Meister\n" +\
+                        "\tTRAITS: untot (I, siehe seite 231), robust (II, siehe seite 312)\n" +\
+                        "\tEQUIPMENT: 1w10 orteg\"\n" +\
                         "\tshow_tooltip|yes\n" +\
                         "\tdefaulttoken\n" +\
                         "}}"
@@ -202,11 +202,11 @@ def create_expected_result_create_token_mod_str_baiagorn():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 10/Def: 7/Armor: 4" +\
-                        "\tABILITIES: Berserkerrausch:Adept" +\
+                        "\ttooltip|\"Att: 10/Def: 7/Armor: 4\n" +\
+                        "\tABILITIES: Berserkerrausch:Adept\n" +\
                         "\tTRAITS: natürliche waffen (I), robust (I), " +\
-                        "test1 (III), test2 (III), test3 (II)" +\
-                        "\tEQUIPMENT: keine\n" +\
+                        "test1 (III), test2 (III), test3 (II)\n" +\
+                        "\tEQUIPMENT: keine\"\n" +\
                         "\tshow_tooltip|yes\n" +\
                         "\tdefaulttoken\n" +\
                         "}}"
@@ -309,10 +309,10 @@ def create_expected_result_create_token_mod_str_brand():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 13/Def: 11/Armor: UNKNOWN" +\
-                        "\tABILITIES: Bodyguard:master, Iron Fist:master, Two-handed Force:adept" +\
-                        "\tTRAITS: -" +\
-                        "\tEQUIPMENT: glowing, oozing full plate\n" +\
+                        "\ttooltip|\"Att: 13/Def: 11/Armor: UNKNOWN\n" +\
+                        "\tABILITIES: Bodyguard:master, Iron Fist:master, Two-handed Force:adept\n" +\
+                        "\tTRAITS: -\n" +\
+                        "\tEQUIPMENT: glowing, oozing full plate\"\n" +\
                         "\tshow_tooltip|yes\n" +\
                         "\tdefaulttoken\n" +\
                         "}}"
@@ -420,10 +420,10 @@ def create_expected_result_create_token_mod_str_fairy():
                         "\tbar1_link|quick\n" +\
                         "\tbar2_link|toughness\n" +\
                         "\tbar3_link|accurate\n" +\
-                        "\ttooltip|Att: 10/Def: 13/Armor: UNKNOWN" +\
-                        "\tABILITIES: Abilities found in text:Zero" +\
-                        "\tTRAITS: -" +\
-                        "\tEQUIPMENT: none\n" +\
+                        "\ttooltip|\"Att: 10/Def: 13/Armor: UNKNOWN\n" +\
+                        "\tABILITIES: Abilities found in text:Zero\n" +\
+                        "\tTRAITS: -\n" +\
+                        "\tEQUIPMENT: none\"\n" +\
                         "\tshow_tooltip|yes\n" +\
                         "\tdefaulttoken\n" +\
                         "}}"

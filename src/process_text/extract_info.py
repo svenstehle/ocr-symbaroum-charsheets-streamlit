@@ -11,14 +11,13 @@ from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 class InformationExtractor(TextProcessor):
     # pylint: disable=too-many-instance-attributes
     """Extracts all Information from OCR'd text."""
-    def __init__(self, text: str, *args, **kwargs):
+    def __init__(self, text: str):
         """Constructs all the necessary attributes for the InformationExtractor object.
 
         Args:
             text (str): raw text from pytesseract OCR.
         """
-        super().__init__(text, *args, **kwargs)
-        self.text: str = text
+        super().__init__(text)
         self._abilities: Dict[str, str] = {"Abilities not found in text": "Zero"}
         self._attributes: Dict[str, str] = {"Attributes not found in text": "Zero"}
         self._equipment: str = ""
@@ -100,19 +99,26 @@ class InformationExtractor(TextProcessor):
 
         Args:
             charname (str): name of the roll20 character for which to create the setattr string.
-            config (Spockspace): spock-config configuration object.
+            config (DictCondif): hydra configuration object.
 
         Raises:
             ValueError: raised if the detected language of the input text is not supported.
         """
+        extractor: Union[GermanExtractor, EnglishExtractor]
+
+        # preprocess self.text
+        self._preprocess_text()
+        self._replace_all_weapon_strings()
+
         if self.lang == "de":
-            GE = GermanExtractor(self.text, cfg.extraction.attribute_names_ger)
-            self._apply_extractor_to_text(GE, charname)
+            extractor = GermanExtractor(self.text, cfg.extraction.attribute_names_ger)
         elif self.lang == "en":
-            EE = EnglishExtractor(self.text, cfg.extraction.attribute_names_eng)
-            self._apply_extractor_to_text(EE, charname)
+            extractor = EnglishExtractor(self.text, cfg.extraction.attribute_names_eng)
         else:
             raise LanguageNotSupported(f"Detected language {self.lang} not supported")
+
+        # extract
+        self._apply_extractor_to_text(extractor, charname)
 
     def _apply_extractor_to_text(
         self,
@@ -127,8 +133,6 @@ class InformationExtractor(TextProcessor):
                 extraction part of the respective language.
             charname (str): name of the roll20 character for which to create the setattr string.
         """
-        self._preprocess_text()
-        self._replace_all_weapon_strings()
         self._abilities = extractor.extract_all_abilities_from_text()
         self._transform_attribute_keys_to_english_longhand(extractor.extract_all_attributes_from_text())
         self._equipment = extractor.extract_equipment_from_text()
@@ -241,12 +245,12 @@ class InformationExtractor(TextProcessor):
         abilities_token = tuple(f"{a}:{v}" for a, v in self.abilities.items())
         abilities_token = ", ".join(abilities_token)
 
-        token_mod_tooltip_string = f"\ttooltip|Att: {self._get_attack_value()}" +\
+        token_mod_tooltip_string = f"\ttooltip|\"Att: {self._get_attack_value()}" +\
                                     f"/Def: {self._get_defense_value()}" +\
-                                    f"/Armor: {self._armor}" +\
-                                    f"\tABILITIES: {abilities_token}" +\
-                                    f"\tTRAITS: {self._traits}" +\
-                                    f"\tEQUIPMENT: {self.equipment}\n"
+                                    f"/Armor: {self._armor}\n" +\
+                                    f"\tABILITIES: {abilities_token}\n" +\
+                                    f"\tTRAITS: {self._traits}\n" +\
+                                    f"\tEQUIPMENT: {self.equipment}\"\n"
 
         token_mod_ending_string = "\tshow_tooltip|yes\n" +\
                                     "\tdefaulttoken\n" +\

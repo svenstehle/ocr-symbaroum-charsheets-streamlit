@@ -11,8 +11,13 @@ class BaseExtractor(TextProcessor, metaclass=ABCMeta):
     """Abstract base class for Text Extraction."""
     @abstractmethod
     def __init__(self, text: str, attribute_names: List[str]):
-        # pylint: disable=super-init-not-called
-        self.text = text
+        """Constructs all the necessary attributes for the Extractor object.
+
+        Args:
+            text (str): the preprocessed text to extract attributes from.
+            attribute_names (List[str]): list of the attribute names in respective language.
+        """
+        super().__init__(text)
         self.attribute_names = attribute_names
 
     @abstractmethod

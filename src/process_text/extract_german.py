@@ -8,16 +8,15 @@ from src.process_text.base_extractor import BaseExtractor
 
 class GermanExtractor(BaseExtractor):
     """Extracts all attributes from German text."""
-    def __init__(self, text: str, attribute_names: List[str], *args, **kwargs):
+    def __init__(self, text: str, attribute_names: List[str]):
+        # pylint: disable=useless-super-delegation
         """Constructs all the necessary attributes for the GermanExtractor object.
 
         Args:
             text (str): the preprocessed text to extract attributes from.
             attribute_names (List[str]): list of the attribute names in German language.
         """
-        super().__init__(text, attribute_names, *args, **kwargs)
-        self.text = text
-        self.attribute_names = attribute_names
+        super().__init__(text, attribute_names)
 
     def extract_all_attributes_from_text(self) -> Dict[str, str]:
         """Extracts all roll20 character attributes from German text.

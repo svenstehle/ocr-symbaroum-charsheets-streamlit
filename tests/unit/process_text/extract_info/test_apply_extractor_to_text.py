@@ -12,37 +12,37 @@ from src.process_text.extract_info import InformationExtractor
 @pytest.mark.parametrize(
     "ocr_text, lang, attribute_names", [
         (
-            pytest.lazy_fixture("prep_ocr_text_fairy"),
+            pytest.lazy_fixture("prep_ocr_text_fairy_raw"),
             "en",
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_eng_general"),
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_brand"),
+            pytest.lazy_fixture("prep_ocr_text_brand_raw"),
             "en",
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_eng_general"),
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_sikander"),
+            pytest.lazy_fixture("prep_ocr_text_sikander_raw"),
             "en",
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_eng_general"),
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_draghul"),
+            pytest.lazy_fixture("prep_ocr_text_draghul_raw"),
             "de",
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_ger_general"),
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_baiagorn"),
+            pytest.lazy_fixture("prep_ocr_text_baiagorn_raw"),
             "de",
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_ger_general"),
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_guard"),
+            pytest.lazy_fixture("prep_ocr_text_guard_raw"),
             "de",
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_ger_general"),
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_aeber"),
+            pytest.lazy_fixture("prep_ocr_text_aeber_raw"),
             "de",
             pytest.lazy_fixture("create_input_extract_all_attributes_from_text_ger_general"),
         ),
@@ -51,6 +51,8 @@ from src.process_text.extract_info import InformationExtractor
 def test_apply_extractor_to_text(ocr_text, lang, attribute_names):
     IE = InformationExtractor(ocr_text)
     assert IE._lang == ""
+    IE._preprocess_text()
+    IE._replace_all_weapon_strings()
     if lang == "en":
         extractor = EnglishExtractor(IE.text, attribute_names)
     elif lang == "de":

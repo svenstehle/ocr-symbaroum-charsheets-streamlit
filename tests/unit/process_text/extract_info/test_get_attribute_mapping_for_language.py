@@ -7,12 +7,12 @@ from src.process_text.extract_info import InformationExtractor
 @pytest.mark.parametrize(
     "ocr_text, lang, expected_result", [
         (
-            pytest.lazy_fixture("prep_ocr_text_draghul"),
+            pytest.lazy_fixture("prep_ocr_text_draghul_raw"),
             "de",
             pytest.lazy_fixture("create_expected_result_get_attribute_mapping_for_language_ger"),
         ),
         (
-            pytest.lazy_fixture("prep_ocr_text_sikander"),
+            pytest.lazy_fixture("prep_ocr_text_sikander_raw"),
             "en",
             pytest.lazy_fixture("create_expected_result_get_attribute_mapping_for_language_eng"),
         ),
