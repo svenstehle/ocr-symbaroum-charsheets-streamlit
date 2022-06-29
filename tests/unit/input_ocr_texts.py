@@ -2,9 +2,10 @@ def ocr_text_draghul():
     text = (
         "Rasse Untoter\n\n"
         "Herausforderung _ Normal\n"
-        "Merkmale Untot (I)\n"
-        "xysfjkj7\nScharfsinn 4 (=6). blablabla Stärke 3 (-7).\n"
-        "trolol\nAufmerksamkeit 10 (0), olo Gewandtheit 15 (+5), --23%\n"
+        "Merkmale Untot (I, siehe Seite 231), Robust (IL, siehe Seite 312)\n"
+        "Aufmerksamkeit 10 (0), xysfjkj7\n"
+        "Scharfsinn 4 (=6). blablabla Stärke 3 (-7).\n"
+        "trolol\n olo Gewandtheit 15 (+5), --23%\n"
         "Ausstrahlung 5 (+5), Heimlichkeit 10 (0), Präzision 9 (+1),\n"
         "Willenskraft 13 (=3)\n\n"
         "Fähigkeiten Eisenfaust (Adept),\n"
@@ -36,7 +37,7 @@ def ocr_text_baiagorn():
         "Rasse Bestie\n\n"
         "Herausforderung Normal\n\n"
         "Merkmale Natürliche Waffen (1),\n"
-        "Robust ()\n\n"
+        "Robust (), test1 (Nl), test2 (lN), test3 (N)\n\n"
         "Aufmerksamkeit 11 (-1), Ausstrahlung 5 (+5),\n"
         "Gewandtheit / (+3). Heimlichkeit 9 (+1),\n"
         "Präzision 10 (0), Scharfsinn 10 (0),\n\n"
@@ -85,14 +86,44 @@ def ocr_text_guard():
         "Waffen Schwert4\n\n"
         "Rüstung. Schuppenpanzer 3\n"
         "(Behinderung)\n"
-        "+2(Schild)\n"
+        "Verteidigung +2(Schild)\n"
         "Schmerzgrenze 8\n"
-        "IWIO Schillinge,\n\n"
+        "Ausrüstung 1WI10 Schillinge,\n\n"
+        "Kautabak\n"
         "Schatten Mattes Kupfer\n\n"
         "Taktik: Der Spielercharakter, der am größten\n"
         "\"oder stärksten wirkt, wird zuerst vonzwei Wäch-\n"
         "tern angegriffen. Jeder andere Spielercharakter\n"
         "\'wird von einem Wachter angegriffen."
+    )
+    return text
+
+
+def ocr_text_aeber():
+    text = (
+        "Rasse Besti\n\n"
+        "Herausforderung Gro\n\n"
+        "Merkmale Natürlicher Panzer (Il),\n"
+        "Natürliche Waffen (il),\n"
+        "Robust (I|l, siehe Seite 13)\n\n"
+        "Aufmerksamkeit 9 (+1). Ausstrahlung 5 (+5),\n"
+        "Gewandtheit 13 (-3), Heimlichkeit 7 (+3),\n\n"
+        "Präzision 10 (0). Scharfsinn 10 (0).\n"
+        "Stärke 15 (-5). Willenskraft 11 (-1)\n"
+        "Fähigkeiten Eisenfaust (Adept)\n"
+        "Waffen StoBzähne 10 (Kurz)\n"
+        "Rüstung Schweinehaut 7\n"
+        "Verteidigung 4\n\n"
+        "Zähigkeit 15 Schmerzgrenze 8\n"
+        "Ausrüstung Keine\n\n"
+        "Schatten Dunkelrot mit rostroten\n\n"
+        "Streifen (Korruption: 3)\n\n"
+        "Taktik: Der ber setzt fingierte Angriffe ein und\n"
+        "versucht damit. seine Feinde zu verscheuchen.\n"
+        "Sollte das scheitern. verlässt er sich darauf,\n"
+        "dass seine Reflexe, seine widerstandsfähige\n"
+        "Haut und seine brutalen Hauer ausreichen, um\n"
+        "jeden Gegner niederzumetzeln."
     )
     return text
 
@@ -206,7 +237,7 @@ def ocr_text_sikander():
         "Accurate\n\n"
         "Abilities Brimstone Cascade (master), Flame\n\n"
         "Wall (master),\n"
-        "Traits -\n\n"
+        "Traits Test1 (iI), Test2 (nl), Test3 (ln), test4 (n), Test5 (1Il)\n\n"
         "Integrated Alchemy (novice), Loremaster (mas-\n"
         "ter), Ritualist (adept: Clairvoyance,\n"
         "Flaming Servant, Tale of Ashes),\n"
@@ -245,35 +276,6 @@ def ocr_text_unknown_language():
     Julie : pas avec la table, mais avec ceux de la table d'à côté ; ils parlent très fort.
     Serveur : je vais leur demander de se calmer, pour que vous puissiez profiter de votre repas dans le calme.
     Julie : merci bien."""
-    return text
-
-
-def ocr_text_aeber():
-    text = (
-        "Rasse Besti\n\n"
-        "Herausforderung Gro\n\n"
-        "Merkmale Natürlicher Panzer (Il),\n"
-        "Natürliche Waffen (Il),\n"
-        "Robust (Ill)\n\n"
-        "Aufmerksamkeit 9 (+1). Ausstrahlung 5 (+5),\n"
-        "Gewandtheit 13 (-3), Heimlichkeit 7 (+3),\n\n"
-        "Präzision 10 (0). Scharfsinn 10 (0).\n"
-        "Stärke 15 (-5). Willenskraft 11 (-1)\n"
-        "Fähigkeiten Eisenfaust (Adept)\n"
-        "Waffen StoBzähne 10 (Kurz)\n"
-        "Rüstung Schweinehaut 7\n"
-        "Verteidigung 4\n\n"
-        "Zähigkeit 15 Schmerzgrenze 8\n"
-        "Ausrüstung Keine\n\n"
-        "Schatten Dunkelrot mit rostroten\n\n"
-        "Streifen (Korruption: 3)\n\n"
-        "Taktik: Der ber setzt fingierte Angriffe ein und\n"
-        "versucht damit. seine Feinde zu verscheuchen.\n"
-        "Sollte das scheitern. verlässt er sich darauf,\n"
-        "dass seine Reflexe, seine widerstandsfähige\n"
-        "Haut und seine brutalen Hauer ausreichen, um\n"
-        "jeden Gegner niederzumetzeln."
-    )
     return text
 
 

@@ -1,40 +1,32 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
-from typing import Dict, List
+from typing import Dict, Union
 
 from omegaconf import DictConfig
-from src.process_language import detect_language
 from src.process_text.extract_english import EnglishExtractor
 from src.process_text.extract_german import GermanExtractor
-from src.process_text.process_ocr import TextProcessor
+from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 
 
 class InformationExtractor(TextProcessor):
+    # pylint: disable=too-many-instance-attributes
     """Extracts all Information from OCR'd text."""
-    def __init__(self, text: str, **kwargs):
+    def __init__(self, text: str):
         """Constructs all the necessary attributes for the InformationExtractor object.
 
         Args:
             text (str): raw text from pytesseract OCR.
         """
-        super().__init__(text, **kwargs)
-        self.text = text
-        self._abilities = {"Abilities not found in text": "Zero"}
-        self._attributes = {"Attributes not found in text": "Zero"}
+        super().__init__(text)
+        self._abilities: Dict[str, str] = {"Abilities not found in text": "Zero"}
+        self._attributes: Dict[str, str] = {"Attributes not found in text": "Zero"}
+        self._equipment: str = ""
+        self._armor: str = ""
+        self._traits: str = ""
         self._tactics: str = ""
         self._setattr_name_str: str = ""
         self._setattr_sel_str: str = ""
-        self._lang: str = ""
-
-    @property
-    def lang(self) -> str:
-        """Detects the language used in the text.
-
-        Returns:
-            str: language used in the text.
-        """
-        self._lang = detect_language(self.text)
-        return self._lang
+        self._token_mod_str: str = ""
 
     @property
     def abilities(self) -> Dict[str, str]:
@@ -53,6 +45,15 @@ class InformationExtractor(TextProcessor):
             Dict[str, str]: the attributes that were extracted from the text.
         """
         return self._attributes
+
+    @property
+    def equipment(self) -> str:
+        """Returns the equipment extracted from the text.
+
+        Returns:
+            str: the equipment and its features that were extracted from the text.
+        """
+        return self._equipment
 
     @property
     def tactics(self) -> str:
@@ -83,91 +84,101 @@ class InformationExtractor(TextProcessor):
         """
         return self._setattr_sel_str
 
+    @property
+    def token_mod_str(self) -> str:
+        """Returns the roll20 chat input string for the token-mod API script
+        for selected tokens.
+
+        Returns:
+            str: roll20 chat input string.
+        """
+        return self._token_mod_str
+
     def extract_information_from_text(self, charname: str, cfg: DictConfig) -> None:
         """Extracts information from the text and saves it in the InformationExtractor object.
 
         Args:
             charname (str): name of the roll20 character for which to create the setattr string.
-            config (Spockspace): spock-config configuration object.
+            config (DictCondif): hydra configuration object.
 
         Raises:
             ValueError: raised if the detected language of the input text is not supported.
         """
+        extractor: Union[GermanExtractor, EnglishExtractor]
+
+        # preprocess self.text
+        self._preprocess_text()
+        self._replace_all_weapon_strings()
+
         if self.lang == "de":
-            self.extract_information_from_ger_text(charname, cfg.extraction.attribute_names_ger)
+            extractor = GermanExtractor(self.text, cfg.extraction.attribute_names_ger)
         elif self.lang == "en":
-            self.extract_information_from_eng_text(charname, cfg.extraction.attribute_names_eng)
+            extractor = EnglishExtractor(self.text, cfg.extraction.attribute_names_eng)
         else:
-            raise ValueError(f"Detected language {self.lang} not supported")
+            raise LanguageNotSupported(f"Detected language {self.lang} not supported")
 
-    def extract_information_from_ger_text(self, charname: str, attribute_names: List[str]) -> None:
-        """Extracts information from German text and saves it in the InformationExtractor object.
+        # extract
+        self._apply_extractor_to_text(extractor, charname)
+
+    def _apply_extractor_to_text(
+        self,
+        extractor: Union[GermanExtractor, EnglishExtractor],
+        charname: str,
+    ) -> None:
+        """Extracts information from German or English text and saves it in the InformationExtractor
+        object.
 
         Args:
+            extractor (Union[GermanExtractor, EnglishExtractor]): the Extractor object for the
+                extraction part of the respective language.
             charname (str): name of the roll20 character for which to create the setattr string.
-            attribute_names (List[str]): list of the attribute names in German language.
         """
-        self.preprocess_text()
-        self.replace_all_weapon_strings("waffen")
-        GE = GermanExtractor(self.text)
-        self._abilities = GE.extract_all_abilities_from_text_ger()
-        self._attributes = GE.extract_all_attributes_from_text_ger(attribute_names)
-        self.extract_tactics_from_text("taktik:")
-        self.get_roll20_chat_input_strings(charname)
+        self._abilities = extractor.extract_all_abilities_from_text()
+        self._transform_attribute_keys_to_english_longhand(extractor.extract_all_attributes_from_text())
+        self._equipment = extractor.extract_equipment_from_text()
+        self._armor = extractor.extract_armor_from_text()
+        self._traits = extractor.extract_traits_from_text()
+        self._tactics = extractor.extract_tactics_from_text()
+        self._get_roll20_chat_input_strings(charname)
 
-    def extract_information_from_eng_text(self, charname: str, attribute_names: List[str]) -> None:
-        """Extracts information from English text and saves it in the InformationExtractor object.
+    def _transform_attribute_keys_to_english_longhand(self, attributes: Dict[str, str]) -> None:
+        """Transforms the attribute keys from the respective supported languages to
+        English longhand. E.g. both 'acc' and 'präzision' will be transformed to 'accurate',
+        to allow for easier unified handling of these attributes downstream.
 
         Args:
-            charname (str): name of the roll20 character for which to create the setattr string.
-            attribute_names (List[str]): list of the attribute names in English language.
+            attributes (Dict[str, str]): the transformed attribute dictionary
+                with the attribute names (keys) in English longhand.
         """
-        self.preprocess_text()
-        self.replace_all_weapon_strings("weapons")
-        EE = EnglishExtractor(self.text)
-        self._abilities = EE.extract_all_abilities_from_text_eng()
-        self._attributes = EE.extract_all_attributes_from_text_eng(attribute_names)
-        self.extract_tactics_from_text("tactics:")
-        self.get_roll20_chat_input_strings(charname)
+        attr_new = {}
+        mapping = self._get_attribute_mapping_for_language()
 
-    def preprocess_text(self) -> None:
-        """_summary_: Removes all the unnecessary characters from the text."""
-        replacements = [
-            ("=", "-"),    # replace equal sign with dash
-            (" -\n\n", " - "),    # keep single dash that is NOT a line continuation
-            (" -\n", " - "),    # keep single dash that is NOT a line continuation
-            ("-\n\n", ""),    # remove single dash that is a line continuation
-            ("-\n", ""),    # remove single dash that is a line continuation
-            ("\n\n", " "),    # remove line continuation
-            ("\n", " "),    # remove line continuation
-            (" _ ", " - "),    # replace separate underscore with dash
-        ]
-        for key, rep in replacements:
-            self.text = self.text.replace(key, rep)
-        self.text = self.text.strip()
-        self.text = self.get_lowercase_text(self.text)
+        for k, v in mapping.items():
+            attr_new[k] = attributes[v]
 
-    def extract_tactics_from_text(self, tactics_str: str) -> None:
-        """Extracts the tactics from the text.
+        self._attributes = attr_new
 
-        Args:
-            tactics_str (str): tactics search keyword in the relevant language.
-        """
-        length = len(tactics_str)
-        tactics_start_loc = self.text.find(tactics_str) + length + 1
-        tactics = self.text[tactics_start_loc:]
-        tactics = [t.strip() for t in tactics.split(" ") if t.strip() != ""]
-        self._tactics = " ".join(tactics)
-
-    def get_roll20_chat_input_strings(self, charname: str) -> None:
-        """Creates the roll20 chat input string for the setattr API script
+    def _get_roll20_chat_input_strings(self, charname: str) -> None:
+        """Creates the roll20 chat input strings for the setattr and token-mod API scripts
         for input character name.
 
         Args:
             charname (str): name of the roll20 character for which to create the setattr string.
+                token-mod does not depend on charname.
+        """
+        self._create_setattr_str(charname)
+        self._create_token_mod_str()
+
+    def _get_attribute_mapping_for_language(self) -> Dict[str, str]:
+        """Returns the mapping of roll20 API script specific values to the
+        extracted attribute names in the original language of the ocr'd text.
 
         Raises:
             ValueError: raised if the detected language of the input text is not supported.
+
+        Returns:
+            Dict[str, str]: the mapping from the roll20 API script specific values
+            to the attribute names in the text language
         """
         if self.lang == "de":
             mapping = {
@@ -192,33 +203,63 @@ class InformationExtractor(TextProcessor):
                 "accurate": "acc"
             }
         else:
-            raise ValueError(f"Language {self.lang} not supported.")
+            raise LanguageNotSupported(f"Detected language {self.lang} not supported")
+        return mapping
 
-        basic_name_string = f"!setattr --name {charname}"
-        basic_sel_string = "!setattr --sel"
-
-        att_string = ""
-        for key, value in mapping.items():
-            att_string += f" --{key}|{self.attributes[value]}"
-        toughness = self.get_toughness(self.attributes)
-        toughness_string = f" --toughness|{toughness}|{toughness}"
-        self._setattr_name_str = basic_name_string + att_string + toughness_string
-        self._setattr_sel_str = basic_sel_string + att_string + toughness_string
-
-    @staticmethod
-    def get_lowercase_text(text: str) -> str:
-        """Returns the text in lowercase.
+    def _create_setattr_str(self, charname: str) -> None:
+        """Creates and sets the roll20 setattr API script string
+         as attribute to the InformationExtractor object.
 
         Args:
-            text (str): input text with capital letters.
-
-        Returns:
-            str: text with only lowercase letters.
+            charname (str): name of the roll20 character for which to create the setattr string.
+                token-mod does not depend on charname.
         """
-        return text.lower()
+        setattr_name_beginning = f"!setattr --name {charname}"
+        setattr_sel_beginning = "!setattr --sel"
+        setattr_attributes = ""
+
+        # build the attribute string from attributes
+        for att_name, value in self.attributes.items():
+            setattr_attributes += f" --{att_name}|{value}"
+
+        # build toughness string
+        toughness = self._get_toughness(self.attributes)
+        setattr_toughness = f" --toughness|{toughness}|{toughness}"
+
+        # store in object
+        self._setattr_name_str = setattr_name_beginning + setattr_attributes + setattr_toughness
+        self._setattr_sel_str = setattr_sel_beginning + setattr_attributes + setattr_toughness
+
+    def _create_token_mod_str(self) -> None:
+        """Creates and sets the roll20 token-mod API script string
+        as attribute to the InformationExtractor object.
+        """
+        basic_token_mod_string = "!token-mod {{\n" +\
+                                "--set\n" +\
+                                    "\tlayer|gmlayer\n" +\
+                                    "\tbar1_link|quick\n" +\
+                                    "\tbar2_link|toughness\n" +\
+                                    "\tbar3_link|accurate\n"
+
+        # convert abilities for tooltip
+        abilities_token = tuple(f"{a}:{v}" for a, v in self.abilities.items())
+        abilities_token = ", ".join(abilities_token)
+
+        token_mod_tooltip_string = f"\ttooltip|\"Att: {self._get_attack_value()}" +\
+                                    f"/Def: {self._get_defense_value()}" +\
+                                    f"/Armor: {self._armor}\n" +\
+                                    f"\tABILITIES: {abilities_token}\n" +\
+                                    f"\tTRAITS: {self._traits}\n" +\
+                                    f"\tEQUIPMENT: {self.equipment}\"\n"
+
+        token_mod_ending_string = "\tshow_tooltip|yes\n" +\
+                                    "\tdefaulttoken\n" +\
+                                    "}}"
+
+        self._token_mod_str = basic_token_mod_string + token_mod_tooltip_string + token_mod_ending_string
 
     @staticmethod
-    def get_toughness(attributes: Dict[str, str]) -> int:
+    def _get_toughness(attributes: Dict[str, str]) -> int:
         """Calculates the toughness from the strong attribute in the relevant language.
 
         Args:
@@ -227,6 +268,31 @@ class InformationExtractor(TextProcessor):
         Returns:
             int: roll20 symbaroum character toughness value.
         """
-        strength_key = "str" if "str" in attributes else "stärke"
+        strength_key = "strong"
         strong = int(attributes[strength_key])
         return max((strong, 10))
+
+    def _get_attack_value(self) -> str:
+        """Returns the value for a physical attack roll performed by that character.
+        Usually this is simply calculated by using the value for 'accuracte'.
+        If a character has certain abilities, the attack value might be calculated differently,
+        e.g. if a character has the ability 'Iron Fist', attack is calculated as the value for 'strong'.
+        No other modifiers are factored into this calculation as of right now.
+
+        Returns:
+            str: the attack value.
+        """
+        return self.attributes["accurate"]
+
+    def _get_defense_value(self) -> str:
+        """Returns the value for a defense roll performed by that character.
+        Usually this is simply calculated by using the value for 'quick'.
+        If a character has certain abilities, the defense value might be calculated differently,
+        e.g. if a character has the ability 'Iron Fist', defense is calculated as the value for 'strong'.
+        Also, modifiers from e.g. 'berserk' could be factored into this in the future.
+        Currently, they are not.
+
+        Returns:
+            str: the defense value.
+        """
+        return self.attributes["quick"]

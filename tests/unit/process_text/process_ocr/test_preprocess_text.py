@@ -1,5 +1,5 @@
 import pytest
-from src.process_text.extract_info import InformationExtractor
+from src.process_text.process_ocr import TextProcessor
 
 
 @pytest.mark.parametrize(
@@ -23,6 +23,6 @@ from src.process_text.extract_info import InformationExtractor
     ]
 )
 def test_preprocess_text(unprocessed_ocr_text, expected_result):
-    IE = InformationExtractor(unprocessed_ocr_text)
-    IE.preprocess_text()
-    assert IE.text == expected_result
+    TP = TextProcessor(unprocessed_ocr_text)
+    TP._preprocess_text()    # pylint: disable=protected-access
+    assert TP.text == expected_result

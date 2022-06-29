@@ -23,27 +23,6 @@ def prep_input_result_get_attribute_value_from_text_draghul(request):
     del target_attribute, expected_result
 
 
-@pytest.fixture
-def create_expected_result_extract_all_abilities_from_text_baiagorn():
-    expected_result = {"Berserkerrausch": "Adept"}
-    yield expected_result
-    del expected_result
-
-
-@pytest.fixture
-def create_expected_result_extract_all_abilities_from_text_guard():
-    expected_result = {"Abilities found in text": "Zero"}
-    yield expected_result
-    del expected_result
-
-
-@pytest.fixture
-def create_expected_result_extract_all_abilities_from_text_aeber():
-    expected_result = {"Eisenfaust": "Adept"}
-    yield expected_result
-    del expected_result
-
-
 def create_input_result_get_attribute_value_from_text_baiagorn():
     input_result_pairs = [
         ("stärke", "15"),

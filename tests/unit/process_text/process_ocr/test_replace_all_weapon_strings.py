@@ -1,37 +1,39 @@
 import pytest
-from src.process_text.extract_info import TextProcessor
+from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
+
+# pylint: disable=protected-access
 
 
 @pytest.mark.parametrize(
-    "text, string, expected_result", [
-        ("test wüten test", "waffen", "test wüten test"),
-        ("test wten test", "waffen", "test wten test"),
-        ("tes waffen test", "waffen", "tes waffen test"),
-        ("teste wafden test", "waffen", "teste waffen test"),
-        ("test waddentest", "waffen", "test waffentest"),
-        ("test wten test", "waffen", "test wten test"),
-        (" test wten test", "waffen", " test wten test"),
-        (" test weapons test", "weapons", " test weapons test"),
-        (" test wehpons test", "weapons", " test wehpons test"),
-        (" test waepons test", "weapons", " test weapons test"),
-        (" test waeons test", "weapons", " test waeons test"),
-        (" test weponstest", "weapons", " test weponstest"),
-        ("test wafons test", "weapons", "test wafons test"),
-        ("test willen test", "weapons", "test willen test"),
-        ("test willen test", "waffen", "test willen test"),
-        ("test warmen test", "weapons", "test warmen test"),
-        ("test warmen test", "waffen", "test warmen test"),
+    "text, expected_result", [
+        ("das ist ein test wüten test", "das ist ein test wüten test"),
+        ("das ist ein test wten test", "das ist ein test wten test"),
+        ("das ist ein test waffen test", "das ist ein test waffen test"),
+        ("das ist ein test wafden test", "das ist ein test waffen test"),
+        ("das ist ein test waddentest", "das ist ein test waffentest"),
+        ("das ist ein test wten test", "das ist ein test wten test"),
+        (" das ist ein test wten test", " das ist ein test wten test"),
+        (" this is a test weapons test", " this is a test weapons test"),
+        (" this is a test wehpons test", " this is a test wehpons test"),
+        (" this is a test waepons test", " this is a test weapons test"),
+        (" this is a test waeons test", " this is a test waeons test"),
+        (" this is a test weponstest", " this is a test weponstest"),
+        ("this is a test wafons test", "this is a test wafons test"),
+        ("das ist ein test willen test", "das ist ein test willen test"),
+        ("das ist ein test willen test", "das ist ein test willen test"),
+        ("das ist ein test warmen test", "das ist ein test warmen test"),
+        ("das ist ein test warmen test", "das ist ein test warmen test"),
     ]
 )
-def test_replace_all_weapon_strings(text, string, expected_result):
+def test_replace_all_weapon_strings(text, expected_result):
     TP = TextProcessor(text)
-    TP.replace_all_weapon_strings(string)
+    TP._replace_all_weapon_strings()
     assert TP.text == expected_result
 
 
 def test_replace_all_weapon_strings_exception():
-    TP = TextProcessor("test warmen test")
-    test_string = "testme"
-    with pytest.raises(ValueError) as e:
-        TP.replace_all_weapon_strings(test_string)
-    assert str(e.value) == f"Search string '{test_string}' not supported."
+    TP = TextProcessor("Je parle francais mon amour. Tu aime la souris?")
+    lang = "fr"
+    with pytest.raises(LanguageNotSupported) as e:
+        TP._replace_all_weapon_strings()
+    assert str(e.value) == f"Detected language {lang} not supported"

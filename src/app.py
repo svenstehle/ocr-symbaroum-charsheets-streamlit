@@ -30,29 +30,14 @@ def main(cfg: DictConfig) -> None:
     # information extraction part - create roll20 string
     information_extraction_handler(cfg)
 
-    # TODO find a way to copy&paste screenshots to streamlit / fileuploader
+    # TODO ~find a way to copy&paste screenshots to streamlit / fileuploader
     # https://discuss.streamlit.io/t/is-there-a-way-to-paste-from-clipboard-into-file-uploader/8182/4
     # retrieve images from clipboard starter for spike:
     # https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/read
     # https://github.com/ash2shukla/streamlit-bokeh-events
 
-    # TODO add block of text with everything from weapons till tactics, corrected
-    #  (english only) with blank lines
-
-    # token mod: new output feature
-    # !token-mod {{
-    # --set
-    #     layer|gmlayer
-    #     bar1_link|quick
-    #     bar2_link|toughness
-    #     bar3_link|accurate
-    #     tooltip|Att: XX/Def: XX/Dmg: XX/ Armor: XX
-    #     ABILITIES:
-    #     TRAITS:
-    #     EQUIPMENT:
-    #     show_tooltip|yes
-    #     defaulttoken
-    # }}
+    # TODO ~add block of text with everything from weapons till tactics, corrected
+    # (english only) with blank lines
 
     # gm_notes can be filled with everything!?
 

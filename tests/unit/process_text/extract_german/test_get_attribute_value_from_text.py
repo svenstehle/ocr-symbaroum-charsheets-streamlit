@@ -22,7 +22,13 @@ from src.process_text.extract_german import GermanExtractor
         )
     ]
 )
-def test_get_attribute_value_from_text_ger(ocr_text, attribute_result_pair):
-    GE = GermanExtractor(ocr_text)
+def test_get_attribute_value_from_text(
+    ocr_text,
+    attribute_result_pair,
+    create_input_extract_all_attributes_from_text_ger_general,
+):
+    attribute_names = create_input_extract_all_attributes_from_text_ger_general
+    GE = GermanExtractor(ocr_text, attribute_names)
     target_attribute, expected_result = attribute_result_pair
-    assert GE.get_attribute_value_from_text_ger(target_attribute) == expected_result
+    # pylint: disable=protected-access
+    assert GE._get_attribute_value_from_text(target_attribute) == expected_result
