@@ -1,6 +1,8 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
+
 import hydra
+import streamlit as st
 from omegaconf import DictConfig
 
 from src.streamlit_handlers.image_handler import image_handler
@@ -21,6 +23,9 @@ def main(cfg: DictConfig) -> None:
     # setup the Streamlit sidebar
     image_file, factor, psm = sidebar_handler(cfg)
 
+    # Streamlit middle page setup
+    st.title("OCR for Symbaroum Charactersheets with Streamlit")
+
     # handle image processing and display results in Streamlit
     image = image_handler(cfg, image_file, factor)
 
@@ -30,16 +35,8 @@ def main(cfg: DictConfig) -> None:
     # information extraction part - create roll20 string
     information_extraction_handler(cfg)
 
-    # TODO ~find a way to copy&paste screenshots to streamlit / fileuploader
-    # https://discuss.streamlit.io/t/is-there-a-way-to-paste-from-clipboard-into-file-uploader/8182/4
-    # retrieve images from clipboard starter for spike:
-    # https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/read
-    # https://github.com/ash2shukla/streamlit-bokeh-events
-
     # TODO ~add block of text with everything from weapons till tactics, corrected
-    # (english only) with blank lines
-
-    # gm_notes can be filled with everything!?
+    # (english only) with blank lines -> roll20 gm_notes can be filled with everything!?
 
 
 if __name__ == "__main__":
