@@ -25,6 +25,9 @@ class TextProcessor:
             str: language used in the text.
         """
         self._lang = detect_language(self.text)
+
+        if self._lang not in ["en", "de"]:
+            raise LanguageNotSupported(f"Detected language {self._lang} not supported")
         return self._lang
 
     def _preprocess_text(self) -> None:
@@ -54,11 +57,9 @@ class TextProcessor:
         if self.lang == "de":
             string = "waffen"
             pattern = r"w[ä-üabdeft]{3}en"
-        elif self.lang == "en":
+        if self.lang == "en":
             string = "weapons"
             pattern = r"w[aeop]{3}ons"
-        else:
-            raise LanguageNotSupported(f"Detected language {self.lang} not supported")
 
         indices = self._get_indices_of_weapon_strings(pattern)
         for (start, end) in indices:

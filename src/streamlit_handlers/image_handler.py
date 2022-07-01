@@ -1,5 +1,6 @@
 # License: APACHE LICENSE, VERSION 2.0
 #
+
 import numpy as np
 import streamlit as st
 from omegaconf import DictConfig
@@ -27,7 +28,6 @@ def image_handler(cfg: DictConfig, image_file: accepted_image_types, factor: flo
     if image_file:
         image = get_processed_image_file(image_file, factor)
         display_selected_image(image)
-        st.info(cfg.streamlit.success_response)
     else:
         st.info(cfg.streamlit.failure_response)
     return image
@@ -39,5 +39,5 @@ def display_selected_image(image: np.ndarray) -> None:
     Args:
         image (np.ndarray): the image to display.
     """
-    st.subheader("This is the (already preprocessed!) Image you uploaded")
+    st.info("Your preprocessed Image selection:")
     st.image(image, width=450)

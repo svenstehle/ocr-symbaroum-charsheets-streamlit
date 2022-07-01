@@ -5,7 +5,7 @@ from typing import Dict, Union
 from omegaconf import DictConfig
 from src.process_text.extract_english import EnglishExtractor
 from src.process_text.extract_german import GermanExtractor
-from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
+from src.process_text.process_ocr import TextProcessor
 
 
 class InformationExtractor(TextProcessor):
@@ -112,10 +112,8 @@ class InformationExtractor(TextProcessor):
 
         if self.lang == "de":
             extractor = GermanExtractor(self.text, cfg.extraction.attribute_names_ger)
-        elif self.lang == "en":
+        if self.lang == "en":
             extractor = EnglishExtractor(self.text, cfg.extraction.attribute_names_eng)
-        else:
-            raise LanguageNotSupported(f"Detected language {self.lang} not supported")
 
         # extract
         self._apply_extractor_to_text(extractor, charname)
@@ -191,7 +189,7 @@ class InformationExtractor(TextProcessor):
                 "discreet": "heimlichkeit",
                 "accurate": "präzision"
             }
-        elif self.lang == "en":
+        if self.lang == "en":
             mapping = {
                 "strong": "str",
                 "quick": "qui",
@@ -202,8 +200,6 @@ class InformationExtractor(TextProcessor):
                 "discreet": "dis",
                 "accurate": "acc"
             }
-        else:
-            raise LanguageNotSupported(f"Detected language {self.lang} not supported")
         return mapping
 
     def _create_setattr_str(self, charname: str) -> None:

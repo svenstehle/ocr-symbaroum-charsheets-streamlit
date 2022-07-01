@@ -1,4 +1,3 @@
 supported_image_types: ["png", "tiff"]
 failure_response: "No supported Image file selected!"
-success_response: "Compatible Image file selected!"
 ocr_cache_key: "ocr_output"
