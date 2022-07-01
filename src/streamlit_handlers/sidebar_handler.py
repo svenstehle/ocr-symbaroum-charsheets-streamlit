@@ -4,8 +4,6 @@
 
 from typing import Tuple
 
-import numpy as np
-import pyscreenshot
 import streamlit as st
 from omegaconf import DictConfig
 from PIL import ImageGrab
@@ -166,18 +164,14 @@ def copy_content_from_clipboard() -> accepted_image_types:
     Returns:
         accepted_image_types: the image of accepted type or None.
     """
-    content = None
-
     try:
         content = ImageGrab.grabclipboard()
-
-        if not isinstance(content, CLIPBOARD_IMAGE_TYPES):
-            response_types = list(t.__module__.split(".")[1][:-6] for t in CLIPBOARD_IMAGE_TYPES)
-            st.info(f"No compatible image type in clipboard. Types allowed: \n {response_types}")
-            content = None
-
     except NotImplementedError:
         st.info("Only works when you run app.py on your local Windows or macOS")
-        content = pyscreenshot.grab()
-        content = np.asanyarray(content)
+        content = ImageGrab.grab()
+
+    if not isinstance(content, CLIPBOARD_IMAGE_TYPES):
+        response_types = list(t.__module__.split(".")[1][:-6] for t in CLIPBOARD_IMAGE_TYPES)
+        st.info(f"No compatible image type in clipboard. Types allowed: \n {response_types}")
+        content = None
     return content
