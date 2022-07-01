@@ -165,14 +165,17 @@ def copy_content_from_clipboard() -> accepted_image_types:
         accepted_image_types: the image of accepted type or None.
     """
     content = None
-
     try:
         content = ImageGrab.grabclipboard()
+
+        if not isinstance(content, CLIPBOARD_IMAGE_TYPES):
+            response_types = list(t.__module__.split(".")[1][:-6] for t in CLIPBOARD_IMAGE_TYPES)
+            st.info(f"No compatible image type in clipboard. Types allowed: \n {response_types}")
+            content = None
+
     except NotImplementedError:
         st.info("Only works when you run app.py on your local Windows or macOS")
+        # TODO ~for later, screenshot on linux
+        # https://stackoverflow.com/questions/64672576/how-can-i-take-a-screenshot-in-google-colab-using-pil
 
-    if not isinstance(content, CLIPBOARD_IMAGE_TYPES):
-        response_types = list(t.__module__.split(".")[1][:-6] for t in CLIPBOARD_IMAGE_TYPES)
-        st.info(f"No compatible image type in clipboard. Types allowed: \n {response_types}")
-        content = None
     return content
