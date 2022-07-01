@@ -371,6 +371,22 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "easyprocess"
+version = "1.1"
+description = "Easy to use Python subprocess interface."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "entrypoint2"
+version = "1.1"
+description = "easy to use command-line interface for python modules"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "entrypoints"
 version = "0.4"
 description = "Discover and load entry points from installed packages."
@@ -685,6 +701,18 @@ qa = ["flake8 (==3.8.3)", "mypy (==0.782)"]
 testing = ["Django (<3.1)", "colorama", "docopt", "pytest (<7.0.0)"]
 
 [[package]]
+name = "jeepney"
+version = "0.8.0"
+description = "Low-level, pure Python DBus protocol wrapper."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+test = ["pytest", "pytest-trio", "pytest-asyncio (>=0.17)", "testpath", "trio", "async-timeout"]
+trio = ["trio", "async-generator"]
+
+[[package]]
 name = "jinja2"
 version = "3.1.2"
 description = "A very fast and expressive template engine."
@@ -826,6 +854,14 @@ name = "more-itertools"
 version = "8.13.0"
 description = "More routines for operating on iterables, beyond itertools"
 category = "dev"
+optional = false
+python-versions = ">=3.5"
+
+[[package]]
+name = "mss"
+version = "6.1.0"
+description = "An ultra fast cross-platform multiple screenshots module in pure python using ctypes."
+category = "main"
 optional = false
 python-versions = ">=3.5"
 
@@ -1408,6 +1444,20 @@ description = "Persistent/Functional/Immutable data structures"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "pyscreenshot"
+version = "3.0"
+description = "python screenshot"
+category = "main"
+optional = false
+python-versions = ">=3.4"
+
+[package.dependencies]
+EasyProcess = "*"
+entrypoint2 = "*"
+jeepney = {version = "*", markers = "python_version > \"3.4\" and platform_system == \"Linux\""}
+mss = {version = "*", markers = "python_version > \"3.4\""}
 
 [[package]]
 name = "pysocks"
@@ -2235,7 +2285,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.11.0"
-content-hash = "c8afe2b1e427751385fa5144e85871d66816e7041d30cde8000febd4a698c7e9"
+content-hash = "010f51c99125f555b588690070627f42d04c6e4c259a4644aabcda5803efdfda"
 
 [metadata.files]
 altair = [
@@ -2529,6 +2579,14 @@ distlib = [
     {file = "distlib-0.3.4-py2.py3-none-any.whl", hash = "sha256:6564fe0a8f51e734df6333d08b8b94d4ea8ee6b99b5ed50613f731fd4089f34b"},
     {file = "distlib-0.3.4.zip", hash = "sha256:e4b58818180336dc9c529bfb9a0b58728ffc09ad92027a3f30b7cd91e3458579"},
 ]
+easyprocess = [
+    {file = "EasyProcess-1.1-py3-none-any.whl", hash = "sha256:82eed523a0a5eb12a81fa4eacd9f342caeb3f900eb4b798740e6696ad07e63f9"},
+    {file = "EasyProcess-1.1.tar.gz", hash = "sha256:885898302a57aab948973e8b5d32a4229392b9fb2d986ab1d4ffd590e5ba90ec"},
+]
+entrypoint2 = [
+    {file = "entrypoint2-1.1-py2.py3-none-any.whl", hash = "sha256:eeb8c327bdb65cdd1668c023a6b110b7e3d1a046fb05e043861ebd9264b3a257"},
+    {file = "entrypoint2-1.1.tar.gz", hash = "sha256:fc0b7fe7b21acdab47a585ab9407ca7e5c4f96cb6888575db6b0ceb91f0e105a"},
+]
 entrypoints = [
     {file = "entrypoints-0.4-py3-none-any.whl", hash = "sha256:f174b5ff827504fd3cd97cc3f8649f3693f51538c7e4bdf3ef002c8429d42f9f"},
     {file = "entrypoints-0.4.tar.gz", hash = "sha256:b706eddaa9218a19ebcd67b56818f05bb27589b1ca9e8d797b74affad4ccacd4"},
@@ -2618,6 +2676,10 @@ isort = [
 jedi = [
     {file = "jedi-0.18.1-py2.py3-none-any.whl", hash = "sha256:637c9635fcf47945ceb91cd7f320234a7be540ded6f3e99a50cb6febdfd1ba8d"},
     {file = "jedi-0.18.1.tar.gz", hash = "sha256:74137626a64a99c8eb6ae5832d99b3bdd7d29a3850fe2aa80a4126b2a7d949ab"},
+]
+jeepney = [
+    {file = "jeepney-0.8.0-py3-none-any.whl", hash = "sha256:c0a454ad016ca575060802ee4d590dd912e35c122fa04e70306de3d076cce755"},
+    {file = "jeepney-0.8.0.tar.gz", hash = "sha256:5efe48d255973902f6badc3ce55e2aa6c5c3b3bc642059ef3a91247bcfcc5806"},
 ]
 jinja2 = [
     {file = "Jinja2-3.1.2-py3-none-any.whl", hash = "sha256:6088930bfe239f0e6710546ab9c19c9ef35e29792895fed6e6e31a023a182a61"},
@@ -2743,6 +2805,10 @@ mistune = [
 more-itertools = [
     {file = "more-itertools-8.13.0.tar.gz", hash = "sha256:a42901a0a5b169d925f6f217cd5a190e32ef54360905b9c39ee7db5313bfec0f"},
     {file = "more_itertools-8.13.0-py3-none-any.whl", hash = "sha256:c5122bffc5f104d37c1626b8615b511f3427aa5389b94d61e5ef8236bfbc3ddb"},
+]
+mss = [
+    {file = "mss-6.1.0-py3-none-any.whl", hash = "sha256:2722c5c9211ce29b4f1497fc2c70faecf9cdcb7653fa7f0f88e2231a31949b93"},
+    {file = "mss-6.1.0.tar.gz", hash = "sha256:aebd069f3e05667fe9c7b9fa4b1771fe42a4710ce1058ce0236936ce06fa5394"},
 ]
 mypy = [
     {file = "mypy-0.942-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:5bf44840fb43ac4074636fd47ee476d73f0039f4f54e86d7265077dc199be24d"},
@@ -3127,6 +3193,10 @@ pyrsistent = [
     {file = "pyrsistent-0.18.1-cp39-cp39-win32.whl", hash = "sha256:1b34eedd6812bf4d33814fca1b66005805d3640ce53140ab8bbb1e2651b0d9bc"},
     {file = "pyrsistent-0.18.1-cp39-cp39-win_amd64.whl", hash = "sha256:e24a828f57e0c337c8d8bb9f6b12f09dfdf0273da25fda9e314f0b684b415a07"},
     {file = "pyrsistent-0.18.1.tar.gz", hash = "sha256:d4d61f8b993a7255ba714df3aca52700f8125289f84f704cf80916517c46eb96"},
+]
+pyscreenshot = [
+    {file = "pyscreenshot-3.0-py3-none-any.whl", hash = "sha256:d3a7409f726e8e1d514552814b221ab9a168a6a794585ff98239d8987056dc3f"},
+    {file = "pyscreenshot-3.0.tar.gz", hash = "sha256:dd4fdfaeb617483913a6b16845b9f428de5db28758979f4b6cf8f236d292b908"},
 ]
 pysocks = [
     {file = "PySocks-1.7.1-py27-none-any.whl", hash = "sha256:08e69f092cc6dbe92a0fdd16eeb9b9ffbc13cadfe5ca4c7bd92ffb078b293299"},
