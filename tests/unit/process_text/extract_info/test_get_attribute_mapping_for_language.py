@@ -29,4 +29,4 @@ def test_get_attribute_mapping_for_language_exception(prep_ocr_text_unknown_lang
     IE = InformationExtractor(prep_ocr_text_unknown_language)
     with pytest.raises(ValueError):
         IE._get_attribute_mapping_for_language()
-    assert IE.lang == "fr"
+    assert IE._lang == "fr"

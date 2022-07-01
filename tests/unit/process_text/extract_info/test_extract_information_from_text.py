@@ -2,6 +2,7 @@ from typing import Dict
 
 import pytest
 from src.process_text.extract_info import InformationExtractor
+from src.process_text.process_ocr import LanguageNotSupported
 
 # pylint: disable=duplicate-code
 # pylint: disable=protected-access
@@ -89,6 +90,7 @@ def test_extract_information_from_text_exception(
     prep_hydra_config,
 ):
     IE = InformationExtractor(prep_ocr_text_unknown_language)
-    with pytest.raises(ValueError):
+    with pytest.raises(LanguageNotSupported) as e:
         IE.extract_information_from_text("dummyname", prep_hydra_config)
-    assert IE.lang == "fr"
+    assert str(e.value) == "Detected language fr not supported"
+    assert IE._lang == "fr"

@@ -1,7 +1,6 @@
 #
 # License: APACHE LICENSE, VERSION 2.0
 #
-
 from typing import Union
 
 import cv2
@@ -12,9 +11,11 @@ from PIL.PngImagePlugin import PngImageFile
 from PIL.TiffImagePlugin import TiffImageFile
 from skimage import filters
 
-upload_image_types = Union[PngImageFile, TiffImageFile, None]    # None at app start
-accepted_image_types = Union[JpegImageFile, upload_image_types]
-processed_image_types = Union[np.ndarray, None]
+FILE_UPLOADER_IMAGE_TYPES = Union[PngImageFile, TiffImageFile, None]    # None at app start
+accepted_image_types = Union[JpegImageFile, FILE_UPLOADER_IMAGE_TYPES, str]
+processed_image_types = Union[np.ndarray, None]    # None at app start
+
+CLIPBOARD_IMAGE_TYPES = (JpegImageFile, PngImageFile, TiffImageFile)
 
 
 class ImageProcessor:
@@ -56,10 +57,10 @@ class ImageProcessor:
         Args:
             uploaded_image (accepted_image_types): uploaded image from streamlit file_uploader or clipboard.
         """
-        try:
+        if isinstance(uploaded_image, CLIPBOARD_IMAGE_TYPES):
+            self.img = uploaded_image
+        else:
             self.img = Image.open(uploaded_image)
-        except AttributeError:
-            self.img = np.array(uploaded_image)
 
     def preprocess_image(self) -> None:
         """Preprocess the image and save it in the ImageProcessor object."""

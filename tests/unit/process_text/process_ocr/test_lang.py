@@ -1,5 +1,5 @@
 import pytest
-from src.process_text.process_ocr import TextProcessor
+from src.process_text.process_ocr import LanguageNotSupported, TextProcessor
 
 # pylint: disable=protected-access
 
@@ -28,4 +28,14 @@ def test_lang(ocr_text, lang):
     IE = TextProcessor(ocr_text)
     assert IE._lang == ""
     assert IE.lang == lang
+    assert IE._lang == lang
+
+
+def test_lang_exception(prep_ocr_text_unknown_language):
+    IE = TextProcessor(prep_ocr_text_unknown_language)
+    lang = "fr"
+    assert IE._lang == ""
+    with pytest.raises(LanguageNotSupported) as e:
+        assert IE.lang == lang
+    assert str(e.value) == f"Detected language {lang} not supported"
     assert IE._lang == lang

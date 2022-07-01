@@ -21,6 +21,9 @@ def image_handler(cfg: DictConfig, image_file: accepted_image_types, factor: flo
     Returns:
         processed_image_types: the processed image file or at start of the app the default None.
     """
+    # Streamlit middle page setup
+    st.title("OCR for Symbaroum Charactersheets with Streamlit")
+
     image = None
     if image_file:
         image = get_processed_image_file(image_file, factor)

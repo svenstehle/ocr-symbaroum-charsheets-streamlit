@@ -2,7 +2,6 @@
 #
 
 import hydra
-import streamlit as st
 from omegaconf import DictConfig
 
 from src.streamlit_handlers.image_handler import image_handler
@@ -22,9 +21,6 @@ def main(cfg: DictConfig) -> None:
     """
     # setup the Streamlit sidebar
     image_file, factor, psm = sidebar_handler(cfg)
-
-    # Streamlit middle page setup
-    st.title("OCR for Symbaroum Charactersheets with Streamlit")
 
     # handle image processing and display results in Streamlit
     image = image_handler(cfg, image_file, factor)

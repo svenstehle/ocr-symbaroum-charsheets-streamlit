@@ -1,3 +1,4 @@
+#
 # License: APACHE LICENSE, VERSION 2.0
 #
 
@@ -6,10 +7,7 @@ from typing import Tuple
 import streamlit as st
 from omegaconf import DictConfig
 from PIL import ImageGrab
-from PIL.JpegImagePlugin import JpegImageFile
-from PIL.PngImagePlugin import PngImageFile
-from PIL.TiffImagePlugin import TiffImageFile
-from src.process_image import accepted_image_types, upload_image_types
+from src.process_image import (CLIPBOARD_IMAGE_TYPES, FILE_UPLOADER_IMAGE_TYPES, accepted_image_types)
 
 
 def sidebar_handler(cfg: DictConfig) -> Tuple[accepted_image_types, float, int]:
@@ -34,14 +32,14 @@ def sidebar_handler(cfg: DictConfig) -> Tuple[accepted_image_types, float, int]:
     return image_file, factor, psm
 
 
-def setup_image_selection(cfg: DictConfig) -> Tuple[upload_image_types, accepted_image_types]:
+def setup_image_selection(cfg: DictConfig) -> Tuple[FILE_UPLOADER_IMAGE_TYPES, accepted_image_types]:
     """Sets up the image uploader.
 
     Args:
         cfg (DictConfig): hydra config object
 
     Returns:
-        Tuple[upload_image_types, accepted_image_types]: the image files returned by file_uploader
+        Tuple[FILE_UPLOADER_IMAGE_TYPES, accepted_image_types]: the image files returned by file_uploader
             and the clipboard handler.
     """
     with st.sidebar:
@@ -51,12 +49,14 @@ def setup_image_selection(cfg: DictConfig) -> Tuple[upload_image_types, accepted
     return image_uploaded, image_pasted
 
 
-def get_selected_image(image_uploaded: upload_image_types, image_pasted: accepted_image_types) -> accepted_image_types:
+def get_selected_image(
+    image_uploaded: FILE_UPLOADER_IMAGE_TYPES, image_pasted: accepted_image_types
+) -> accepted_image_types:
     """Returns either the image returned by file_uploader or the image pasted from the clipboard,
     depending on the user's radiobutton selection. Defaults to image from clipboard.
 
     Args:
-        image_uploaded (upload_image_types): the file returned from the file_uploader.
+        image_uploaded (FILE_UPLOADER_IMAGE_TYPES): the file returned from the file_uploader.
         image_pasted (accepted_image_types): the file returned from clipboard_handler.
 
     Returns:
@@ -164,9 +164,9 @@ def copy_content_from_clipboard() -> accepted_image_types:
         accepted_image_types: the image of accepted type or None.
     """
     content = ImageGrab.grabclipboard()
-    allowed = (JpegImageFile, PngImageFile, TiffImageFile)
-    if not isinstance(content, allowed):
-        response_types = list(t.__module__.split(".")[1][:-6] for t in allowed)
+
+    if not isinstance(content, CLIPBOARD_IMAGE_TYPES):
+        response_types = list(t.__module__.split(".")[1][:-6] for t in CLIPBOARD_IMAGE_TYPES)
         st.info(f"No compatible image type in clipboard. Types allowed: \n {response_types}")
         content = None
     return content
