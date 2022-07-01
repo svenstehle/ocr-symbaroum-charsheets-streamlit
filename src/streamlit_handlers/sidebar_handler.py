@@ -164,11 +164,12 @@ def copy_content_from_clipboard() -> accepted_image_types:
     Returns:
         accepted_image_types: the image of accepted type or None.
     """
+    content = None
+
     try:
         content = ImageGrab.grabclipboard()
     except NotImplementedError:
         st.info("Only works when you run app.py on your local Windows or macOS")
-        content = ImageGrab.grab()
 
     if not isinstance(content, CLIPBOARD_IMAGE_TYPES):
         response_types = list(t.__module__.split(".")[1][:-6] for t in CLIPBOARD_IMAGE_TYPES)
