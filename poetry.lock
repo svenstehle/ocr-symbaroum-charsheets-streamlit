@@ -1763,7 +1763,7 @@ urllib3 = {version = ">=1.26,<2.0", extras = ["secure", "socks"]}
 
 [[package]]
 name = "seleniumbase"
-version = "3.3.4"
+version = "3.3.5"
 description = "A complete web automation framework for end-to-end testing."
 category = "dev"
 optional = false
@@ -3428,8 +3428,8 @@ selenium = [
     {file = "selenium-4.3.0-py3-none-any.whl", hash = "sha256:f67402b8f973aaa98d9c55b8f9aa63532009cd1859b2222a8b9800354942d8bc"},
 ]
 seleniumbase = [
-    {file = "seleniumbase-3.3.4-py2.py3-none-any.whl", hash = "sha256:1b0fd95a6d3f98950fb4a6c7db6ea1e006560983c696900782235972855dd319"},
-    {file = "seleniumbase-3.3.4.tar.gz", hash = "sha256:5b4191667a3588368d8198309cb42222e6cf1de626aa6dbfc0df2527b86305e2"},
+    {file = "seleniumbase-3.3.5-py2.py3-none-any.whl", hash = "sha256:699df0e3584578b60365f72e0fba73ff5ec1d18f1606618e92ee0e167bab80a0"},
+    {file = "seleniumbase-3.3.5.tar.gz", hash = "sha256:a74c18cca4282c82cad6df69b1f44dbcce65a0ac0584f75fd21786678f81f36e"},
 ]
 semver = [
     {file = "semver-2.13.0-py2.py3-none-any.whl", hash = "sha256:ced8b23dceb22134307c1b8abfa523da14198793d9787ac838e70e29e77458d4"},
