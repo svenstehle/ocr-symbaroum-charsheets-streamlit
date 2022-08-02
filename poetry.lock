@@ -95,17 +95,17 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "attrs"
-version = "21.4.0"
+version = "22.1.0"
 description = "Classes Without Boilerplate"
 category = "main"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = ">=3.5"
 
 [package.extras]
-dev = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "zope.interface", "furo", "sphinx", "sphinx-notfound-page", "pre-commit", "cloudpickle"]
+dev = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "mypy (>=0.900,!=0.940)", "pytest-mypy-plugins", "zope.interface", "furo", "sphinx", "sphinx-notfound-page", "pre-commit", "cloudpickle"]
 docs = ["furo", "sphinx", "zope.interface", "sphinx-notfound-page"]
-tests = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "zope.interface", "cloudpickle"]
-tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "cloudpickle"]
+tests = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "mypy (>=0.900,!=0.940)", "pytest-mypy-plugins", "zope.interface", "cloudpickle"]
+tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "mypy (>=0.900,!=0.940)", "pytest-mypy-plugins", "cloudpickle"]
 
 [[package]]
 name = "backcall"
@@ -276,7 +276,7 @@ optional = false
 python-versions = "*"
 
 [package.extras]
-test = ["flake8 (==3.7.8)", "hypothesis (==3.55.3)"]
+test = ["hypothesis (==3.55.3)", "flake8 (==3.7.8)"]
 
 [[package]]
 name = "coverage"
@@ -1103,8 +1103,8 @@ parse = {version = ">=1.18.0", markers = "python_version >= \"3.0\""}
 six = ">=1.11"
 
 [package.extras]
-develop = ["coverage (>=4.4)", "pytest-html (>=1.19.0)", "pytest-cov", "tox (>=2.8)", "pytest (<5.0)", "pytest (>=5.0)"]
 docs = ["sphinx (>=1.2)"]
+develop = ["pytest (>=5.0)", "pytest (<5.0)", "tox (>=2.8)", "pytest-cov", "pytest-html (>=1.19.0)", "coverage (>=4.4)"]
 
 [[package]]
 name = "parso"
@@ -1170,8 +1170,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
+testing = ["pytest-benchmark", "pytest"]
+dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "pprintpp"
@@ -1339,8 +1339,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-ed25519 = ["PyNaCl (>=1.4.0)"]
 rsa = ["cryptography"]
+ed25519 = ["PyNaCl (>=1.4.0)"]
 
 [[package]]
 name = "pyopenssl"
@@ -1438,7 +1438,7 @@ coverage = {version = ">=5.2.1", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtualenv"]
+testing = ["virtualenv", "pytest-xdist", "six", "process-tests", "hunter", "fields"]
 
 [[package]]
 name = "pytest-forked"
@@ -1685,8 +1685,8 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [package.extras]
-coverage = ["coverage (==5.5)", "pytest-cov (==2.12.1)", "pytest-cov (==3.0.0)", "coverage (==6.2)", "coverage (==6.3.2)"]
-flake = ["mccabe (==0.6.1)", "flake8 (==3.7.9)", "pyflakes (==2.1.1)", "pycodestyle (==2.5.0)", "flake8 (==3.9.2)", "pyflakes (==2.3.1)", "pycodestyle (==2.7.0)", "flake8 (==4.0.1)", "pyflakes (==2.4.0)", "pycodestyle (==2.8.0)"]
+flake = ["pycodestyle (==2.8.0)", "pyflakes (==2.4.0)", "flake8 (==4.0.1)", "pycodestyle (==2.7.0)", "pyflakes (==2.3.1)", "flake8 (==3.9.2)", "pycodestyle (==2.5.0)", "pyflakes (==2.1.1)", "flake8 (==3.7.9)", "mccabe (==0.6.1)"]
+coverage = ["coverage (==6.3.2)", "coverage (==6.2)", "pytest-cov (==3.0.0)", "pytest-cov (==2.12.1)", "coverage (==5.5)"]
 
 [[package]]
 name = "scikit-image"
@@ -1738,14 +1738,14 @@ urllib3 = {version = ">=1.26,<2.0", extras = ["secure", "socks"]}
 
 [[package]]
 name = "seleniumbase"
-version = "3.5.8"
+version = "3.5.9"
 description = "A complete web automation framework for end-to-end testing."
 category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 
 [package.dependencies]
-attrs = ">=21.4.0"
+attrs = {version = ">=22.1.0", markers = "python_version >= \"3.6\""}
 beautifulsoup4 = {version = "4.11.1", markers = "python_version >= \"3.6\""}
 behave = "1.2.6"
 certifi = {version = ">=2022.6.15", markers = "python_version >= \"3.6\""}
@@ -1804,12 +1804,12 @@ traitlets = {version = ">=5.3.0", markers = "python_version >= \"3.7\""}
 trio = {version = "0.21.0", markers = "python_version >= \"3.7\""}
 trio-websocket = {version = "0.9.2", markers = "python_version >= \"3.7\""}
 typing-extensions = {version = "4.2.0", markers = "python_version >= \"3.7\" and python_version < \"3.9\""}
-urllib3 = "1.26.10"
+urllib3 = "1.26.11"
 wsproto = {version = "1.1.0", markers = "python_version >= \"3.7\""}
 
 [package.extras]
 coverage = ["coverage (==5.5)", "pytest-cov (==2.12.1)", "pytest-cov (==3.0.0)", "coverage (==6.2)", "coverage (==6.4.2)"]
-flake = ["mccabe (==0.6.1)", "flake8 (==3.7.9)", "pyflakes (==2.1.1)", "pycodestyle (==2.5.0)", "flake8 (==4.0.1)", "pyflakes (==2.4.0)", "pycodestyle (==2.8.0)"]
+flake = ["flake8 (==3.7.9)", "mccabe (==0.6.1)", "pyflakes (==2.1.1)", "pycodestyle (==2.5.0)", "flake8 (==5.0.2)", "mccabe (==0.7.0)", "pyflakes (==2.5.0)", "pycodestyle (==2.9.0)"]
 pdfminer = ["pdfminer.six (==20191110)", "pdfminer.six (==20211012)", "pdfminer.six (==20220524)"]
 pillow = ["Pillow (==6.2.2)", "Pillow (==8.4.0)", "Pillow (==9.2.0)"]
 
@@ -1830,9 +1830,9 @@ optional = false
 python-versions = "*"
 
 [package.extras]
-nativelib = ["pyobjc-framework-cocoa", "pywin32"]
-objc = ["pyobjc-framework-cocoa"]
 win32 = ["pywin32"]
+objc = ["pyobjc-framework-cocoa"]
+nativelib = ["pywin32", "pyobjc-framework-cocoa"]
 
 [[package]]
 name = "six"
@@ -1959,8 +1959,8 @@ python-versions = ">=3.6"
 webencodings = ">=0.4"
 
 [package.extras]
-doc = ["sphinx", "sphinx-rtd-theme"]
-test = ["pytest", "pytest-cov", "pytest-flake8", "pytest-isort", "coverage"]
+test = ["coverage", "pytest-isort", "pytest-flake8", "pytest-cov", "pytest"]
+doc = ["sphinx-rtd-theme", "sphinx"]
 
 [[package]]
 name = "toml"
@@ -2078,7 +2078,7 @@ test = ["pytest-mock (>=3.3)", "pytest (>=4.3)"]
 
 [[package]]
 name = "urllib3"
-version = "1.26.10"
+version = "1.26.11"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
@@ -2262,8 +2262,8 @@ atomicwrites = [
     {file = "atomicwrites-1.4.0.tar.gz", hash = "sha256:ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a"},
 ]
 attrs = [
-    {file = "attrs-21.4.0-py2.py3-none-any.whl", hash = "sha256:2d27e3784d7a565d36ab851fe94887c5eccd6a463168875832a1be79c82828b4"},
-    {file = "attrs-21.4.0.tar.gz", hash = "sha256:626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"},
+    {file = "attrs-22.1.0-py2.py3-none-any.whl", hash = "sha256:86efa402f67bf2df34f51a335487cf46b1ec130d02b8d39fd248abfd30da551c"},
+    {file = "attrs-22.1.0.tar.gz", hash = "sha256:29adc2665447e5191d0e7c568fde78b21f9672d344281d0c6e1ab085429b22b6"},
 ]
 backcall = [
     {file = "backcall-0.2.0-py2.py3-none-any.whl", hash = "sha256:fbbce6a29f263178a1f7915c1940bde0ec2b2a967566fe1c65c1dfb7422bd255"},
@@ -3394,8 +3394,8 @@ selenium = [
     {file = "selenium-4.3.0-py3-none-any.whl", hash = "sha256:f67402b8f973aaa98d9c55b8f9aa63532009cd1859b2222a8b9800354942d8bc"},
 ]
 seleniumbase = [
-    {file = "seleniumbase-3.5.8-py2.py3-none-any.whl", hash = "sha256:6fdb2f0d5213edb84744b4e1be53bf4a86c09c570be1d7d5e6b4c4a6a895d08f"},
-    {file = "seleniumbase-3.5.8.tar.gz", hash = "sha256:0d636ce2d315e44053ed781020b6fcb66b21832dea208062eb8bc8a175d06579"},
+    {file = "seleniumbase-3.5.9-py2.py3-none-any.whl", hash = "sha256:7b66e15f97bb2b4d3de32771542234a03a54f6a5deabdedec23d9a5d3334f349"},
+    {file = "seleniumbase-3.5.9.tar.gz", hash = "sha256:456ea628c91c15cacf697f926cb49474c8eafb8789d68374d7cc9cdea6c64423"},
 ]
 semver = [
     {file = "semver-2.13.0-py2.py3-none-any.whl", hash = "sha256:ced8b23dceb22134307c1b8abfa523da14198793d9787ac838e70e29e77458d4"},
@@ -3528,8 +3528,8 @@ tzlocal = [
     {file = "tzlocal-4.2.tar.gz", hash = "sha256:ee5842fa3a795f023514ac2d801c4a81d1743bbe642e3940143326b3a00addd7"},
 ]
 urllib3 = [
-    {file = "urllib3-1.26.10-py2.py3-none-any.whl", hash = "sha256:8298d6d56d39be0e3bc13c1c97d133f9b45d797169a0e11cdd0e0489d786f7ec"},
-    {file = "urllib3-1.26.10.tar.gz", hash = "sha256:879ba4d1e89654d9769ce13121e0f94310ea32e8d2f8cf587b77c08bbcdb30d6"},
+    {file = "urllib3-1.26.11-py2.py3-none-any.whl", hash = "sha256:c33ccba33c819596124764c23a97d25f32b28433ba0dedeb77d873a38722c9bc"},
+    {file = "urllib3-1.26.11.tar.gz", hash = "sha256:ea6e8fb210b19d950fab93b60c9009226c63a28808bc8386e05301e25883ac0a"},
 ]
 validators = [
     {file = "validators-0.20.0.tar.gz", hash = "sha256:24148ce4e64100a2d5e267233e23e7afeb55316b47d30faae7eb6e7292bc226a"},
