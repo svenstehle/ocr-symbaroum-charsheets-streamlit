@@ -276,7 +276,7 @@ optional = false
 python-versions = "*"
 
 [package.extras]
-test = ["flake8 (==3.7.8)", "hypothesis (==3.55.3)"]
+test = ["hypothesis (==3.55.3)", "flake8 (==3.7.8)"]
 
 [[package]]
 name = "coverage"
@@ -1103,8 +1103,8 @@ parse = {version = ">=1.18.0", markers = "python_version >= \"3.0\""}
 six = ">=1.11"
 
 [package.extras]
-develop = ["coverage (>=4.4)", "pytest-html (>=1.19.0)", "pytest-cov", "tox (>=2.8)", "pytest (<5.0)", "pytest (>=5.0)"]
 docs = ["sphinx (>=1.2)"]
+develop = ["pytest (>=5.0)", "pytest (<5.0)", "tox (>=2.8)", "pytest-cov", "pytest-html (>=1.19.0)", "coverage (>=4.4)"]
 
 [[package]]
 name = "parso"
@@ -1170,8 +1170,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
+testing = ["pytest-benchmark", "pytest"]
+dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "pprintpp"
@@ -1339,8 +1339,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-ed25519 = ["PyNaCl (>=1.4.0)"]
 rsa = ["cryptography"]
+ed25519 = ["PyNaCl (>=1.4.0)"]
 
 [[package]]
 name = "pyopenssl"
@@ -1394,7 +1394,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "pytesseract"
-version = "0.3.9"
+version = "0.3.10"
 description = "Python-tesseract is a python wrapper for Google's Tesseract-OCR"
 category = "main"
 optional = false
@@ -1438,7 +1438,7 @@ coverage = {version = ">=5.2.1", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtualenv"]
+testing = ["virtualenv", "pytest-xdist", "six", "process-tests", "hunter", "fields"]
 
 [[package]]
 name = "pytest-forked"
@@ -1685,8 +1685,8 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [package.extras]
-coverage = ["coverage (==5.5)", "pytest-cov (==2.12.1)", "pytest-cov (==3.0.0)", "coverage (==6.2)", "coverage (==6.3.2)"]
-flake = ["mccabe (==0.6.1)", "flake8 (==3.7.9)", "pyflakes (==2.1.1)", "pycodestyle (==2.5.0)", "flake8 (==3.9.2)", "pyflakes (==2.3.1)", "pycodestyle (==2.7.0)", "flake8 (==4.0.1)", "pyflakes (==2.4.0)", "pycodestyle (==2.8.0)"]
+flake = ["pycodestyle (==2.8.0)", "pyflakes (==2.4.0)", "flake8 (==4.0.1)", "pycodestyle (==2.7.0)", "pyflakes (==2.3.1)", "flake8 (==3.9.2)", "pycodestyle (==2.5.0)", "pyflakes (==2.1.1)", "flake8 (==3.7.9)", "mccabe (==0.6.1)"]
+coverage = ["coverage (==6.3.2)", "coverage (==6.2)", "pytest-cov (==3.0.0)", "pytest-cov (==2.12.1)", "coverage (==5.5)"]
 
 [[package]]
 name = "scikit-image"
@@ -1959,8 +1959,8 @@ python-versions = ">=3.6"
 webencodings = ">=0.4"
 
 [package.extras]
-doc = ["sphinx", "sphinx-rtd-theme"]
-test = ["pytest", "pytest-cov", "pytest-flake8", "pytest-isort", "coverage"]
+test = ["coverage", "pytest-isort", "pytest-flake8", "pytest-cov", "pytest"]
+doc = ["sphinx-rtd-theme", "sphinx"]
 
 [[package]]
 name = "toml"
@@ -3113,8 +3113,8 @@ pysocks = [
     {file = "PySocks-1.7.1.tar.gz", hash = "sha256:3f8804571ebe159c380ac6de37643bb4685970655d3bba243530d6558b799aa0"},
 ]
 pytesseract = [
-    {file = "pytesseract-0.3.9-py2.py3-none-any.whl", hash = "sha256:fecda37d1e4eaf744c657cd03a5daab4eb97c61506ac5550274322c8ae32eca2"},
-    {file = "pytesseract-0.3.9.tar.gz", hash = "sha256:7e2bafc7f48d1bb71443ce4633a56f5e21925a98f220a36c336297edcd1956d0"},
+    {file = "pytesseract-0.3.10-py3-none-any.whl", hash = "sha256:8f22cc98f765bf13517ead0c70effedb46c153540d25783e04014f28b55a5fc6"},
+    {file = "pytesseract-0.3.10.tar.gz", hash = "sha256:f1c3a8b0f07fd01a1085d451f5b8315be6eec1d5577a6796d46dc7a62bd4120f"},
 ]
 pytest = [
     {file = "pytest-7.1.2-py3-none-any.whl", hash = "sha256:13d0e3ccfc2b6e26be000cb6568c832ba67ba32e719443bfe725814d3c42433c"},
